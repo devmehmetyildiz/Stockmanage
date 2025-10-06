@@ -1,0 +1,45 @@
+.tabWrapper {
+    :global {
+        .ui.fluid.menu {
+            overflow-x: auto;
+        }
+    }
+
+    &_mobile {
+        :global {
+            .ui.fluid.menu {
+                display: flex !important;
+                flex-direction: column !important;
+                justify-content: start !important;
+                align-items: start !important;
+            }
+            .ui.fluid.menu > .item::before {
+                background-color: none;
+            }
+            .ui.fluid.menu > .item {
+                width: 100%;
+            }
+
+            .grid {
+                display: flex !important;
+                flex-direction: column !important;
+                justify-content: start !important;
+                align-items: start !important;
+            }
+
+            .grid:first-child {
+                width: 100%;
+            }
+
+            .grid {
+                width: 100% !important;
+            }
+            .column {
+                width: 100% !important;
+            }
+            .four {
+                width: 100% !important;
+            }
+        }
+    }
+}

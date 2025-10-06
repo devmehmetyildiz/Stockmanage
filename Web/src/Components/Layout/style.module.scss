@@ -1,0 +1,19 @@
+.sidebarOpenWidth {
+    /*  width: calc(100% - 270px);
+    transition: all 0.3s ease-in-out;
+    transition-delay: 500ms; */
+    width: 100%;
+}
+
+.sidebarCloseWidth {
+    /*   width: calc(100% - 50px);
+    transition: all 0.3s ease-in-out;
+    transition-delay: 500ms; */
+    width: 100%;
+}
+
+.layoutBg {
+    background-image: url("@Assets/img/contentbg.png");
+    background-size: cover;
+    background-position: center;
+}

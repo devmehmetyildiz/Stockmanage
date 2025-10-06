@@ -1,0 +1,7 @@
+.main {
+    :global {
+        .blurring.dimmable > .inverted.dimmer {
+            background-color: rgba(255,255,255,.001) !important;
+        }
+    }
+}

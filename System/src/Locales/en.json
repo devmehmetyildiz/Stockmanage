@@ -1,0 +1,21 @@
+{
+    "Mailsettings": "Mail Ayarları",
+    "Mailsettings.Error.NotFound": "Mail Ayarı Bulunamadı",
+    "Mailsettings.Error.NotActive": "Mail Ayarı Aktif Değil",
+    "Mailsettings.Error.MailsettingIDRequired": "Mail Ayarı ID'si Gerekli",
+    "Mailsettings.Error.UnsupportedMailsettingID": "Tanımsız Mail Ayarı ID Değeri",
+    "Mailsettings.Error.NameRequired": "Mail Ayarı İsmi Gerekli",
+    "Mailsettings.Error.UserRequired": "Mail Kullanıcısı Gerekli",
+    "Mailsettings.Error.SmtphostRequired": "Smtp Host Gerekli",
+    "Mailsettings.Error.SmtpportRequired": "Smtp Port Gerekli",
+    "Mailsettings.Error.MailaddressRequired": "Mail Adresi Gerekli",
+    "Mailsettings.Error.PasswordRequired": "Mail Parolası Gerekli",
+    "Rules": "Kurallar",
+    "Rules.Error.NotFound": "Kural Bulunamadı",
+    "Rules.Error.NotActive": "Kural Aktif Değil",
+    "Rules.Error.RuleIDRequired": "Kural ID'si Gerekli",
+    "Rules.Error.UnsupportedRuleID": "Tanımsız Kural ID Değeri",
+    "Rules.Error.RulelogNotFound": "Kural Logları Bulunamadı",
+    "Rules.Error.NameRequired": "Kural Adı Gerekli",
+    "Rules.Error.RuleRequired": "Kural Gerekli"
+}

@@ -1,0 +1,25 @@
+.sidebar {
+    :global {
+        .ps-submenu-expand-icon.css-um1o6k {
+            display: none;
+        }
+
+        .css-1tqrhto > .ps-menu-button {
+            height: auto;
+        }
+
+        .css-1t8x7v1 > .ps-menu-button {
+            height: auto;
+        }
+
+        .ps-submenu-content.css-1khxlch {
+            max-height: 100vh;
+            overflow-y: auto;
+        }
+
+        .css-16jesut > .ps-menu-button {
+            padding-left: 5px;
+            padding-right: 10px;
+        }
+    }
+}
