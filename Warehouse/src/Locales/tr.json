@@ -1,3 +1,10 @@
 {
-   
+    "General.SuccessfullyCreated": "Başarıyla Oluşturuldu",
+    "General.SuccessfullyUpdated": "Başarıyla Güncellendi",
+    "General.SuccessfullyDeleted": "Başarıyla Silindi",
+    "Warehouses": "Depolar",
+    "Warehouses.Error.IDRequired": "Depo ID değeri gerekli",
+    "Warehouses.Error.NotFound": "Depo bulunamadı",
+    "Warehouses.Error.NotActive": "Depo aktif değil",
+    "Warehouses.Error.NameRequired": "Depo adı gerekli"
 }

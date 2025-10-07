@@ -73,8 +73,22 @@ const Priveleges = [
     { code: 'locationmanageview',   text: { en: 'Locations Manage View', tr: 'Bölgeler Görünüm Ayarlama' }, group: { en: 'Locations', tr: 'Bölgeler' } },
     { code: 'locationgetreport',    text: { en: 'Locations Get Report',  tr: 'Bölgeler Rapor Alma' },       group: { en: 'Locations', tr: 'Bölgeler' } },
     { code: 'locationnotification', text: { en: 'Locations Notification',tr: 'Bölgeler Bildirim Alma' },    group: { en: 'Locations', tr: 'Bölgeler' } },
-
-
+    { code: 'stockdefinescreen',       text: { en: 'Stock Defines Screen',      tr: 'Ürün Tanımları Veri' },             group: { en: 'Stock Defines', tr: 'Ürün Tanımları' } },
+    { code: 'stockdefineview',         text: { en: 'Stock Defines View',        tr: 'Ürün Tanımları Görüntüleme' },      group: { en: 'Stock Defines', tr: 'Ürün Tanımları' } },
+    { code: 'stockdefineadd',          text: { en: 'Stock Defines Add',         tr: 'Ürün Tanımları Oluşturma' },        group: { en: 'Stock Defines', tr: 'Ürün Tanımları' } },
+    { code: 'stockdefineupdate',       text: { en: 'Stock Defines Update',      tr: 'Ürün Tanımları Güncelleme' },       group: { en: 'Stock Defines', tr: 'Ürün Tanımları' } },
+    { code: 'stockdefinedelete',       text: { en: 'Stock Defines Delete',      tr: 'Ürün Tanımları Silme' },            group: { en: 'Stock Defines', tr: 'Ürün Tanımları' } },
+    { code: 'stockdefinemanageview',   text: { en: 'Stock Defines Manage View', tr: 'Ürün Tanımları Görünüm Ayarlama' }, group: { en: 'Stock Defines', tr: 'Ürün Tanımları' } },
+    { code: 'stockdefinegetreport',    text: { en: 'Stock Defines Get Report',  tr: 'Ürün Tanımları Rapor Alma' },       group: { en: 'Stock Defines', tr: 'Ürün Tanımları' } },
+    { code: 'stockdefinenotification', text: { en: 'Stock Defines Notification',tr: 'Ürün Tanımları Bildirim Alma' },    group: { en: 'Stock Defines', tr: 'Ürün Tanımları' } },
+    { code: 'warehousescreen',       text: { en: 'Warehouses Screen',      tr: 'Depolar Veri' },             group: { en: 'Warehouses', tr: 'Depolar' } },
+    { code: 'warehouseview',         text: { en: 'Warehouses View',        tr: 'Depolar Görüntüleme' },      group: { en: 'Warehouses', tr: 'Depolar' } },
+    { code: 'warehouseadd',          text: { en: 'Warehouses Add',         tr: 'Depolar Oluşturma' },        group: { en: 'Warehouses', tr: 'Depolar' } },
+    { code: 'warehouseupdate',       text: { en: 'Warehouses Update',      tr: 'Depolar Güncelleme' },       group: { en: 'Warehouses', tr: 'Depolar' } },
+    { code: 'warehousedelete',       text: { en: 'Warehouses Delete',      tr: 'Depolar Silme' },            group: { en: 'Warehouses', tr: 'Depolar' } },
+    { code: 'warehousemanageview',   text: { en: 'Warehouses Manage View', tr: 'Depolar Görünüm Ayarlama' }, group: { en: 'Warehouses', tr: 'Depolar' } },
+    { code: 'warehousegetreport',    text: { en: 'Warehouses Get Report',  tr: 'Depolar Rapor Alma' },       group: { en: 'Warehouses', tr: 'Depolar' } },
+    { code: 'warehousenotification', text: { en: 'Warehouses Notification',tr: 'Depolar Bildirim Alma' },    group: { en: 'Warehouses', tr: 'Depolar' } },
     ]
     
     module.exports = Priveleges

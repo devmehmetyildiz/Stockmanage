@@ -62,6 +62,15 @@ export const getSidebarRoutes = (t: any, userPrivileges: string[]) => {
         },
         {
             id: 3,
+            title: t('Sidebar.Menu.Warehouse'),
+            icon: 'boxes',
+            items: [
+                { id: 2, subtitle: t('Pages.Warehouses.Page.Header'), url: Paths.Warehouses, permission: checkAuth(privileges.warehouseview) },
+
+            ]
+        },
+        {
+            id: 4,
             title: t('Sidebar.Menu.Setting'),
             icon: 'settings',
             items: [

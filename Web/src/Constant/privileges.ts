@@ -80,6 +80,14 @@ const stockdefinedelete = 'stockdefinedelete'
 const stockdefinemanageview = 'stockdefinemanageview'
 const stockdefinegetreport = 'stockdefinegetreport'
 const stockdefinenotification = 'stockdefinenotification'
+const warehousescreen = 'warehousescreen'
+const warehouseview = 'warehouseview'
+const warehouseadd = 'warehouseadd'
+const warehouseupdate = 'warehouseupdate'
+const warehousedelete = 'warehousedelete'
+const warehousemanageview = 'warehousemanageview'
+const warehousegetreport = 'warehousegetreport'
+const warehousenotification = 'warehousenotification'
 
 const privileges = {
     admin,
@@ -164,6 +172,14 @@ const privileges = {
     stockdefinemanageview,
     stockdefinegetreport,
     stockdefinenotification,
+    warehousescreen,
+    warehouseview,
+    warehouseadd,
+    warehouseupdate,
+    warehousedelete,
+    warehousemanageview,
+    warehousegetreport,
+    warehousenotification,
 }
 
 export default privileges

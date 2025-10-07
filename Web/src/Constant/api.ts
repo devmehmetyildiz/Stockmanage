@@ -118,6 +118,10 @@ export const STOCKDEFINE = 'Setting/Stockdefines'
 
 export const STOCKDEFINE_COUNT = 'Setting/Stockdefines/Counts'
 
+export const WAREHOUSE = 'Warehouse/Warehouses'
+
+export const WAREHOUSE_COUNT = 'Warehouse/Warehouses/Counts'
+
 //Tags
 
 export const TABLE_CONFIG_TAG = 'TABLE_CONFIG_TAG'
@@ -147,5 +151,7 @@ export const PAYMENTTYPE_TAG = 'PAYMENTTYPE_TAG'
 export const DOCTORDEFINE_TAG = 'DOCTORDEFINE_TAG'
 
 export const STOCKDEFINE_TAG = 'STOCKDEFINE_TAG'
+
+export const WAREHOUSE_TAG = 'WAREHOUSE_TAG'
 
 

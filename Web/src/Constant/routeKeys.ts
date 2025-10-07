@@ -36,6 +36,8 @@ const Stockdefines = "Stockdefines"
 
 const Paymenttypes = "Paymenttypes"
 
+const Warehouses = "Warehouses"
+
 const RouteKeys = {
     Main,
     Login,
@@ -55,7 +57,8 @@ const RouteKeys = {
     Doctordefines,
     Locations,
     Stockdefines,
-    Paymenttypes
+    Paymenttypes,
+    Warehouses
 }
 
 export default RouteKeys

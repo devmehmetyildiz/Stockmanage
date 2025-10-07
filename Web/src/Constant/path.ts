@@ -57,6 +57,10 @@ const Paymenttypes = RouteKeys.Main + RouteKeys.Paymenttypes
 const PaymenttypesCreate = RouteKeys.Main + RouteKeys.Paymenttypes + "/Create"
 const PaymenttypesEdit = RouteKeys.Main + RouteKeys.Paymenttypes + "/:Id/edit"
 
+const Warehouses = RouteKeys.Main + RouteKeys.Warehouses
+const WarehousesCreate = RouteKeys.Main + RouteKeys.Warehouses + "/Create"
+const WarehousesEdit = RouteKeys.Main + RouteKeys.Warehouses + "/:Id/edit"
+
 const Paths = {
     Login,
     UserNotifications,
@@ -96,6 +100,9 @@ const Paths = {
     Paymenttypes,
     PaymenttypesCreate,
     PaymenttypesEdit,
+    Warehouses,
+    WarehousesCreate,
+    WarehousesEdit,
 }
 
 export default Paths
