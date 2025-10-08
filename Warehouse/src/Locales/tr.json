@@ -6,5 +6,20 @@
     "Warehouses.Error.IDRequired": "Depo ID değeri gerekli",
     "Warehouses.Error.NotFound": "Depo bulunamadı",
     "Warehouses.Error.NotActive": "Depo aktif değil",
-    "Warehouses.Error.NameRequired": "Depo adı gerekli"
+    "Warehouses.Error.NameRequired": "Depo adı gerekli",
+    "Stocks": "Ürünler",
+    "Stocks.Error.NotFound": "Ürün bulunamadı",
+    "Stocks.Error.NotActive": "Ürün aktif değil",
+    "Stocks.Error.IDRequired": "Ürün ID değeri gerekli",
+    "Stocks.Error.WarehouseIDRequired": "Depo gerekli",
+    "Stocks.Error.StockdefineIDRequired": "Ürün tanımı gerekli",
+    "Stocks.Error.SourcetypeRequired": "Kaynak türü gerekli",
+    "Stocks.Error.SourceIDRequired": "Kaynak gerekli",
+    "Stocks.Error.AmountRequired": "Miktar gerekli",
+    "Stocks.Error.StockIDRequired": "Ürün Gerekli",
+    "Stocks.Error.AmountNotCalculated": "Girilen ürüne ait miktar hesaplanamadı",
+    "Stocks.Error.AmountIsLower": "Talep Edilen Miktar Depoda bulunamadı",
+    "Stocks.Error.MovementIDRequired": "Hareket ID değeri gerekli",
+    "Stocks.Error.MovementNotActive": "Hareket Bulunamadı",
+    "Stocks.Error.MovementNotFound": "Hareket Aktif Değil"
 }

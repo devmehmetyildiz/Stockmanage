@@ -11,6 +11,15 @@ const EditCellHandler: React.FC<EditCellHandlerProps> = ({ url }) => {
     return <Link to={url} ><Icon size='large' className='!text-primary' name='edit' /></Link>
 }
 
+interface MovementCellHandlerProps {
+    url: string
+}
+
+const MovementCellHandler: React.FC<MovementCellHandlerProps> = ({ url }) => {
+
+    return <Link to={url} ><Icon size='large' className='!text-primary' name='exchange' /></Link>
+}
+
 interface DefineCellHandlerProps {
     url: string
 }
@@ -162,5 +171,6 @@ export {
     DefineCellHandlerProps,
     PatientDetailCellHandler,
     RemoveCellHandler,
-    ExcelCellHandler
+    ExcelCellHandler,
+    MovementCellHandler
 }

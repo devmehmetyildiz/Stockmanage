@@ -32,9 +32,10 @@ interface TitleProps {
     additionalButtonLeftAling?: boolean
     additionalButtonNoWrap?: boolean
     isDividerHide?: boolean
+    isLabel?: boolean
 }
 
-const Title: React.FC<PropsWithChildren<TitleProps>> = ({ PageName, PageUrl, excelExportName, create, AdditionalName, additionalButtons, additionalButtonLeftAling, isAdditionalNameString, additionalButtonNoWrap, isDividerHide, children }) => {
+const Title: React.FC<PropsWithChildren<TitleProps>> = ({ PageName, PageUrl, excelExportName, create, AdditionalName, additionalButtons, additionalButtonLeftAling, isAdditionalNameString, additionalButtonNoWrap, isDividerHide, isLabel, children }) => {
 
     //TODO column chooser ekle
     const { isTablet, isMobileLarge } = useMobile()
@@ -42,7 +43,7 @@ const Title: React.FC<PropsWithChildren<TitleProps>> = ({ PageName, PageUrl, exc
     return <div className='w-full mx-auto align-middle'>
         <Header className='!text-secondary !bg-transparent !border-none' as='h1' attached='top' >
             <Grid stackable={!additionalButtonNoWrap} columns={isTablet ? 1 : 2} >
-                <Grid.Column width={8}>
+                <Grid.Column className={`${isLabel ? '!p-0' : ''}`} width={8}>
                     <Breadcrumb size='big'>
                         {PageUrl ? <Link to={PageUrl} className='!text-secondary hover:!text-primary transition-all ease-in-out duration-200'>
                             <Breadcrumb.Section>{PageName}</Breadcrumb.Section>

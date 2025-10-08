@@ -21,7 +21,7 @@ const LayoutSidebarFooter: React.FC<LayoutSidebarFooterProps> = ({ visible, setV
     }}>
         {!visible ? (
             <div className='cursor-pointer flex flex-col justify-center items-center gap-4   rounded-2xl  transition-all ease-in-out duration-500' >
-                <Image src={imgs.patient} className='w-12 h-12' />
+                <Image src={imgs.logo} className='w-18 h-18' />
             </div>
         ) : (
             <div className='cursor-pointer flex flex-col justify-center items-center gap-4  p-4 bg-primary rounded-2xl hover:shadow-md hover:shadow-primary transition-all ease-in-out duration-500' >
@@ -30,7 +30,7 @@ const LayoutSidebarFooter: React.FC<LayoutSidebarFooterProps> = ({ visible, setV
                     <p className='select-none m-0 font-Common font-bold text-lg line-none text-[#7eabc5] dark:text-TextColor'>VIRA</p>
                 </div>
                 <div className='bg-white rounded-full p-2'>
-                    <Image src={imgs.patient} className='w-12 h-12 ' />
+                    <Image src={imgs.logo} className='w-24 h-24 ' />
                 </div>
                 <div className='flex flex-row justify-center items-center group cursor-pointer'>
                     <p className='select-none m-0 font-Common font-bold text-lg line-none text-white dark:text-TextColor'>V{config.version}</p>

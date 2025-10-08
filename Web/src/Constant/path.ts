@@ -61,6 +61,10 @@ const Warehouses = RouteKeys.Main + RouteKeys.Warehouses
 const WarehousesCreate = RouteKeys.Main + RouteKeys.Warehouses + "/Create"
 const WarehousesEdit = RouteKeys.Main + RouteKeys.Warehouses + "/:Id/edit"
 
+const Stocks = RouteKeys.Main + RouteKeys.Stocks
+const StocksCreate = RouteKeys.Main + RouteKeys.Stocks + "/Create"
+const StocksMovement = RouteKeys.Main + RouteKeys.Stocks + "/:Id/Movements"
+
 const Paths = {
     Login,
     UserNotifications,
@@ -103,6 +107,9 @@ const Paths = {
     Warehouses,
     WarehousesCreate,
     WarehousesEdit,
+    Stocks,
+    StocksCreate,
+    StocksMovement
 }
 
 export default Paths

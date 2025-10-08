@@ -1,6 +1,8 @@
 import { DefaultRequestType } from "@Constant/common";
 
-export interface StockdefineListRequest extends DefaultRequestType { }
+export interface StockdefineListRequest extends DefaultRequestType {
+    Uuid?: string;
+}
 
 export interface StockdefineRequest {
     Uuid: string;

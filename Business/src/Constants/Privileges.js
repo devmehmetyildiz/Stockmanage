@@ -89,6 +89,14 @@ const Priveleges = [
     { code: 'warehousemanageview',   text: { en: 'Warehouses Manage View', tr: 'Depolar Görünüm Ayarlama' }, group: { en: 'Warehouses', tr: 'Depolar' } },
     { code: 'warehousegetreport',    text: { en: 'Warehouses Get Report',  tr: 'Depolar Rapor Alma' },       group: { en: 'Warehouses', tr: 'Depolar' } },
     { code: 'warehousenotification', text: { en: 'Warehouses Notification',tr: 'Depolar Bildirim Alma' },    group: { en: 'Warehouses', tr: 'Depolar' } },
+    { code: 'stockscreen',       text: { en: 'Stocks Screen',      tr: 'Ürünler Veri' },             group: { en: 'Stocks', tr: 'Ürünler' } },
+    { code: 'stockview',         text: { en: 'Stocks View',        tr: 'Ürünler Görüntüleme' },      group: { en: 'Stocks', tr: 'Ürünler' } },
+    { code: 'stockadd',          text: { en: 'Stocks Add',         tr: 'Ürünler Oluşturma' },        group: { en: 'Stocks', tr: 'Ürünler' } },
+    { code: 'stockupdate',       text: { en: 'Stocks Update',      tr: 'Ürünler Güncelleme' },       group: { en: 'Stocks', tr: 'Ürünler' } },
+    { code: 'stockdelete',       text: { en: 'Stocks Delete',      tr: 'Ürünler Silme' },            group: { en: 'Stocks', tr: 'Ürünler' } },
+    { code: 'stockmanageview',   text: { en: 'Stocks Manage View', tr: 'Ürünler Görünüm Ayarlama' }, group: { en: 'Stocks', tr: 'Ürünler' } },
+    { code: 'stockgetreport',    text: { en: 'Stocks Get Report',  tr: 'Ürünler Rapor Alma' },       group: { en: 'Stocks', tr: 'Ürünler' } },
+    { code: 'stocknotification', text: { en: 'Stocks Notification',tr: 'Ürünler Bildirim Alma' },    group: { en: 'Stocks', tr: 'Ürünler' } },
     ]
     
     module.exports = Priveleges

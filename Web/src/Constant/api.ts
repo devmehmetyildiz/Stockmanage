@@ -122,6 +122,20 @@ export const WAREHOUSE = 'Warehouse/Warehouses'
 
 export const WAREHOUSE_COUNT = 'Warehouse/Warehouses/Counts'
 
+export const STOCK_GET_STOCK = 'Warehouse/Stocks/GetStocks'
+
+export const STOCK_GET_MOVEMENT = 'Warehouse/Stocks/GetMovements'
+
+export const STOCK_CREATE_STOCK = 'Warehouse/Stocks/CreateStock'
+
+export const STOCK_USE_STOCK = 'Warehouse/Stocks/UseStock'
+
+export const STOCK_INSERT_STOCK = 'Warehouse/Stocks/InsertStock'
+
+export const STOCK_DELETE_STOCK = 'Warehouse/Stocks/DeleteStock'
+
+export const STOCK_DELETE_MOVEMENT = 'Warehouse/Stocks/DeleteMovement'
+
 //Tags
 
 export const TABLE_CONFIG_TAG = 'TABLE_CONFIG_TAG'
@@ -153,5 +167,7 @@ export const DOCTORDEFINE_TAG = 'DOCTORDEFINE_TAG'
 export const STOCKDEFINE_TAG = 'STOCKDEFINE_TAG'
 
 export const WAREHOUSE_TAG = 'WAREHOUSE_TAG'
+
+export const STOCK_TAG = 'STOCK_TAG'
 
 

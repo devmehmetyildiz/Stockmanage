@@ -5,13 +5,7 @@ module.exports = sequelize.define('stockModel', {
     WarehouseID: {
         type: Sequelize.STRING
     },
-    StokdefineID: {
-        type: Sequelize.STRING
-    },
-    Sourcetype: {
-        type: Sequelize.INTEGER
-    },
-    SourceID: {
+    StockdefineID: {
         type: Sequelize.STRING
     },
 }, {

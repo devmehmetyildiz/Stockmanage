@@ -1,3 +1,4 @@
+import validator from '@Utils/Validator'
 import React, { useState } from 'react'
 import { Controller, Path, RegisterOptions, useFormContext } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
@@ -106,7 +107,9 @@ const FormInput = <T extends object>(props: FormInputProps<T>) => {
                                         if (type === 'datetime-local') {
                                             field.onChange(e.target.value)
                                         } else if (type === 'number') {
-                                            field.onChange(Number(e.target.value))
+                                            console.log('e.target.value: ', e.target.value);
+                                            console.log('validator.isNumber(e.target.value): ', validator.isNumber(e.target.value));
+                                            field.onChange(validator.isNumber(e.target.value) ? Number(e.target.value) : e.target.value)
                                         } else {
                                             field.onChange(e.target.value)
                                         }

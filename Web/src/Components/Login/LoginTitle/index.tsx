@@ -12,12 +12,9 @@ const LoginTitle: React.FC = () => {
             <div className=' bg-primary w-[20%] pb-[20%] rounded-tl-lg rounded-br-[100%] ' />
         </div>
         <div className='w-full flex justify-center items-center'>
-            <img className='h-32 w-32' src={imgs.patient} alt="" />
+            <img className='h-60 w-60' src={imgs.logo} alt="" />
         </div>
-        <div className='w-full flex justify-center items-center mt-4 text-lg text-primary font-extrabold'>
-            {t('Appname')}
-        </div>
-        <div className='w-full flex justify-center items-center text-lg  text-primary font-extrabold  '>
+        <div className='-mt-8 w-full flex justify-center items-center text-lg  text-primary font-extrabold  '>
             {config.business.organization}
         </div>
     </div>

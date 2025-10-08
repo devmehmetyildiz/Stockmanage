@@ -38,6 +38,9 @@ const Paymenttypes = "Paymenttypes"
 
 const Warehouses = "Warehouses"
 
+const Stocks = "Stocks"
+
+
 const RouteKeys = {
     Main,
     Login,
@@ -58,7 +61,8 @@ const RouteKeys = {
     Locations,
     Stockdefines,
     Paymenttypes,
-    Warehouses
+    Warehouses,
+    Stocks
 }
 
 export default RouteKeys

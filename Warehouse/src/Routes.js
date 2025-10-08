@@ -5,6 +5,14 @@ const Routes = [
   { method: 'post', path: '/Warehouses', controller: 'Warehouse', action: 'AddWarehouse' },
   { method: 'put', path: '/Warehouses', controller: 'Warehouse', action: 'UpdateWarehouse' },
   { method: 'delete', path: '/Warehouses/:ID', controller: 'Warehouse', action: 'DeleteWarehouse' },
+  
+  { method: 'get', path: '/Stocks/GetStocks', controller: 'Stock', action: 'GetStocks' },
+  { method: 'get', path: '/Stocks/GetMovements', controller: 'Stock', action: 'GetStockmovements' },
+  { method: 'post', path: '/Stocks/CreateStock', controller: 'Stock', action: 'CreateStock' },
+  { method: 'put', path: '/Stocks/UseStock', controller: 'Stock', action: 'UseStock' },
+  { method: 'put', path: '/Stocks/InsertStock', controller: 'Stock', action: 'InsertStock' },
+  { method: 'delete', path: '/Stocks/DeleteStock/:ID', controller: 'Stock', action: 'DeleteStock' },
+  { method: 'delete', path: '/Stocks/DeleteMovement/:ID', controller: 'Stock', action: 'DeleteStockmovement' },
 ]
 
 module.exports = Routes

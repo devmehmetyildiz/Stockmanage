@@ -11,6 +11,21 @@ module.exports = sequelize.define('stockmovementModel', {
     Amount: {
         type: Sequelize.INTEGER
     },
+    Movementtype: {
+        type: Sequelize.INTEGER
+    },
+    Movementdate: {
+        type: Sequelize.DATE
+    },
+    Sourcetype: {
+        type: Sequelize.INTEGER
+    },
+    SourceID: {
+        type: Sequelize.STRING
+    },
+    UserID: {
+        type: Sequelize.STRING
+    },
 }, {
     tableName: 'stockmovements',
     timestamps: false

@@ -14,7 +14,16 @@ const isObject = function (value: any) {
 }
 
 const isNumber = function (value: any) {
-    return (/[-+]?\d*\.?\d*$/.test(value) && typeof value === 'number' && !isNaN(value));
+    if (typeof value === "number") {
+        return !isNaN(value) && isFinite(value);
+    }
+
+    if (typeof value === "string" && value.trim() !== "") {
+        const num = Number(value);
+        return !isNaN(num) && isFinite(num);
+    }
+
+    return false;
 }
 
 const isPositiveInteger = function (value: any) {

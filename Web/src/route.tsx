@@ -57,9 +57,17 @@ import DoctordefineEdit from "@Pages/Doctordefine/DoctordefineEdit";
 import Location from "@Pages/Location/Location";
 import LocationCreate from "@Pages/Location/LocationCreate";
 import LocationEdit from "@Pages/Location/LocationEdit";
+
 import Stockdefine from "@Pages/Stockdefine/Stockdefine";
 import StockdefineCreate from "@Pages/Stockdefine/StockdefineCreate";
 import StockdefineEdit from "@Pages/Stockdefine/StockdefineEdit";
+
+import Warehouse from "@Pages/Warehouse/Warehouse";
+import WarehouseCreate from "@Pages/Warehouse/WarehouseCreate";
+import WarehouseEdit from "@Pages/Warehouse/WarehouseEdit";
+import Stock from "@Pages/Stock/Stock";
+import StockCreate from "@Pages/Stock/StockCreate";
+import StockMovement from "@Pages/Stock/StockMovement";
 
 interface RouteItemType {
     path: string
@@ -105,6 +113,12 @@ const AppRouter = () => {
         { path: Paths.Stockdefines, element: <Stockdefine />, requiredRole: [privileges.stockdefineview] },
         { path: Paths.StockdefinesCreate, element: <StockdefineCreate />, requiredRole: [privileges.stockdefineview, privileges.stockdefineadd] },
         { path: Paths.StockdefinesEdit, element: <StockdefineEdit />, requiredRole: [privileges.stockdefineview, privileges.stockdefineupdate] },
+        { path: Paths.Warehouses, element: <Warehouse />, requiredRole: [privileges.warehouseview] },
+        { path: Paths.WarehousesCreate, element: <WarehouseCreate />, requiredRole: [privileges.warehouseview, privileges.warehouseadd] },
+        { path: Paths.WarehousesEdit, element: <WarehouseEdit />, requiredRole: [privileges.warehouseview, privileges.warehouseupdate] },
+        { path: Paths.Stocks, element: <Stock />, requiredRole: [privileges.stockview] },
+        { path: Paths.StocksCreate, element: <StockCreate />, requiredRole: [privileges.stockview, privileges.stockadd] },
+        { path: Paths.StocksMovement, element: <StockMovement />, requiredRole: [privileges.stockview, privileges.stockview] },
     ]
 
     const nonProtectedRoutes: RouteItemType[] = [
