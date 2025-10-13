@@ -1,3 +1,21 @@
 {
-   
+    "General.SuccessfullyCreated": "Başarıyla Oluşturuldu",
+    "General.SuccessfullyUpdated": "Başarıyla Güncellendi",
+    "General.SuccessfullyDeleted": "Başarıyla Silindi",
+    "Visits": "Ziyaretler",
+    "Visits.Error.IDRequired": "Ziyaret ID değeri gerekli",
+    "Visits.Error.NotFound": "Ziyaret bulunamadı",
+    "Visits.Error.NotActive": "Ziyaret aktif değil",
+    "Visits.Error.NotPlanned": "Sadece planlanmış bir ziyaret çalıştırılabilir.",
+    "Visits.Error.NotWorked": "Sadece çalışan bir ziyaret tamamlanabilir.",
+    "Visits.Error.UserIDRequired": "Personel Gerekli",
+    "Visits.Error.DoctorIDRequired": "Doktor Gerekli",
+    "Visits.Error.LocationIDRequired": "Bölge Gerekli",
+    "Visits.Error.VisitdateRequired": "Ziyaret Tarihi Gerekli",
+    "Visits.Error.StocksRequired": "Ziyaret ürünleri Gerekli",
+    "Visits.Error.VisitIDRequired": "Ziyaret Gerekli",
+    "Visits.Error.StockIDRequired": "Talep Edilen Ürün Gerekli",
+    "Visits.Error.WarehouseIDRequired": "Depo Gerekli",
+    "Visits.Error.AmountRequired": "Talep Edilen Ürün Miktarı Gerekli",
+    "Visits.Error.VisitdateCantSmall": "Ziyaret Tarihi Geçmiş Tarihli Olamaz"
 }

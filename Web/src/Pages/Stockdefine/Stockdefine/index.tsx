@@ -53,6 +53,7 @@ const Stockdefine: React.FC = () => {
         { header: t("Common.Columns.Uuid"), accessorKey: 'Uuid' },
         { header: t('Pages.Stockdefines.Columns.Productname'), accessorKey: 'Productname', isMobile: true },
         { header: t('Pages.Stockdefines.Columns.Brand'), accessorKey: 'Brand', },
+        { header: t('Pages.Stockdefines.Columns.Barcodeno'), accessorKey: 'Barcodeno', },
         { header: t('Pages.Stockdefines.Columns.Model'), accessorKey: 'Model', },
         { header: t('Pages.Stockdefines.Columns.Category'), accessorKey: 'Category', },
         { header: t('Pages.Stockdefines.Columns.Diameter'), accessorKey: 'Diameter', },

@@ -85,7 +85,7 @@ const StockdefineEdit: React.FC = () => {
                 <Form>
                     <Form.Group widths={'equal'}>
                         <StockdefineAppForm.Input name='Productname' label={t('Pages.Stockdefines.Columns.Productname')} required={t('Pages.Stockdefines.Messages.ProductnameRequired')} />
-                        <StockdefineAppForm.Input name='Description' label={t('Pages.Stockdefines.Columns.Description')} />
+                        <StockdefineAppForm.Input name='Barcodeno' label={t('Pages.Stockdefines.Columns.Barcodeno')} required={t('Pages.Stockdefines.Messages.BarcodenoRequired')} />
                         <StockdefineAppForm.Input name='Brand' label={t('Pages.Stockdefines.Columns.Brand')} required={t('Pages.Stockdefines.Messages.BrandRequired')} />
                         <StockdefineAppForm.Input name='Model' label={t('Pages.Stockdefines.Columns.Model')} required={t('Pages.Stockdefines.Messages.ModelRequired')} />
                     </Form.Group>
@@ -100,6 +100,9 @@ const StockdefineEdit: React.FC = () => {
                         <StockdefineAppForm.Input name='Connectiontype' label={t('Pages.Stockdefines.Columns.Connectiontype')} required={t('Pages.Stockdefines.Messages.ConnectiontypeRequired')} />
                         <StockdefineAppForm.Input name='Suppliername' label={t('Pages.Stockdefines.Columns.Suppliername')} required={t('Pages.Stockdefines.Messages.SuppliernameRequired')} />
                         <StockdefineAppForm.Input name='Suppliercontact' label={t('Pages.Stockdefines.Columns.Suppliercontact')} required={t('Pages.Stockdefines.Messages.SuppliercontactRequired')} />
+                    </Form.Group>
+                    <Form.Group widths={'equal'}>
+                        <StockdefineAppForm.Input name='Description' label={t('Pages.Stockdefines.Columns.Description')} />
                     </Form.Group>
                 </Form>
             </Contentwrapper>

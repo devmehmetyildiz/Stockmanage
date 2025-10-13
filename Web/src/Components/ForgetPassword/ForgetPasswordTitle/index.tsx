@@ -14,7 +14,7 @@ const ForgetPasswordTitle: React.FC = () => {
         <div className='w-full flex justify-center items-center'>
             <img className='h-60 w-60' src={imgs.logo} alt="" />
         </div>
-        <div className='-mt-8 w-full flex justify-center items-center mt-4 text-lg text-primary font-extrabold'>
+        <div className='-mt-8 w-full flex justify-center items-center  text-lg text-primary font-extrabold'>
             {t('Pages.Passwordforget.Page.Header')}
         </div>
     </div>

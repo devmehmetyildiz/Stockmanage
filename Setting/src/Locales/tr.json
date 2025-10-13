@@ -37,6 +37,7 @@
     "Stockdefines.Error.NotFound": "Ürün tanımı bulunamadı",
     "Stockdefines.Error.NotActive": "Ürün tanımı aktif değil",
     "Stockdefines.Error.ProductnameRequired": "Ürün adı gerekli",
+    "Stockdefines.Error.BarcodenoRequired": "Barkod No gerekli",
     "Stockdefines.Error.BrandRequired": "Marka gerekli",
     "Stockdefines.Error.ModelRequired": "Model gerekli",
     "Stockdefines.Error.CategoryRequired": "Kategori gerekli",

@@ -46,7 +46,7 @@ export const getSidebarRoutes = (t: any, userPrivileges: string[]) => {
             title: t('Sidebar.Menu.Organisation'),
             icon: 'building',
             items: [
-
+                { id: 1, subtitle: t('Pages.Visits.Page.Header'), url: Paths.Visits, permission: checkAuth(privileges.visitview) },
             ]
         },
         {

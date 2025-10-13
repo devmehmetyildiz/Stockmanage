@@ -5,6 +5,9 @@ module.exports = sequelize.define('stockdefineModel', {
     Productname: {
         type: Sequelize.STRING
     },
+    Barcodeno: {
+        type: Sequelize.STRING
+    },
     Brand: {
         type: Sequelize.STRING
     },

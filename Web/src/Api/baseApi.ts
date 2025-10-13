@@ -85,7 +85,7 @@ const customBaseQuery = ({ baseUrl }: BaseQueryType): BaseQueryFn<string | Fetch
 
         let result = await rawBaseQuery(args, api, extraOptions);
 
-        if (result.error?.status === API_UNAUTHORIZE_ERROR) {
+        if (result.error?.status === API_UNAUTHORIZE_ERROR && window.location.pathname !== Paths.Login) {
             if (!mutex.isLocked()) {
                 const release = await mutex.acquire();
                 try {

@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react"
-import { useLocation } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 
 interface TabNavigationProps {
     additionalTabPrefix?: string
-    navigate: any
     tabOrder: string[]
     mainRoute: string
     resetParams?: string[]
@@ -11,12 +10,12 @@ interface TabNavigationProps {
 
 const useTabNavigation = ({
     additionalTabPrefix,
-    navigate,
     tabOrder,
     mainRoute,
     resetParams
 }: TabNavigationProps) => {
     const location = useLocation()
+    const navigate = useNavigate()
 
     const key = additionalTabPrefix || 'tab'
 

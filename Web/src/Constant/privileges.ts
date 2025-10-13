@@ -96,6 +96,14 @@ const stockdelete = 'stockdelete'
 const stockmanageview = 'stockmanageview'
 const stockgetreport = 'stockgetreport'
 const stocknotification = 'stocknotification'
+const visitscreen = 'visitscreen'
+const visitview = 'visitview'
+const visitadd = 'visitadd'
+const visitupdate = 'visitupdate'
+const visitdelete = 'visitdelete'
+const visitmanageview = 'visitmanageview'
+const visitgetreport = 'visitgetreport'
+const visitnotification = 'visitnotification'
 
 const privileges = {
     admin,
@@ -196,6 +204,14 @@ const privileges = {
     stockmanageview,
     stockgetreport,
     stocknotification,
+    visitscreen,
+    visitview,
+    visitadd,
+    visitupdate,
+    visitdelete,
+    visitmanageview,
+    visitgetreport,
+    visitnotification,
 }
 
 export default privileges

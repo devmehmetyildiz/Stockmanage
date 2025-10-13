@@ -16,6 +16,7 @@
     "Stocks.Error.SourcetypeRequired": "Kaynak türü gerekli",
     "Stocks.Error.SourceIDRequired": "Kaynak gerekli",
     "Stocks.Error.AmountRequired": "Miktar gerekli",
+    "Stocks.Error.StockListRequired": "Ürün listesi gerekli",
     "Stocks.Error.StockIDRequired": "Ürün Gerekli",
     "Stocks.Error.AmountNotCalculated": "Girilen ürüne ait miktar hesaplanamadı",
     "Stocks.Error.AmountIsLower": "Talep Edilen Miktar Depoda bulunamadı",

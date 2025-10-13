@@ -281,6 +281,123 @@ async function UseStock(req, res, next) {
     }
 }
 
+async function UseStockList(req, res, next) {
+    let mainValidationErrors = []
+
+    const {
+        StockList
+    } = req.body
+
+    if (!validator.isArray(StockList) || (StockList || []).length <= 0) {
+        mainValidationErrors.push(req.t('Stocks.Error.StockListRequired'))
+    }
+
+    if (mainValidationErrors.length > 0) {
+        return next(createValidationError(mainValidationErrors, req.t('Stocks'), req.language))
+    }
+
+
+    try {
+        let validationErrors = []
+
+        for (const stock of StockList) {
+            const {
+                StockID,
+                Amount,
+                Sourcetype,
+                SourceID
+            } = stock
+
+            if (!validator.isNumber(Amount) || Amount <= 0) {
+                validationErrors.push(req.t('Stocks.Error.AmountRequired'))
+            }
+            if (!validator.isUUID(StockID)) {
+                validationErrors.push(req.t('Stocks.Error.StockIDRequired'))
+            }
+            if (!validator.isNumber(Sourcetype)) {
+                validationErrors.push(req.t('Stocks.Error.SourcetypeRequired'))
+            }
+            if (!validator.isUUID(SourceID)) {
+                validationErrors.push(req.t('Stocks.Error.SourceIDRequired'))
+            }
+        }
+
+        if (validationErrors.length > 0) {
+            return next(createValidationError(validationErrors, req.t('Stocks'), req.language))
+        }
+
+        for (const stockItem of StockList) {
+
+            const stock = await db.stockModel.findOne({ where: { Uuid: stockItem.StockID } })
+            if (!stock) {
+                return next(createNotFoundError(req.t('Stocks.Error.NotFound'), req.t('Stocks'), req.language))
+            }
+            if (!stock.Isactive) {
+                return next(createNotFoundError(req.t('Stocks.Error.NotActive'), req.t('Stocks'), req.language))
+            }
+
+            const query = `
+            SELECT 
+                COALESCE(SUM(Amount * Type), 0) AS TotalAmount
+            FROM stockmovements
+            WHERE StockID = :StockID
+             `;
+
+            const [result] = await db.sequelize.query(query, {
+                replacements: { StockID: stockItem.StockID },
+                type: db.Sequelize.QueryTypes.SELECT
+            });
+
+            const foundedAmount = result.TotalAmount
+
+            if (!foundedAmount) {
+                return next(createNotFoundError(req.t('Stocks.Error.AmountNotCalculated'), req.t('Stocks'), req.language))
+            }
+
+            if (Amount > foundedAmount) {
+                return next(createNotFoundError(req.t('Stocks.Error.AmountIsLower'), req.t('Stocks'), req.language))
+            }
+        }
+    } catch (error) {
+        return next(sequelizeErrorCatcher(error))
+    }
+
+    const t = await db.sequelize.transaction()
+    const username = req?.identity?.user?.Username || 'System'
+    const createdEntities = []
+
+    try {
+
+        for (const stockItem of StockList) {
+
+            const movementUuid = uuid()
+            createdEntities.push(movementUuid)
+
+            await db.stockmovementModel.create({
+                Uuid: movementUuid,
+                StockID: stockItem.Uuid,
+                Type: STOCKMOVEMENT_TYPE_MINUS,
+                Amount: stockItem.Amount,
+                Movementdate: new Date(),
+                Movementtype: STOCKMOVEMENT_REDUCE,
+                Sourcetype: stockItem.Sourcetype,
+                SourceID: stockItem.SourceID,
+                UserID: req?.identity?.user?.Uuid || username,
+                Createduser: username,
+                Createtime: new Date(),
+                Isactive: true,
+            }, { transaction: t })
+        }
+
+        await t.commit()
+        res.status(200).json({ message: req.t('General.SuccessfullyUpdated'), entities: createdEntities })
+
+    } catch (error) {
+        await t.rollback()
+        next(sequelizeErrorCatcher(error))
+    }
+}
+
 async function InsertStock(req, res, next) {
     let validationErrors = []
 
@@ -456,6 +573,7 @@ module.exports = {
     GetStocks,
     CreateStock,
     UseStock,
+    UseStockList,
     InsertStock,
     DeleteStock,
     GetStockmovements,

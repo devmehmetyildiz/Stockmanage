@@ -55,3 +55,15 @@ export const PAYMENTTYPE_TYPE_CASH = 4
 export const STOCK_SOURCETYPE_USER = 0
 
 export const STOCK_SOURCETYPE_PURCHASEORDER = 1
+
+export const STOCK_SOURCETYPE_VISIT = 2
+
+export const VISIT_STATU_PLANNED = 0
+
+export const VISIT_STATU_WORKING = 1
+
+export const VISIT_STATU_ON_APPROVE = 2
+
+export const VISIT_STATU_COMPLETED = 3
+
+export const VISIT_STATU_DECLINED = 4

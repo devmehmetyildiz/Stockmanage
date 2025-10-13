@@ -12,6 +12,7 @@ export interface StockdefineItem {
     Id: number;
     Uuid: string;
     Productname: string;
+    Barcodeno: string;
     Brand: string;
     Model: string;
     Category: string;
@@ -34,6 +35,7 @@ export interface StockdefineItem {
 
 export interface StockdefineAddRequest {
     Productname: string;
+    Barcodeno: string;
     Brand: string;
     Model: string;
     Category: string;
@@ -50,6 +52,7 @@ export interface StockdefineAddRequest {
 export interface StockdefineEditRequest {
     Uuid: string;
     Productname: string;
+    Barcodeno: string;
     Brand: string;
     Model: string;
     Category: string;

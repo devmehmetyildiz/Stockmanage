@@ -136,6 +136,14 @@ export const STOCK_DELETE_STOCK = 'Warehouse/Stocks/DeleteStock'
 
 export const STOCK_DELETE_MOVEMENT = 'Warehouse/Stocks/DeleteMovement'
 
+export const VISIT = 'Business/Visits'
+
+export const VISIT_GETCOUNT = 'Business/Visits/Counts'
+
+export const VISIT_UPDATE_STOCKS = 'Business/Visits/UpdateVisitStocks'
+
+export const VISIT_UPDATE_DEFINES = 'Business/Visits/UpdateVisitDefines'
+
 //Tags
 
 export const TABLE_CONFIG_TAG = 'TABLE_CONFIG_TAG'
@@ -169,5 +177,7 @@ export const STOCKDEFINE_TAG = 'STOCKDEFINE_TAG'
 export const WAREHOUSE_TAG = 'WAREHOUSE_TAG'
 
 export const STOCK_TAG = 'STOCK_TAG'
+
+export const VISIT_TAG = 'VISIT_TAG'
 
 

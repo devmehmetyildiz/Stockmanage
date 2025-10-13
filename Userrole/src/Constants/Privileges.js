@@ -97,6 +97,14 @@ const Priveleges = [
     { code: 'stockmanageview',   text: { en: 'Stocks Manage View', tr: 'Ürünler Görünüm Ayarlama' }, group: { en: 'Stocks', tr: 'Ürünler' } },
     { code: 'stockgetreport',    text: { en: 'Stocks Get Report',  tr: 'Ürünler Rapor Alma' },       group: { en: 'Stocks', tr: 'Ürünler' } },
     { code: 'stocknotification', text: { en: 'Stocks Notification',tr: 'Ürünler Bildirim Alma' },    group: { en: 'Stocks', tr: 'Ürünler' } },
+    { code: 'visitscreen',       text: { en: 'Visits Screen',      tr: 'Ziyaretler Veri' },             group: { en: 'Visits', tr: 'Ziyaretler' } },
+    { code: 'visitview',         text: { en: 'Visits View',        tr: 'Ziyaretler Görüntüleme' },      group: { en: 'Visits', tr: 'Ziyaretler' } },
+    { code: 'visitadd',          text: { en: 'Visits Add',         tr: 'Ziyaretler Oluşturma' },        group: { en: 'Visits', tr: 'Ziyaretler' } },
+    { code: 'visitupdate',       text: { en: 'Visits Update',      tr: 'Ziyaretler Güncelleme' },       group: { en: 'Visits', tr: 'Ziyaretler' } },
+    { code: 'visitdelete',       text: { en: 'Visits Delete',      tr: 'Ziyaretler Silme' },            group: { en: 'Visits', tr: 'Ziyaretler' } },
+    { code: 'visitmanageview',   text: { en: 'Visits Manage View', tr: 'Ziyaretler Görünüm Ayarlama' }, group: { en: 'Visits', tr: 'Ziyaretler' } },
+    { code: 'visitgetreport',    text: { en: 'Visits Get Report',  tr: 'Ziyaretler Rapor Alma' },       group: { en: 'Visits', tr: 'Ziyaretler' } },
+    { code: 'visitnotification', text: { en: 'Visits Notification',tr: 'Ziyaretler Bildirim Alma' },    group: { en: 'Visits', tr: 'Ziyaretler' } },
     ]
     
     module.exports = Priveleges

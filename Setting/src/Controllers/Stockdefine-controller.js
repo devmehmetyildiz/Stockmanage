@@ -52,6 +52,7 @@ async function AddStockdefine(req, res, next) {
     const {
         Productname,
         Brand,
+        Barcodeno,
         Model,
         Category,
         Diameter,
@@ -66,6 +67,9 @@ async function AddStockdefine(req, res, next) {
 
     if (!validator.isString(Productname)) {
         validationErrors.push(req.t('Stockdefines.Error.ProductnameRequired'))
+    }
+    if (!validator.isString(Barcodeno)) {
+        validationErrors.push(req.t('Stockdefines.Error.BarcodenoRequired'))
     }
     if (!validator.isString(Brand)) {
         validationErrors.push(req.t('Stockdefines.Error.BrandRequired'))
@@ -112,6 +116,7 @@ async function AddStockdefine(req, res, next) {
             Productname,
             Brand,
             Model,
+            Barcodeno,
             Category,
             Diameter,
             Length,
@@ -152,6 +157,7 @@ async function UpdateStockdefine(req, res, next) {
         Uuid,
         Productname,
         Brand,
+        Barcodeno,
         Model,
         Category,
         Diameter,
@@ -169,6 +175,9 @@ async function UpdateStockdefine(req, res, next) {
     }
     if (!validator.isString(Productname)) {
         validationErrors.push(req.t('Stockdefines.Error.ProductnameRequired'))
+    }
+    if (!validator.isString(Barcodeno)) {
+        validationErrors.push(req.t('Stockdefines.Error.BarcodenoRequired'))
     }
     if (!validator.isString(Brand)) {
         validationErrors.push(req.t('Stockdefines.Error.BrandRequired'))
@@ -223,6 +232,7 @@ async function UpdateStockdefine(req, res, next) {
             Model,
             Category,
             Diameter,
+            Barcodeno,
             Length,
             Material,
             Surfacetreatment,
