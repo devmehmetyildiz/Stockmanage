@@ -15,7 +15,7 @@ import { useGetLocationsQuery } from '@Api/Location'
 import { useGetPaymenttypesQuery } from '@Api/Paymenttype'
 import { loaderCellhandler } from '@Utils/CellHandler'
 import privileges from '@Constant/privileges'
-import { DetailCellHandler } from '@Components/Common/CellHandler'
+import { DetailCellHandler, EditCellHandler } from '@Components/Common/CellHandler'
 import { CellContext } from '@tanstack/react-table'
 import RouteKeys from '@Constant/routeKeys'
 
@@ -64,6 +64,19 @@ const VisitPlanned: React.FC = () => {
         return <DetailCellHandler url={`/${RouteKeys.Visits}/${data.Uuid}/Detail`} />
     }
 
+
+    const editProductsCellhandler = (wrapper: CellContext<any, unknown>) => {
+        const data = wrapper.row.original as VisitListItem
+
+        return <EditCellHandler url={`/${RouteKeys.Visits}/${data.Uuid}/edit-products`} icon="boxes"/>
+    }
+
+    const editDefinesCellhandler = (wrapper: CellContext<any, unknown>) => {
+        const data = wrapper.row.original as VisitListItem
+
+        return <EditCellHandler url={`/${RouteKeys.Visits}/${data.Uuid}/edit-defines`} icon="pencil alternate"/>
+    }
+
     const columns: ColumnType<VisitListItem>[] = [
         { header: t("Common.Columns.Id"), accessorKey: 'Id', isIcon: true },
         { header: t("Common.Columns.Uuid"), accessorKey: 'Uuid' },
@@ -78,6 +91,8 @@ const VisitPlanned: React.FC = () => {
         { header: t("Common.Columns.Createtime"), accessorKey: 'Createtime', accessorFn: row => dateCellhandler(row?.Createtime) },
         { header: t("Common.Columns.Updateduser"), accessorKey: 'Updateduser' },
         { header: t("Common.Columns.Updatetime"), accessorKey: 'Updatetime', accessorFn: row => dateCellhandler(row?.Updatetime) },
+        { header: t("Pages.Visits.Columns.EditProducts"), accessorKey: 'editProducts', isIcon: true, pinned: true, role: privileges.visitupdate, cell: (wrapper) => editProductsCellhandler(wrapper), size: 45 },
+        { header: t("Pages.Visits.Columns.EditDefines"), accessorKey: 'editDefines', isIcon: true, pinned: true, role: privileges.visitupdate, cell: (wrapper) => editDefinesCellhandler(wrapper), size: 45 },
         { header: t("Common.Columns.detail"), accessorKey: 'detail', isIcon: true, pinned: true, role: privileges.visitview, cell: (wrapper) => detailCellhandler(wrapper), size: 45 },
     ]
 

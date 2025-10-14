@@ -71,6 +71,8 @@ import StockMovement from "@Pages/Stock/StockMovement";
 import Visit from "@Pages/Visit/Visit";
 import VisitCreate from "@Pages/Visit/VisitCreate";
 import VisitDetail from "@Pages/Visit/VisitDetail";
+import VisitUpdateDefines from "@Pages/Visit/VisitUpdateDefines";
+import VisitUpdateProducts from "@Pages/Visit/VisitUpdateProducts";
 
 interface RouteItemType {
     path: string
@@ -125,6 +127,8 @@ const AppRouter = () => {
         { path: Paths.Visits, element: <Visit />, requiredRole: [privileges.visitview] },
         { path: Paths.VisitsCreate, element: <VisitCreate />, requiredRole: [privileges.visitview, privileges.visitadd] },
         { path: Paths.VisitsDetail, element: <VisitDetail />, requiredRole: [privileges.visitview] },
+        { path: Paths.VisitsUpdateDefines, element: <VisitUpdateDefines />, requiredRole: [privileges.visitview, privileges.visitupdate] },
+        { path: Paths.VisitsUpdateProducts, element: <VisitUpdateProducts />, requiredRole: [privileges.visitview, privileges.visitupdate] },
     ]
 
     const nonProtectedRoutes: RouteItemType[] = [

@@ -65,12 +65,12 @@ async function CreateVisit(req, res, next) {
     const {
         UserID,
         DoctorID,
-        PaymenttypeID,
         LocationID,
         Visitdate,
         Notes,
         Stocks,
         WarehouseID,
+        PaymenttypeID,
         Scheduledpayment
     } = req.body
 
@@ -100,7 +100,7 @@ async function CreateVisit(req, res, next) {
     } else {
         const current = new Date()
         current.setHours(0, 0, 0, 0)
-        if (new Date(Visitdate).getTime() < current) {
+        if (new Date(Visitdate).getTime() < current.getTime()) {
             validationErrors.push(req.t('Visits.Error.VisitdateCantSmall'))
         }
     }
@@ -282,6 +282,8 @@ async function UpdateVisitDefines(req, res, next) {
         LocationID,
         Visitdate,
         Notes,
+        PaymenttypeID,
+        Scheduledpayment
     } = req.body
 
     if (!validator.isUUID(VisitID)) {
@@ -299,7 +301,9 @@ async function UpdateVisitDefines(req, res, next) {
     if (!validator.isISODate(Visitdate)) {
         validationErrors.push(req.t('Visits.Error.VisitdateRequired'))
     } else {
-        if (new Date(Visitdate).getTime() < new Date().getTime()) {
+        const current = new Date()
+        current.setHours(0, 0, 0, 0)
+        if (new Date(Visitdate).getTime() < current.getTime()) {
             validationErrors.push(req.t('Visits.Error.VisitdateCantSmall'))
         }
     }
@@ -307,6 +311,9 @@ async function UpdateVisitDefines(req, res, next) {
     if (validationErrors.length > 0) {
         return next(createValidationError(validationErrors, req.t('Visits'), req.language))
     }
+
+    const t = await db.sequelize.transaction();
+    const username = req?.identity?.user?.Username || 'System'
 
     try {
         const visit = await db.visitModel.findOne({ where: { Uuid: VisitID } })
@@ -325,13 +332,17 @@ async function UpdateVisitDefines(req, res, next) {
             UserID,
             DoctorID,
             LocationID,
+            PaymenttypeID,
             Visitdate,
+            Scheduledpayment,
             Notes,
             Updateduser: username,
             Updatetime: new Date(),
         }, { transaction: t, where: { Uuid: VisitID } })
+        await t.commit()
         res.status(200).json({ message: req.t('General.SuccessfullyUpdated'), entity: VisitID })
     } catch (error) {
+        await t.rollback()
         return next(sequelizeErrorCatcher(error))
     }
 }

@@ -1,39 +1,28 @@
 import { useGetStocksQuery } from '@Api/Stock'
 import { useGetStockdefinesQuery } from '@Api/Stockdefine'
-import { VisitCreateRequest } from '@Api/Visit/type'
-import { useGetWarehousesQuery } from '@Api/Warehouse'
+import { VisitUpdateStocksRequest } from '@Api/Visit/type'
 import Title from '@Components/Common/Title'
 import { createAppForm } from '@Utils/CreateAppForm'
 import validator from '@Utils/Validator'
-import React, { useEffect, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { useFieldArray, useFormContext } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { DropdownItemProps, Form, Icon } from 'semantic-ui-react'
 
-const VisitAppForm = createAppForm<VisitCreateRequest>()
+const VisitAppForm = createAppForm<VisitUpdateStocksRequest>()
 
-const VisitCreateStockForm: React.FC = () => {
+const VisitUpdateProductsForm: React.FC = () => {
 
     const { t } = useTranslation()
 
-    const { watch, setValue } = useFormContext<VisitCreateRequest>()
+    const { watch } = useFormContext<VisitUpdateStocksRequest>()
 
-    const { fields, append, remove } = useFieldArray<VisitCreateRequest>({ name: 'Stocks' })
+    const { fields, append, remove } = useFieldArray<VisitUpdateStocksRequest>({ name: 'Stocks' })
 
     const [WarehouseID] = watch(['WarehouseID'])
 
-    const { data: warehouses, isFetching: isWarehousesFetching } = useGetWarehousesQuery({ isActive: 1 })
     const { data: stocks, isFetching: isStocksFetching } = useGetStocksQuery({ isActive: 1, WarehouseID }, { skip: !validator.isUUID(WarehouseID) })
     const { data: stockdefines, isFetching: isStocksdefinesFetching } = useGetStockdefinesQuery({ isActive: 1 })
-
-    const warehouseOpiton: DropdownItemProps[] = useMemo(() => {
-        return (warehouses || []).map(item => {
-            return {
-                value: item.Uuid,
-                text: item.Name
-            }
-        })
-    }, [warehouses])
 
     const stockOpiton: DropdownItemProps[] = useMemo(() => {
         return (stocks || []).map(item => {
@@ -44,12 +33,6 @@ const VisitCreateStockForm: React.FC = () => {
             }
         })
     }, [stocks, stockdefines])
-
-    useEffect(() => {
-        if (WarehouseID) {
-            setValue('Stocks', [])
-        }
-    }, [WarehouseID, setValue])
 
     return <>
         <Title
@@ -64,10 +47,7 @@ const VisitCreateStockForm: React.FC = () => {
                 disabled: !validator.isUUID(WarehouseID)
             }]}
         />
-        <Form loading={isStocksFetching || isWarehousesFetching || isStocksdefinesFetching}>
-            <Form.Group widths={'equal'}>
-                <VisitAppForm.Select name={`WarehouseID`} label={t('Pages.Visits.Columns.WarehouseID')} options={warehouseOpiton} />
-            </Form.Group>
+        <Form loading={isStocksFetching || isStocksdefinesFetching}>
             {fields.map((field, index) => {
                 return <Form.Group key={field.id} widths={'equal'} className='!my-0'>
                     <VisitAppForm.Select name={`Stocks.${index}.Uuid`} label={index === 0 ? t('Pages.Visits.Columns.StockProductName') : undefined} options={stockOpiton} required={t('Pages.Visits.Messages.StockProductNameReqired')} />
@@ -95,4 +75,4 @@ const VisitCreateStockForm: React.FC = () => {
         </Form>
     </>
 }
-export default VisitCreateStockForm
+export default VisitUpdateProductsForm

@@ -1,14 +1,15 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Icon } from 'semantic-ui-react'
+import { Icon, SemanticICONS } from 'semantic-ui-react'
 
 interface EditCellHandlerProps {
     url: string
+    icon?: SemanticICONS
 }
 
-const EditCellHandler: React.FC<EditCellHandlerProps> = ({ url }) => {
+const EditCellHandler: React.FC<EditCellHandlerProps> = ({ url, icon }) => {
 
-    return <Link to={url} ><Icon size='large' className='!text-primary' name='edit' /></Link>
+    return <Link to={url} ><Icon size='large' className='!text-primary' name={icon ?? 'edit'} /></Link>
 }
 
 interface MovementCellHandlerProps {

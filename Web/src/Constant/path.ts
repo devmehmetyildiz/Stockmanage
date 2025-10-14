@@ -68,6 +68,8 @@ const StocksMovement = RouteKeys.Main + RouteKeys.Stocks + "/:Id/Movements"
 const Visits = RouteKeys.Main + RouteKeys.Visits
 const VisitsCreate = RouteKeys.Main + RouteKeys.Visits + "/Create"
 const VisitsDetail = RouteKeys.Main + RouteKeys.Visits + "/:Id/Detail"
+const VisitsUpdateDefines = RouteKeys.Main + RouteKeys.Visits + "/:Id/edit-defines"
+const VisitsUpdateProducts = RouteKeys.Main + RouteKeys.Visits + "/:Id/edit-products"
 
 const Paths = {
     Login,
@@ -116,7 +118,9 @@ const Paths = {
     StocksMovement,
     Visits,
     VisitsCreate,
-    VisitsDetail
+    VisitsDetail,
+    VisitsUpdateDefines,
+    VisitsUpdateProducts,
 }
 
 export default Paths

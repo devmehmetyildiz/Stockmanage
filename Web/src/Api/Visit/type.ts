@@ -86,7 +86,9 @@ export interface VisitUpdateDefinesRequest {
     UserID: string,
     DoctorID: string,
     LocationID: string,
-    Visitdate: Date,
+    Visitdate: string | Date,
     Notes: string,
+    Scheduledpayment: number
+    PaymenttypeID: string;
 }
 
