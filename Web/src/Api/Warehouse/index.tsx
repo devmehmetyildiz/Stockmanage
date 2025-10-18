@@ -34,7 +34,7 @@ export const warehouseQuery = gatewayApi
                     method: METHOD_POST,
                     body,
                 }),
-                invalidatesTags: [WAREHOUSE_TAG],
+                invalidatesTags: (result) => result ? [WAREHOUSE_TAG] : [],
             }),
             editWarehouse: builder.mutation<void, WarehouseEditRequest>({
                 query: (body) => ({
@@ -42,14 +42,14 @@ export const warehouseQuery = gatewayApi
                     method: METHOD_PUT,
                     body,
                 }),
-                invalidatesTags: [WAREHOUSE_TAG],
+                invalidatesTags: (result) => result ? [WAREHOUSE_TAG] : [],
             }),
             deleteWarehouse: builder.mutation<void, WarehouseDeleteRequest>({
                 query: (body) => ({
                     url: `${WAREHOUSE}/${body.Uuid}`,
                     method: METHOD_DELETE,
                 }),
-                invalidatesTags: [WAREHOUSE_TAG],
+                invalidatesTags: (result) => result ? [WAREHOUSE_TAG] : [],
             }),
         }),
     });

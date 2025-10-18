@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Pagewrapper from '@Components/Common/Pagewrapper'
 import DataTable, { ColumnType } from '@Components/Common/DataTable'
 import { useTranslation } from 'react-i18next'
@@ -15,13 +15,19 @@ import { useGetLocationsQuery } from '@Api/Location'
 import { useGetPaymenttypesQuery } from '@Api/Paymenttype'
 import { loaderCellhandler } from '@Utils/CellHandler'
 import privileges from '@Constant/privileges'
-import { DetailCellHandler, EditCellHandler } from '@Components/Common/CellHandler'
+import { DeleteCellHandler, DetailCellHandler, EditCellHandler, WorkCellhandler } from '@Components/Common/CellHandler'
 import { CellContext } from '@tanstack/react-table'
 import RouteKeys from '@Constant/routeKeys'
+import VisitWorkModal from '@Components/Visit/VisitWorkModal'
+import VisitDeleteModal from '@Components/Visit/VisitDeleteModal'
 
 const VisitPlanned: React.FC = () => {
 
     const { t } = useTranslation()
+
+    const [deleteOpen, setDeleteOpen] = useState(false)
+    const [workOpen, setWorkOpen] = useState(false)
+    const [record, setRecord] = useState<VisitListItem | null>(null)
 
     const { data, isFetching } = useGetVisitsQuery({ isActive: 1, Status: VISIT_STATU_PLANNED })
 
@@ -68,13 +74,31 @@ const VisitPlanned: React.FC = () => {
     const editProductsCellhandler = (wrapper: CellContext<any, unknown>) => {
         const data = wrapper.row.original as VisitListItem
 
-        return <EditCellHandler url={`/${RouteKeys.Visits}/${data.Uuid}/edit-products`} icon="boxes"/>
+        return <EditCellHandler url={`/${RouteKeys.Visits}/${data.Uuid}/edit-products`} icon="boxes" />
     }
 
     const editDefinesCellhandler = (wrapper: CellContext<any, unknown>) => {
         const data = wrapper.row.original as VisitListItem
 
-        return <EditCellHandler url={`/${RouteKeys.Visits}/${data.Uuid}/edit-defines`} icon="pencil alternate"/>
+        return <EditCellHandler url={`/${RouteKeys.Visits}/${data.Uuid}/edit-defines`} icon="pencil alternate" />
+    }
+
+    const workCellhandler = (wrapper: CellContext<any, unknown>) => {
+        const data = wrapper.row.original as VisitListItem
+
+        return <WorkCellhandler onClick={() => {
+            setRecord(data)
+            setWorkOpen(true)
+        }} />
+    }
+
+    const deleteCellhandler = (wrapper: CellContext<any, unknown>) => {
+        const data = wrapper.row.original as VisitListItem
+
+        return <DeleteCellHandler onClick={() => {
+            setRecord(data)
+            setDeleteOpen(true)
+        }} />
     }
 
     const columns: ColumnType<VisitListItem>[] = [
@@ -94,21 +118,34 @@ const VisitPlanned: React.FC = () => {
         { header: t("Pages.Visits.Columns.EditProducts"), accessorKey: 'editProducts', isIcon: true, pinned: true, role: privileges.visitupdate, cell: (wrapper) => editProductsCellhandler(wrapper), size: 45 },
         { header: t("Pages.Visits.Columns.EditDefines"), accessorKey: 'editDefines', isIcon: true, pinned: true, role: privileges.visitupdate, cell: (wrapper) => editDefinesCellhandler(wrapper), size: 45 },
         { header: t("Common.Columns.detail"), accessorKey: 'detail', isIcon: true, pinned: true, role: privileges.visitview, cell: (wrapper) => detailCellhandler(wrapper), size: 45 },
+        { header: t("Common.Columns.work"), accessorKey: 'work', isIcon: true, pinned: true, role: privileges.visitupdate, cell: (wrapper) => workCellhandler(wrapper), size: 45 },
+        { header: t("Common.Columns.delete"), accessorKey: 'delete', isIcon: true, pinned: true, role: privileges.visitupdate, cell: (wrapper) => deleteCellhandler(wrapper), size: 45 },
     ]
 
     const tableKey = `${isUsersFetching}-${isDoctordefinesFetching}-${isLocationsFetching}-${isPaymenttypesFetching}`
 
-    return (
-        <Pagewrapper padding={0} isLoading={isFetching} direction='vertical' gap={4} alignTop>
-            <ExcelProvider>
-                <DataTable
-                    key={tableKey}
-                    columns={columns}
-                    data={data}
-                    config={initialConfig}
-                />
-            </ExcelProvider>
-        </Pagewrapper>
+    return (<Pagewrapper padding={0} isLoading={isFetching} direction='vertical' gap={4} alignTop>
+        <ExcelProvider>
+            <DataTable
+                key={tableKey}
+                columns={columns}
+                data={data}
+                config={initialConfig}
+            />
+        </ExcelProvider>
+        <VisitWorkModal
+            open={workOpen}
+            setOpen={setWorkOpen}
+            data={record}
+            setData={setRecord}
+        />
+        <VisitDeleteModal
+            open={deleteOpen}
+            setOpen={setDeleteOpen}
+            data={record}
+            setData={setRecord}
+        />
+    </Pagewrapper>
     )
 }
 

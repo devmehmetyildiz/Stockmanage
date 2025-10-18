@@ -52,7 +52,6 @@ async function AddPaymenttype(req, res, next) {
     const {
         Name,
         Description,
-        Type,
         Installmentcount,
         Installmentinterval,
         Duedays,
@@ -60,9 +59,6 @@ async function AddPaymenttype(req, res, next) {
 
     if (!validator.isString(Name)) {
         validationErrors.push(req.t('Paymenttypes.Error.NameRequired'))
-    }
-    if (!validator.isNumber(Type)) {
-        validationErrors.push(req.t('Paymenttypes.Error.TypeRequired'))
     }
     if (!validator.isNumber(Installmentcount)) {
         validationErrors.push(req.t('Paymenttypes.Error.InstallmentcountRequired'))
@@ -87,7 +83,6 @@ async function AddPaymenttype(req, res, next) {
             Uuid: itemUuid,
             Name,
             Description,
-            Type,
             Installmentcount,
             Installmentinterval,
             Duedays,
@@ -122,7 +117,6 @@ async function UpdatePaymenttype(req, res, next) {
         Uuid,
         Name,
         Description,
-        Type,
         Installmentcount,
         Installmentinterval,
         Duedays,
@@ -133,9 +127,6 @@ async function UpdatePaymenttype(req, res, next) {
     }
     if (!validator.isString(Name)) {
         validationErrors.push(req.t('Paymenttypes.Error.NameRequired'))
-    }
-    if (!validator.isNumber(Type)) {
-        validationErrors.push(req.t('Paymenttypes.Error.TypeRequired'))
     }
     if (!validator.isNumber(Installmentcount)) {
         validationErrors.push(req.t('Paymenttypes.Error.InstallmentcountRequired'))
@@ -166,7 +157,6 @@ async function UpdatePaymenttype(req, res, next) {
         await db.paymenttypeModel.update({
             Name,
             Description,
-            Type,
             Installmentcount,
             Installmentinterval,
             Duedays,

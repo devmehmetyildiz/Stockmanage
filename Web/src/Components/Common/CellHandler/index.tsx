@@ -147,14 +147,17 @@ const WorkCellhandler: React.FC<WorkCellhandlerProps> = ({ onClick }) => {
 }
 
 interface CompleteCellhandlerProps {
-    onClick: () => void
+    onClick?: () => void
+    url?: string
 }
 
-const CompleteCellhandler: React.FC<CompleteCellhandlerProps> = ({ onClick }) => {
+const CompleteCellhandler: React.FC<CompleteCellhandlerProps> = ({ onClick, url }) => {
 
+    if (url) {
+        return <Link to={url} ><Icon link size='large' color='blue' name='share' /></Link>
+    }
     return <Icon link size='large' color='blue' name='share' onClick={onClick} />
 }
-
 
 export {
     EditCellHandler,

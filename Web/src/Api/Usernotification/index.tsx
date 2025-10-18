@@ -39,14 +39,14 @@ export const usernotificationQuery = gatewayApi.enhanceEndpoints({ addTagTypes: 
                 url: `${USERNOTIFICATION_READ_ALL}/${params.userId}`,
                 method: METHOD_GET,
             }),
-            invalidatesTags: [NOTIFICATION_UPDATE_TAG]
+            invalidatesTags: (result) => result ? [NOTIFICATION_UPDATE_TAG] : [],
         }),
         showAllNotifications: builder.mutation<void, UserNotificationGetRequest>({
             query: (params) => ({
                 url: `${USERNOTIFICATION_SHOW_ALL}/${params.userId}`,
                 method: METHOD_GET,
             }),
-            invalidatesTags: [NOTIFICATION_UPDATE_TAG]
+            invalidatesTags: (result) => result ? [NOTIFICATION_UPDATE_TAG] : [],
         }),
         editUserNotification: builder.mutation<void, UserNotificationEditRequest[]>({
             query: (body) => ({
@@ -54,28 +54,28 @@ export const usernotificationQuery = gatewayApi.enhanceEndpoints({ addTagTypes: 
                 method: METHOD_PUT,
                 body
             }),
-            invalidatesTags: [NOTIFICATION_UPDATE_TAG]
+            invalidatesTags: (result) => result ? [NOTIFICATION_UPDATE_TAG] : [],
         }),
         deleteNotification: builder.mutation<void, UserNotificationDeleteRequest>({
             query: (params) => ({
                 url: `${USERNOTIFICATION}/${params.notificationId}`,
                 method: METHOD_DELETE,
             }),
-            invalidatesTags: [NOTIFICATION_UPDATE_TAG]
+            invalidatesTags: (result) => result ? [NOTIFICATION_UPDATE_TAG] : [],
         }),
         deleteAllNotification: builder.mutation<void, UserNotificationDeleteByUserRequest>({
             query: (params) => ({
                 url: `${USERNOTIFICATION_DELETE_BY_USERID}/${params.userId}`,
                 method: METHOD_DELETE,
             }),
-            invalidatesTags: [NOTIFICATION_UPDATE_TAG]
+            invalidatesTags: (result) => result ? [NOTIFICATION_UPDATE_TAG] : [],
         }),
         deleteReadNotification: builder.mutation<void, UserNotificationDeleteByUserRequest>({
             query: (params) => ({
                 url: `${USERNOTIFICATION_DELETE_READ_BY_USERID}/${params.userId}`,
                 method: METHOD_DELETE,
             }),
-            invalidatesTags: [NOTIFICATION_UPDATE_TAG]
+            invalidatesTags: (result) => result ? [NOTIFICATION_UPDATE_TAG] : [],
         }),
     })
 })

@@ -32,7 +32,7 @@ export const ruleQuery = gatewayApi.enhanceEndpoints({ addTagTypes: [RULE_TAG, R
                 method: METHOD_POST,
                 body
             }),
-            invalidatesTags: [RULE_TAG]
+            invalidatesTags: (result) => result ? [RULE_TAG] : [],
         }),
         editRule: builder.mutation<void, RuleEditRequest>({
             query: (body) => ({
@@ -40,28 +40,28 @@ export const ruleQuery = gatewayApi.enhanceEndpoints({ addTagTypes: [RULE_TAG, R
                 method: METHOD_PUT,
                 body
             }),
-            invalidatesTags: [RULE_TAG]
+            invalidatesTags: (result) => result ? [RULE_TAG] : [],
         }),
         clearRuleLog: builder.mutation<void, RuleClearRequest>({
             query: (body) => ({
                 url: `${RULE_CLEAR}/${body.Uuid}`,
                 method: METHOD_DELETE,
             }),
-            invalidatesTags: [RULE_LOG_TAG]
+            invalidatesTags: (result) => result ? [RULE_LOG_TAG] : [],
         }),
         stopRule: builder.mutation<void, RuleStopRequest>({
             query: (body) => ({
                 url: `${RULE_STOP}/${body.Uuid}`,
                 method: METHOD_DELETE,
             }),
-            invalidatesTags: [RULE_TAG]
+            invalidatesTags: (result) => result ? [RULE_TAG] : [],
         }),
         deleteRule: builder.mutation<void, RuleDeleteRequest>({
             query: (body) => ({
                 url: `${RULE}/${body.Uuid}`,
                 method: METHOD_DELETE,
             }),
-            invalidatesTags: [RULE_TAG]
+            invalidatesTags: (result) => result ? [RULE_TAG] : [],
         }),
     })
 })

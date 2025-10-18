@@ -105,6 +105,14 @@ const Priveleges = [
     { code: 'visitmanageview',   text: { en: 'Visits Manage View', tr: 'Ziyaretler Görünüm Ayarlama' }, group: { en: 'Visits', tr: 'Ziyaretler' } },
     { code: 'visitgetreport',    text: { en: 'Visits Get Report',  tr: 'Ziyaretler Rapor Alma' },       group: { en: 'Visits', tr: 'Ziyaretler' } },
     { code: 'visitnotification', text: { en: 'Visits Notification',tr: 'Ziyaretler Bildirim Alma' },    group: { en: 'Visits', tr: 'Ziyaretler' } },
+    { code: 'paymentplanscreen',       text: { en: 'Payment Plans Screen',      tr: 'Ödeme Planları Veri' },             group: { en: 'Payment Plans', tr: 'Ödeme Planaları' } },
+    { code: 'paymentplanview',         text: { en: 'Payment Plans View',        tr: 'Ödeme Planları Görüntüleme' },      group: { en: 'Payment Plans', tr: 'Ödeme Planaları' } },
+    { code: 'paymentplanadd',          text: { en: 'Payment Plans Add',         tr: 'Ödeme Planları Oluşturma' },        group: { en: 'Payment Plans', tr: 'Ödeme Planaları' } },
+    { code: 'paymentplanupdate',       text: { en: 'Payment Plans Update',      tr: 'Ödeme Planları Güncelleme' },       group: { en: 'Payment Plans', tr: 'Ödeme Planaları' } },
+    { code: 'paymentplandelete',       text: { en: 'Payment Plans Delete',      tr: 'Ödeme Planları Silme' },            group: { en: 'Payment Plans', tr: 'Ödeme Planaları' } },
+    { code: 'paymentplanmanageview',   text: { en: 'Payment Plans Manage View', tr: 'Ödeme Planları Görünüm Ayarlama' }, group: { en: 'Payment Plans', tr: 'Ödeme Planaları' } },
+    { code: 'paymentplangetreport',    text: { en: 'Payment Plans Get Report',  tr: 'Ödeme Planları Rapor Alma' },       group: { en: 'Payment Plans', tr: 'Ödeme Planaları' } },
+    { code: 'paymentplannotification', text: { en: 'Payment Plans Notification',tr: 'Ödeme Planları Bildirim Alma' },    group: { en: 'Payment Plans', tr: 'Ödeme Planaları' } },
     ]
     
     module.exports = Priveleges

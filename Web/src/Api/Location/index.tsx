@@ -34,7 +34,7 @@ export const locationQuery = gatewayApi
                     method: METHOD_POST,
                     body,
                 }),
-                invalidatesTags: [LOCATION_TAG],
+                invalidatesTags: (result) => result ? [LOCATION_TAG] : [],
             }),
             editLocation: builder.mutation<void, LocationEditRequest>({
                 query: (body) => ({
@@ -42,14 +42,14 @@ export const locationQuery = gatewayApi
                     method: METHOD_PUT,
                     body,
                 }),
-                invalidatesTags: [LOCATION_TAG],
+                invalidatesTags: (result) => result ? [LOCATION_TAG] : [],
             }),
             deleteLocation: builder.mutation<void, LocationDeleteRequest>({
                 query: (body) => ({
                     url: `${LOCATION}/${body.Uuid}`,
                     method: METHOD_DELETE,
                 }),
-                invalidatesTags: [LOCATION_TAG],
+                invalidatesTags: (result) => result ? [LOCATION_TAG] : [],
             }),
         }),
     });

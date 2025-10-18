@@ -41,7 +41,7 @@ export const paymenttypeQuery = gatewayApi
                     method: METHOD_POST,
                     body,
                 }),
-                invalidatesTags: [PAYMENTTYPE_TAG],
+                invalidatesTags: (result) => result ? [PAYMENTTYPE_TAG] : [],
             }),
             editPaymenttype: builder.mutation<void, PaymenttypeEditRequest>({
                 query: (body) => ({
@@ -49,14 +49,14 @@ export const paymenttypeQuery = gatewayApi
                     method: METHOD_PUT,
                     body,
                 }),
-                invalidatesTags: [PAYMENTTYPE_TAG],
+                invalidatesTags: (result) => result ? [PAYMENTTYPE_TAG] : [],
             }),
             deletePaymenttype: builder.mutation<void, PaymenttypeDeleteRequest>({
                 query: (body) => ({
                     url: `${PAYMENTTYPE}/${body.Uuid}`,
                     method: METHOD_DELETE,
                 }),
-                invalidatesTags: [PAYMENTTYPE_TAG],
+                invalidatesTags: (result) => result ? [PAYMENTTYPE_TAG] : [],
             }),
         }),
     });

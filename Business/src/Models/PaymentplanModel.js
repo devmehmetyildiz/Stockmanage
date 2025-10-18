@@ -8,22 +8,28 @@ module.exports = sequelize.define('paymentplanModel', {
     PaymenttypeID: {
         type: Sequelize.STRING
     },
-    TotalAmount: {
+    Totalamount: {
         type: Sequelize.FLOAT
     },
-    InstallmentCount: {
+    Prepaymentamount: {
+        type: Sequelize.FLOAT
+    },
+    Remainingvalue: {
+        type: Sequelize.FLOAT
+    },
+    Installmentcount: {
         type: Sequelize.INTEGER
     },
-    InstallmentInterval: {
+    Installmentinterval: {
         type: Sequelize.INTEGER
     },
-    DueDays: {
+    Duedays: {
         type: Sequelize.INTEGER
     },
-    StartDate: {
+    Startdate: {
         type: Sequelize.DATE
     },
-    EndDate: {
+    Enddate: {
         type: Sequelize.DATE
     },
     Status: {

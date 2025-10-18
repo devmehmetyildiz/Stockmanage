@@ -12,6 +12,7 @@ const Routes = [
   { method: 'put', path: '/Stocks/UseStockList', controller: 'Stock', action: 'UseStockList' },
   { method: 'put', path: '/Stocks/UseStock', controller: 'Stock', action: 'UseStock' },
   { method: 'put', path: '/Stocks/InsertStock', controller: 'Stock', action: 'InsertStock' },
+  { method: 'put', path: '/Stocks/InsertStockList', controller: 'Stock', action: 'InsertStockList' },
   { method: 'delete', path: '/Stocks/DeleteStock/:ID', controller: 'Stock', action: 'DeleteStock' },
   { method: 'delete', path: '/Stocks/DeleteMovement/:ID', controller: 'Stock', action: 'DeleteStockmovement' },
 ]

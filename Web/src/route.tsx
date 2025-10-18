@@ -73,6 +73,9 @@ import VisitCreate from "@Pages/Visit/VisitCreate";
 import VisitDetail from "@Pages/Visit/VisitDetail";
 import VisitUpdateDefines from "@Pages/Visit/VisitUpdateDefines";
 import VisitUpdateProducts from "@Pages/Visit/VisitUpdateProducts";
+import VisitUpdatePaymentdefines from "@Pages/Visit/VisitUpdatePaymentdefines";
+import VisitComplete from "@Pages/Visit/VisitComplete";
+import Paymentplan from "@Pages/Paymentplan/Paymentplan";
 
 interface RouteItemType {
     path: string
@@ -129,6 +132,9 @@ const AppRouter = () => {
         { path: Paths.VisitsDetail, element: <VisitDetail />, requiredRole: [privileges.visitview] },
         { path: Paths.VisitsUpdateDefines, element: <VisitUpdateDefines />, requiredRole: [privileges.visitview, privileges.visitupdate] },
         { path: Paths.VisitsUpdateProducts, element: <VisitUpdateProducts />, requiredRole: [privileges.visitview, privileges.visitupdate] },
+        { path: Paths.VisitsUpdatePaymentdefines, element: <VisitUpdatePaymentdefines />, requiredRole: [privileges.visitview, privileges.visitupdate] },
+        { path: Paths.VisitComplete, element: <VisitComplete />, requiredRole: [privileges.visitview, privileges.visitupdate] },
+        { path: Paths.Paymentplans, element: <Paymentplan />, requiredRole: [privileges.paymentplanview] },
     ]
 
     const nonProtectedRoutes: RouteItemType[] = [

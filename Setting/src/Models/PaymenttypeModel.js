@@ -8,9 +8,6 @@ module.exports = sequelize.define('paymenttypeModel', {
     Description: {
         type: Sequelize.STRING
     },
-    Type: {
-        type: Sequelize.INTEGER
-    },
     Installmentcount: {
         type: Sequelize.INTEGER
     },

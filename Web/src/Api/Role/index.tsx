@@ -37,7 +37,7 @@ export const roleQuery = gatewayApi.enhanceEndpoints({ addTagTypes: [ROLE_TAG] }
                 method: METHOD_POST,
                 body
             }),
-            invalidatesTags: [ROLE_TAG]
+            invalidatesTags: (result) => result ? [ROLE_TAG] : [],
         }),
         editRole: builder.mutation<void, RoleEditRequest>({
             query: (body) => ({
@@ -45,14 +45,14 @@ export const roleQuery = gatewayApi.enhanceEndpoints({ addTagTypes: [ROLE_TAG] }
                 method: METHOD_PUT,
                 body
             }),
-            invalidatesTags: [ROLE_TAG]
+            invalidatesTags: (result) => result ? [ROLE_TAG] : [],
         }),
         deleteRole: builder.mutation<void, RoleDeleteRequest>({
             query: (body) => ({
                 url: `${ROLE}/${body.Uuid}`,
                 method: METHOD_DELETE,
             }),
-            invalidatesTags: [ROLE_TAG]
+            invalidatesTags: (result) => result ? [ROLE_TAG] : [],
         }),
     })
 })

@@ -13,8 +13,7 @@ import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
-import { DropdownItemProps, Form } from 'semantic-ui-react'
-import { PAYMENTTYPE_TYPE_BANKTRANSFER, PAYMENTTYPE_TYPE_CASH, PAYMENTTYPE_TYPE_CREDITCARD, PAYMENTTYPE_TYPE_INSTALLMENT, PAYMENTTYPE_TYPE_INVOICE } from '@Constant/index'
+import { Form } from 'semantic-ui-react'
 
 const PaymenttypeAppForm = createAppForm<PaymenttypeAddRequest>()
 
@@ -51,14 +50,6 @@ const PaymenttypeCreate: React.FC = () => {
     })
   }
 
-  const typeOption: DropdownItemProps[] = [
-    { text: t('Option.Paymenttype.Invoice'), value: PAYMENTTYPE_TYPE_INVOICE, },
-    { text: t('Option.Paymenttype.Installment'), value: PAYMENTTYPE_TYPE_INSTALLMENT, },
-    { text: t('Option.Paymenttype.CreditCard'), value: PAYMENTTYPE_TYPE_CREDITCARD, },
-    { text: t('Option.Paymenttype.BankTransfer'), value: PAYMENTTYPE_TYPE_BANKTRANSFER, },
-    { text: t('Option.Paymenttype.Cash'), value: PAYMENTTYPE_TYPE_CASH, },
-  ]
-
   return <Pagewrapper isLoading={isLoading} direction='vertical' alignTop gap={4}>
     <Title
       PageName={t('Pages.Paymenttypes.Page.Header')}
@@ -70,14 +61,13 @@ const PaymenttypeCreate: React.FC = () => {
         <Form>
           <Form.Group widths={'equal'}>
             <PaymenttypeAppForm.Input name='Name' label={t('Pages.Paymenttypes.Columns.Name')} required={t('Pages.Paymenttypes.Messages.NameRequired')} />
-            <PaymenttypeAppForm.Select name='Type' label={t('Pages.Paymenttypes.Columns.Type')} required={t('Pages.Paymenttypes.Messages.TypeRequired')} options={typeOption} />
+            <PaymenttypeAppForm.Input name='Duedays' label={t('Pages.Paymenttypes.Columns.Duedays')} required={t('Pages.Paymenttypes.Messages.DuedaysRequired')} type='number' inputProps={{ min: 0 }} />
           </Form.Group>
           <Form.Group widths={'equal'}>
             <PaymenttypeAppForm.Input name='Installmentcount' label={t('Pages.Paymenttypes.Columns.Installmentcount')} required={t('Pages.Paymenttypes.Messages.InstallmentcountRequired')} type='number' inputProps={{ min: 0 }} />
-            <PaymenttypeAppForm.Input name='Installmentinterval' label={t('Pages.Paymenttypes.Columns.Installmentinterval')} required={t('Pages.Paymenttypes.Messages.InstallmentintervalRequired')} type='number' inputProps={{ min: 0 }}/>
+            <PaymenttypeAppForm.Input name='Installmentinterval' label={t('Pages.Paymenttypes.Columns.Installmentinterval')} required={t('Pages.Paymenttypes.Messages.InstallmentintervalRequired')} type='number' inputProps={{ min: 0 }} />
           </Form.Group>
           <Form.Group widths={'equal'}>
-            <PaymenttypeAppForm.Input name='Duedays' label={t('Pages.Paymenttypes.Columns.Duedays')} required={t('Pages.Paymenttypes.Messages.DuedaysRequired')} type='number' inputProps={{ min: 0 }}/>
             <PaymenttypeAppForm.Input name='Description' label={t('Pages.Paymenttypes.Columns.Description')} />
           </Form.Group>
         </Form>

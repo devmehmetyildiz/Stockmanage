@@ -41,7 +41,7 @@ export const stockdefineQuery = gatewayApi
                     method: METHOD_POST,
                     body,
                 }),
-                invalidatesTags: [STOCKDEFINE_TAG],
+                invalidatesTags: (result) => result ? [STOCKDEFINE_TAG] : [],
             }),
             editStockdefine: builder.mutation<void, StockdefineEditRequest>({
                 query: (body) => ({
@@ -49,14 +49,14 @@ export const stockdefineQuery = gatewayApi
                     method: METHOD_PUT,
                     body,
                 }),
-                invalidatesTags: [STOCKDEFINE_TAG],
+                invalidatesTags: (result) => result ? [STOCKDEFINE_TAG] : [],
             }),
             deleteStockdefine: builder.mutation<void, StockdefineDeleteRequest>({
                 query: (body) => ({
                     url: `${STOCKDEFINE}/${body.Uuid}`,
                     method: METHOD_DELETE,
                 }),
-                invalidatesTags: [STOCKDEFINE_TAG],
+                invalidatesTags: (result) => result ? [STOCKDEFINE_TAG] : [],
             }),
         }),
     });

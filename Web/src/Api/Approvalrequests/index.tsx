@@ -26,7 +26,7 @@ export const approvalrequestQuery = gatewayApi.enhanceEndpoints({ addTagTypes: [
                 method: METHOD_PUT,
                 body
             }),
-            invalidatesTags: [APPROVALREQUEST_TAG]
+            invalidatesTags: (result) => result ? [APPROVALREQUEST_TAG] : [],
         }),
         rejectApprovalRequests: builder.mutation<void, ApprovalrequestRejectRequest>({
             query: (body) => ({
@@ -34,7 +34,7 @@ export const approvalrequestQuery = gatewayApi.enhanceEndpoints({ addTagTypes: [
                 method: METHOD_PUT,
                 body
             }),
-            invalidatesTags: [APPROVALREQUEST_TAG]
+            invalidatesTags: (result) => result ? [APPROVALREQUEST_TAG] : [],
         }),
 
     })

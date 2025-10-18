@@ -32,7 +32,7 @@ export const caseQuery = gatewayApi.enhanceEndpoints({ addTagTypes: [CASE_TAG] }
                 method: METHOD_POST,
                 body
             }),
-            invalidatesTags: [CASE_TAG]
+            invalidatesTags: (result) => result ? [CASE_TAG] : [],
         }),
         editCase: builder.mutation<void, CaseEditRequest>({
             query: (body) => ({
@@ -40,14 +40,14 @@ export const caseQuery = gatewayApi.enhanceEndpoints({ addTagTypes: [CASE_TAG] }
                 method: METHOD_PUT,
                 body
             }),
-            invalidatesTags: [CASE_TAG]
+            invalidatesTags: (result) => result ? [CASE_TAG] : [],
         }),
         deleteCase: builder.mutation<void, CaseDeleteRequest>({
             query: (body) => ({
                 url: `${CASE}/${body.Uuid}`,
                 method: METHOD_DELETE,
             }),
-            invalidatesTags: [CASE_TAG]
+            invalidatesTags: (result) => result ? [CASE_TAG] : [],
         }),
     })
 })

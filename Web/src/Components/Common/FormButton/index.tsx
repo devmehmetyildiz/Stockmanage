@@ -20,7 +20,7 @@ const FormButton: React.FC<PropsWithChildren<FormButtonProps>> = (props) => {
         }
     }
 
-    return <Button floated='right' size='medium' disabled={showChildren ? undefined : disabled} loading={loading} className={`${getColor()} ${showChildren && disabled ? 'opacity-30' : ''} ${className || ''}`} {...rest} onClick={disabled || loading ? undefined : onClick}>
+    return <Button floated='right' size='medium' disabled={showChildren ? undefined : disabled} loading={loading} className={`${getColor()} ${showChildren && disabled ? 'opacity-30' : ''}  ${className || ''}`} {...rest} onClick={disabled || loading ? undefined : onClick}>
         {showChildren ? children : text}
     </Button>
 }

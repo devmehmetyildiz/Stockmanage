@@ -16,7 +16,15 @@ async function InsertStock(req, res, next) {
     PermissionHandler(req, next, 'stockadd')
 }
 
+async function InsertStockList(req, res, next) {
+    PermissionHandler(req, next, 'stockadd')
+}
+
 async function UseStock(req, res, next) {
+    PermissionHandler(req, next, 'stockupdate')
+}
+
+async function UseStockList(req, res, next) {
     PermissionHandler(req, next, 'stockupdate')
 }
 
@@ -34,7 +42,9 @@ module.exports = {
     GetStockmovements,
     CreateStock,
     UseStock,
+    UseStockList,
     InsertStock,
     DeleteStock,
-    DeleteStockmovement
+    DeleteStockmovement,
+    InsertStockList
 }

@@ -28,7 +28,6 @@
     "Paymenttypes.Error.NotFound": "Ödeme yöntemi bulunamadı",
     "Paymenttypes.Error.NotActive": "Ödeme yöntemi aktif değil",
     "Paymenttypes.Error.NameRequired": "Ödeme yöntemi adı gerekli",
-    "Paymenttypes.Error.TypeRequired": "Ödeme yöntemi türü gerekli",
     "Paymenttypes.Error.InstallmentcountRequired": "Taksit adeti gerekli",
     "Paymenttypes.Error.InstallmentintervalRequired": "Taksit döngüsü gerekli",
     "Paymenttypes.Error.DuedaysRequired": "Beklenen ödeme günü gerekli",

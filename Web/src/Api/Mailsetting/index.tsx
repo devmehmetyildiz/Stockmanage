@@ -25,7 +25,7 @@ export const mailsettingQuery = gatewayApi.enhanceEndpoints({ addTagTypes: [MAIL
                 method: METHOD_POST,
                 body
             }),
-            invalidatesTags: [MAILSETTING_TAG]
+            invalidatesTags: (result) => result ? [MAILSETTING_TAG] : [],
         }),
         editMailsetting: builder.mutation<void, MailsettingEditRequest>({
             query: (body) => ({
@@ -33,14 +33,14 @@ export const mailsettingQuery = gatewayApi.enhanceEndpoints({ addTagTypes: [MAIL
                 method: METHOD_PUT,
                 body
             }),
-            invalidatesTags: [MAILSETTING_TAG]
+            invalidatesTags: (result) => result ? [MAILSETTING_TAG] : [],
         }),
         deleteMailsetting: builder.mutation<void, MailsettingDeleteRequest>({
             query: (body) => ({
                 url: `${MAILSETTING}/${body.Uuid}`,
                 method: METHOD_DELETE,
             }),
-            invalidatesTags: [MAILSETTING_TAG]
+            invalidatesTags: (result) => result ? [MAILSETTING_TAG] : [],
         }),
     })
 })

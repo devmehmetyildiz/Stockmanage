@@ -25,11 +25,12 @@ import Paths from '@Constant/path';
 
 interface VisitDetailMetaProps {
     data: VisitItem | undefined
+    disableButtons?: boolean
 }
 
 const VisitDetailMeta: React.FC<VisitDetailMetaProps> = (props) => {
 
-    const { data } = props
+    const { data, disableButtons } = props
     const { t } = useTranslation()
     const navigate = useNavigate()
 
@@ -117,9 +118,11 @@ const VisitDetailMeta: React.FC<VisitDetailMetaProps> = (props) => {
                     </div>
 
                     <div className='flex flex-col gap-4'>
-                        <div className='w-full  flex justify-end items-center cursor-pointer' title={t('Common.Button.Goback')} onClick={() => navigate(Paths.Visits)}>
-                            <Icon name='sign-out alternate' className='!text-primary' size='big' />
-                        </div>
+                        {!disableButtons ?
+                            <div className='w-full  flex justify-end items-center cursor-pointer' title={t('Common.Button.Goback')} onClick={() => navigate(Paths.Visits)}>
+                                <Icon name='sign-out alternate' className='!text-primary' size='big' />
+                            </div>
+                            : null}
                         <div className="flex flex-col sm:flex-row md:flex-col gap-3 md:gap-2 text-sm text-gray-700 ml-auto bg-gray-50 px-4 py-3 rounded-xl border border-gray-200 shadow-sm">
                             <VisitDetailLabel
                                 icon="industry"

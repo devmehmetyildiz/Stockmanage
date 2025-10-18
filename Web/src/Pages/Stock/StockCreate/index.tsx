@@ -13,6 +13,7 @@ import Paths from '@Constant/path'
 import CheckForm from '@Utils/CheckForm'
 import { createAppForm } from '@Utils/CreateAppForm'
 import Pushnotification from '@Utils/Pushnotification'
+import validator from '@Utils/Validator'
 import React, { useEffect, useMemo } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
@@ -52,7 +53,7 @@ const StockCreate: React.FC = () => {
         return (stockdefines || []).map(item => {
             return {
                 value: item.Uuid,
-                text: item.Productname
+                text: `${item.Productname} (${item.Barcodeno})`
             }
         })
     }, [stockdefines])
@@ -102,7 +103,16 @@ const StockCreate: React.FC = () => {
                         <StockAppForm.Select name='StockdefineID' label={t('Pages.Stocks.Columns.StockdefineID')} required={t('Pages.Stocks.Messages.StockdefineIDRequired')} options={stockdefineOpiton} />
                     </Form.Group>
                     <Form.Group widths={'equal'}>
-                        <StockAppForm.Input name='Amount' label={t('Pages.Stocks.Columns.Amount')} required={t('Pages.Stocks.Messages.AmountRequired')} type='number' inputProps={{ min: 0 }} />
+                        <StockAppForm.Input name='Amount' label={t('Pages.Stocks.Columns.Amount')} required={t('Pages.Stocks.Messages.AmountRequired')} type='number' inputProps={{ min: 0 }}
+                            rules={{
+                                validate: (value: any) => {
+                                    if (validator.isNumber(value) && value > 0) {
+                                        return true
+                                    } else {
+                                        return t('Pages.Stocks.Messages.AmountRequired')
+                                    }
+                                }
+                            }} />
                     </Form.Group>
                 </Form>
             </Contentwrapper>

@@ -80,6 +80,12 @@ export interface VisitUpdateStocksRequest {
     Stocks: VisitStockItem[]
 }
 
+export interface VisitUpdatePaymentdefineRequest {
+    VisitID: string,
+    PaymenttypeID: string,
+    Scheduledpayment: number,
+}
+
 export interface VisitUpdateDefinesRequest {
     VisitID: string,
     Visitcode: string,
@@ -90,5 +96,28 @@ export interface VisitUpdateDefinesRequest {
     Notes: string,
     Scheduledpayment: number
     PaymenttypeID: string;
+}
+
+export interface VisitWorkRequest {
+    VisitID: string
+}
+
+export interface VisitDeleteRequest {
+    Uuid: string
+}
+
+export interface VisitCompleteApiRequest {
+    VisitID: string,
+    Totalamount: number,
+    Installmentcount: number,
+    Installmentinterval: number,
+    Duedays: number,
+    Startdate: string | Date,
+    Prepaymentamount: number,
+    Returnedproducts: VisitStockItem[]
+}
+
+export interface VisitCompleteRequest extends VisitCompleteApiRequest {
+    isFullPayment: boolean
 }
 

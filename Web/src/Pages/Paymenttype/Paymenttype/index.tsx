@@ -15,7 +15,6 @@ import { useGetPaymenttypesQuery } from '@Api/Paymenttype'
 import RouteKeys from '@Constant/routeKeys'
 import { DeleteCellHandler, EditCellHandler } from '@Components/Common/CellHandler'
 import PaymenttypeDeleteModal from '@Components/Paymenttype/PaymenttypeDeleteModal'
-import { PAYMENTTYPE_TYPE_BANKTRANSFER, PAYMENTTYPE_TYPE_CASH, PAYMENTTYPE_TYPE_CREDITCARD, PAYMENTTYPE_TYPE_INSTALLMENT, PAYMENTTYPE_TYPE_INVOICE } from '@Constant/index'
 
 const Paymenttype: React.FC = () => {
 
@@ -51,24 +50,11 @@ const Paymenttype: React.FC = () => {
         )
     }
 
-    const typeCellhandler = (value: number) => {
-        const options = [
-            { key: 0, text: t('Option.Paymenttype.Invoice'), value: PAYMENTTYPE_TYPE_INVOICE, },
-            { key: 1, text: t('Option.Paymenttype.Installment'), value: PAYMENTTYPE_TYPE_INSTALLMENT, },
-            { key: 2, text: t('Option.Paymenttype.CreditCard'), value: PAYMENTTYPE_TYPE_CREDITCARD, },
-            { key: 3, text: t('Option.Paymenttype.BankTransfer'), value: PAYMENTTYPE_TYPE_BANKTRANSFER, },
-            { key: 4, text: t('Option.Paymenttype.Cash'), value: PAYMENTTYPE_TYPE_CASH, },
-        ]
-
-        return options.find(u => u.value === value)?.text || t('Common.NoDataFound')
-    }
-
     const columns: ColumnType<PaymenttypeItem>[] = [
         { header: t("Common.Columns.Id"), accessorKey: 'Id', isIcon: true },
         { header: t("Common.Columns.Uuid"), accessorKey: 'Uuid' },
         { header: t('Pages.Paymenttypes.Columns.Name'), accessorKey: 'Name', isMobile: true },
         { header: t('Pages.Paymenttypes.Columns.Description'), accessorKey: 'Description' },
-        { header: t('Pages.Paymenttypes.Columns.Type'), accessorKey: 'Type', accessorFn: row => typeCellhandler(row.Type) },
         { header: t('Pages.Paymenttypes.Columns.Installmentcount'), accessorKey: 'Installmentcount' },
         { header: t('Pages.Paymenttypes.Columns.Installmentinterval'), accessorKey: 'Installmentinterval' },
         { header: t('Pages.Paymenttypes.Columns.Duedays'), accessorKey: 'Duedays' },

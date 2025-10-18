@@ -40,7 +40,7 @@ const VisitCreateStockForm: React.FC = () => {
             const define = (stockdefines || []).find(u => u.Uuid === item.StockdefineID)
             return {
                 value: item.Uuid,
-                text: `${define?.Productname} ($${define?.Barcodeno}) Depoda ${item.TotalAmount} Adet`
+                text: `${define?.Productname} (${define?.Barcodeno}) Depoda ${item.TotalAmount} Adet`
             }
         })
     }, [stocks, stockdefines])

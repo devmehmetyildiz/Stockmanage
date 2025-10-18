@@ -2,12 +2,13 @@ import { useGetVisitsCountQuery } from '@Api/Visit'
 import AppTab from '@Components/Common/AppTab'
 import Pagewrapper from '@Components/Common/Pagewrapper'
 import Title from '@Components/Common/Title'
+import VisitClosed from '@Components/Visit/Visit/VisitClosed'
 import VisitCompleted from '@Components/Visit/Visit/VisitCompleted'
 import VisitDeclined from '@Components/Visit/Visit/VisitDeclined'
 import VisitOnapprove from '@Components/Visit/Visit/VisitOnapprove'
 import VisitPlanned from '@Components/Visit/Visit/VisitPlanned'
 import VisitWorking from '@Components/Visit/Visit/VisitWorking'
-import { VISIT_STATU_COMPLETED, VISIT_STATU_DECLINED, VISIT_STATU_ON_APPROVE, VISIT_STATU_PLANNED, VISIT_STATU_WORKING } from '@Constant/index'
+import { VISIT_STATU_CLOSED, VISIT_STATU_COMPLETED, VISIT_STATU_DECLINED, VISIT_STATU_ON_APPROVE, VISIT_STATU_PLANNED, VISIT_STATU_WORKING } from '@Constant/index'
 import Paths from '@Constant/path'
 import RouteKeys from '@Constant/routeKeys'
 import { ExcelProvider } from '@Context/ExcelContext'
@@ -26,14 +27,15 @@ const Visit: React.FC<VisitProps> = () => {
     const { data: workingCount, isFetching: isWorkingFetching } = useGetVisitsCountQuery({ Status: VISIT_STATU_WORKING, isActive: 1 })
     const { data: onapproveCount, isFetching: isOnapproveFetching } = useGetVisitsCountQuery({ Status: VISIT_STATU_ON_APPROVE, isActive: 1 })
     const { data: completedCount, isFetching: isCompletedFetching } = useGetVisitsCountQuery({ Status: VISIT_STATU_COMPLETED, isActive: 1 })
+    const { data: closedCount, isFetching: isClosedCountFetching } = useGetVisitsCountQuery({ Status: VISIT_STATU_CLOSED, isActive: 1 })
     const { data: declinedCount, isFetching: isDeclinedFetching } = useGetVisitsCountQuery({ Status: VISIT_STATU_DECLINED, isActive: 1 })
 
     const { activeTab, setActiveTab } = useTabNavigation({
         mainRoute: RouteKeys.Visits,
-        tabOrder: ['completed', 'approved', 'waitingapprove', 'created'],
+        tabOrder: ['planned', 'working', 'onapprove', 'completed', 'closed', 'declined'],
     })
 
-    return <Pagewrapper isLoading={isPlannedFetching || isWorkingFetching || isOnapproveFetching || isCompletedFetching || isDeclinedFetching} direction='vertical' gap={4} alignTop>
+    return <Pagewrapper isLoading={isPlannedFetching || isWorkingFetching || isOnapproveFetching || isCompletedFetching || isDeclinedFetching || isClosedCountFetching} direction='vertical' gap={4} alignTop>
         <ExcelProvider>
             <Title
                 PageName={t('Pages.Visits.Page.Header')}
@@ -65,6 +67,10 @@ const Visit: React.FC<VisitProps> = () => {
                     {
                         menuItem: `${t('Pages.Visits.Tab.Completed')} (${completedCount ?? 0})`,
                         render: () => <VisitCompleted />,
+                    },
+                    {
+                        menuItem: `${t('Pages.Visits.Tab.Closed')} (${completedCount ?? 0})`,
+                        render: () => <VisitClosed />,
                     },
                     {
                         menuItem: `${t('Pages.Visits.Tab.Declined')} (${declinedCount ?? 0})`,

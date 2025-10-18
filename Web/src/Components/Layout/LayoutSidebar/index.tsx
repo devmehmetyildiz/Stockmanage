@@ -47,6 +47,7 @@ export const getSidebarRoutes = (t: any, userPrivileges: string[]) => {
             icon: 'building',
             items: [
                 { id: 1, subtitle: t('Pages.Visits.Page.Header'), url: Paths.Visits, permission: checkAuth(privileges.visitview) },
+                { id: 2, subtitle: t('Pages.Paymentplans.Page.Header'), url: Paths.Paymentplans, permission: checkAuth(privileges.paymentplanview) },
             ]
         },
         {

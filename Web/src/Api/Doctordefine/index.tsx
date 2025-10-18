@@ -41,7 +41,7 @@ export const doctordefineQuery = gatewayApi
                     method: METHOD_POST,
                     body,
                 }),
-                invalidatesTags: [DOCTORDEFINE_TAG],
+                invalidatesTags: (result) => result ? [DOCTORDEFINE_TAG] : [],
             }),
             editDoctordefine: builder.mutation<void, DoctordefineEditRequest>({
                 query: (body) => ({
@@ -49,14 +49,14 @@ export const doctordefineQuery = gatewayApi
                     method: METHOD_PUT,
                     body,
                 }),
-                invalidatesTags: [DOCTORDEFINE_TAG],
+                invalidatesTags: (result) => result ? [DOCTORDEFINE_TAG] : [],
             }),
             deleteDoctordefine: builder.mutation<void, DoctordefineDeleteRequest>({
                 query: (body) => ({
                     url: `${DOCTORDEFINE}/${body.Uuid}`,
                     method: METHOD_DELETE,
                 }),
-                invalidatesTags: [DOCTORDEFINE_TAG],
+                invalidatesTags: (result) => result ? [DOCTORDEFINE_TAG] : [],
             }),
         }),
     });

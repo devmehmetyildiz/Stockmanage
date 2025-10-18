@@ -11,11 +11,17 @@ module.exports = sequelize.define('visitproductModel', {
     Amount: {
         type: Sequelize.INTEGER
     },
+    Returnedamount: {
+        type: Sequelize.INTEGER
+    },
     Istaken: {
         type: Sequelize.BOOLEAN
     },
     IsReturned: {
         type: Sequelize.BOOLEAN
+    },
+    Returndescription: {
+        type: Sequelize.STRING
     },
     Description: {
         type: Sequelize.STRING

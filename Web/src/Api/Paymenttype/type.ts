@@ -11,7 +11,6 @@ export interface PaymenttypeItem {
     Uuid: string;
     Name: string;
     Description: string | null;
-    Type: number;
     Installmentcount: number;
     Installmentinterval: number;
     Duedays: number;
@@ -27,7 +26,6 @@ export interface PaymenttypeItem {
 export interface PaymenttypeAddRequest {
     Name: string;
     Description?: string;
-    Type: number;
     Installmentcount: number;
     Installmentinterval: number;
     Duedays: number;
@@ -37,7 +35,6 @@ export interface PaymenttypeEditRequest {
     Uuid: string;
     Name: string;
     Description?: string;
-    Type: number;
     Installmentcount: number;
     Installmentinterval: number;
     Duedays: number;

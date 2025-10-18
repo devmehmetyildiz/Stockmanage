@@ -104,6 +104,14 @@ const visitdelete = 'visitdelete'
 const visitmanageview = 'visitmanageview'
 const visitgetreport = 'visitgetreport'
 const visitnotification = 'visitnotification'
+const paymentplanscreen = 'paymentplanscreen'
+const paymentplanview = 'paymentplanview'
+const paymentplanadd = 'paymentplanadd'
+const paymentplanupdate = 'paymentplanupdate'
+const paymentplandelete = 'paymentplandelete'
+const paymentplanmanageview = 'paymentplanmanageview'
+const paymentplangetreport = 'paymentplangetreport'
+const paymentplannotification = 'paymentplannotification'
 
 const privileges = {
     admin,
@@ -212,6 +220,14 @@ const privileges = {
     visitmanageview,
     visitgetreport,
     visitnotification,
+    paymentplanscreen,
+    paymentplanview,
+    paymentplanadd,
+    paymentplanupdate,
+    paymentplandelete,
+    paymentplanmanageview,
+    paymentplangetreport,
+    paymentplannotification,
 }
 
 export default privileges

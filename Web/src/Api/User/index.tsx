@@ -48,7 +48,7 @@ export const userQuery = gatewayApi.enhanceEndpoints({ addTagTypes: [USER_TAG] }
                 method: METHOD_POST,
                 body
             }),
-            invalidatesTags: [USER_TAG]
+            invalidatesTags: (result) => result ? [USER_TAG] : [],
         }),
         editUser: builder.mutation<UserListResponse, UserEditApiRequest>({
             query: (body) => ({
@@ -56,7 +56,7 @@ export const userQuery = gatewayApi.enhanceEndpoints({ addTagTypes: [USER_TAG] }
                 method: METHOD_PUT,
                 body
             }),
-            invalidatesTags: [USER_TAG]
+            invalidatesTags: (result) => result ? [USER_TAG] : [],
         }),
         removeUser: builder.mutation<void, UserRemoveRequest>({
             query: (body) => ({
@@ -64,14 +64,14 @@ export const userQuery = gatewayApi.enhanceEndpoints({ addTagTypes: [USER_TAG] }
                 method: METHOD_PUT,
                 body
             }),
-            invalidatesTags: [USER_TAG]
+            invalidatesTags: (result) => result ? [USER_TAG] : [],
         }),
         deleteUser: builder.mutation<void, UserDeleteRequest>({
             query: (body) => ({
                 url: `${USER}/${body.Uuid}`,
                 method: METHOD_DELETE,
             }),
-            invalidatesTags: [USER_TAG]
+            invalidatesTags: (result) => result ? [USER_TAG] : [],
         }),
     })
 })

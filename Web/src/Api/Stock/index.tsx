@@ -28,7 +28,7 @@ export const stockQuery = gatewayApi
                     method: METHOD_POST,
                     body
                 }),
-                invalidatesTags: [STOCK_TAG],
+                invalidatesTags: (result) => result ? [STOCK_TAG] : [],
             }),
             useStock: builder.mutation<void, StockUseRequest>({
                 query: (body) => ({
@@ -36,7 +36,7 @@ export const stockQuery = gatewayApi
                     method: METHOD_PUT,
                     body
                 }),
-                invalidatesTags: [STOCK_TAG],
+                invalidatesTags: (result) => result ? [STOCK_TAG] : [],
             }),
             insertStock: builder.mutation<void, StockInsertRequest>({
                 query: (body) => ({
@@ -44,21 +44,21 @@ export const stockQuery = gatewayApi
                     method: METHOD_PUT,
                     body
                 }),
-                invalidatesTags: [STOCK_TAG],
+                invalidatesTags: (result) => result ? [STOCK_TAG] : [],
             }),
             deleteStock: builder.mutation<void, StockDeleteRequest>({
                 query: (body) => ({
                     url: `${STOCK_DELETE_STOCK}/${body.Uuid}`,
                     method: METHOD_DELETE,
                 }),
-                invalidatesTags: [STOCK_TAG],
+                invalidatesTags: (result) => result ? [STOCK_TAG] : [],
             }),
             deleteStockMovement: builder.mutation<void, StockDeleteMovementRequest>({
                 query: (body) => ({
                     url: `${STOCK_DELETE_MOVEMENT}/${body.Uuid}`,
                     method: METHOD_DELETE,
                 }),
-                invalidatesTags: [STOCK_TAG],
+                invalidatesTags: (result) => result ? [STOCK_TAG] : [],
             }),
         }),
     });

@@ -32,7 +32,7 @@ async function GetStocks(req, res, next) {
                 s.Uuid,
                 s.WarehouseID,
                 s.StockdefineID,
-                COALESCE(SUM(sm.Amount), 0) AS TotalAmount
+                 COALESCE(SUM(sm.Amount * sm.Type), 0) AS TotalAmount
             FROM stocks s
             LEFT JOIN stockmovements sm ON sm.StockID = s.Uuid AND sm.Isactive = true
             ${whereSQL}
@@ -296,7 +296,6 @@ async function UseStockList(req, res, next) {
         return next(createValidationError(mainValidationErrors, req.t('Stocks'), req.language))
     }
 
-
     try {
         let validationErrors = []
 
@@ -354,7 +353,7 @@ async function UseStockList(req, res, next) {
                 return next(createNotFoundError(req.t('Stocks.Error.AmountNotCalculated'), req.t('Stocks'), req.language))
             }
 
-            if (Amount > foundedAmount) {
+            if (stockItem.Amount > foundedAmount) {
                 return next(createNotFoundError(req.t('Stocks.Error.AmountIsLower'), req.t('Stocks'), req.language))
             }
         }
@@ -375,7 +374,7 @@ async function UseStockList(req, res, next) {
 
             await db.stockmovementModel.create({
                 Uuid: movementUuid,
-                StockID: stockItem.Uuid,
+                StockID: stockItem.StockID,
                 Type: STOCKMOVEMENT_TYPE_MINUS,
                 Amount: stockItem.Amount,
                 Movementdate: new Date(),
@@ -471,6 +470,87 @@ async function InsertStock(req, res, next) {
         res.status(200).json({ message: req.t('General.SuccessfullyUpdated'), entity: StockID })
 
     } catch (error) {
+        await t.rollback()
+        next(sequelizeErrorCatcher(error))
+    }
+}
+
+async function InsertStockList(req, res, next) {
+    let mainValidationErrors = []
+
+    const {
+        StockList
+    } = req.body
+
+    if (!validator.isArray(StockList) || (StockList || []).length <= 0) {
+        mainValidationErrors.push(req.t('Stocks.Error.StockListRequired'))
+    }
+
+    if (mainValidationErrors.length > 0) {
+        return next(createValidationError(mainValidationErrors, req.t('Stocks'), req.language))
+    }
+
+    const t = await db.sequelize.transaction()
+    const username = req?.identity?.user?.Username || 'System'
+    try {
+
+        for (const returnstock of StockList) {
+            let validationErrors = []
+
+            const {
+                StockID,
+                Amount,
+                Sourcetype,
+                SourceID
+            } = returnstock
+            console.log('returnstock: ', returnstock);
+
+            if (!validator.isNumber(Amount) || Amount <= 0) {
+                validationErrors.push(req.t('Stocks.Error.AmountRequired'))
+            }
+            if (!validator.isUUID(StockID)) {
+                validationErrors.push(req.t('Stocks.Error.StockIDRequired'))
+            }
+            if (!validator.isNumber(Sourcetype)) {
+                validationErrors.push(req.t('Stocks.Error.SourcetypeRequired'))
+            }
+            if (!validator.isUUID(SourceID)) {
+                validationErrors.push(req.t('Stocks.Error.SourceIDRequired'))
+            }
+
+            if (validationErrors.length > 0) {
+                return next(createValidationError(validationErrors, req.t('Stocks'), req.language))
+            }
+
+            const stock = await db.stockModel.findOne({ where: { Uuid: StockID } })
+            if (!stock) {
+                return next(createNotFoundError(req.t('Stocks.Error.NotFound'), req.t('Stocks'), req.language))
+            }
+            if (!stock.Isactive) {
+                return next(createNotFoundError(req.t('Stocks.Error.NotActive'), req.t('Stocks'), req.language))
+            }
+
+            await db.stockmovementModel.create({
+                Uuid: uuid(),
+                StockID,
+                Type: STOCKMOVEMENT_TYPE_PLUS,
+                Amount,
+                Movementdate: new Date(),
+                Movementtype: STOCKMOVEMENT_INSERT,
+                Sourcetype,
+                SourceID,
+                UserID: req?.identity?.user?.Uuid || username,
+                Createduser: username,
+                Createtime: new Date(),
+                Isactive: true,
+            }, { transaction: t })
+        }
+
+        await t.commit()
+        res.status(200).json({ message: req.t('General.SuccessfullyUpdated'), entities: StockList.map(u => u.StockID) })
+
+    } catch (error) {
+        console.log('error: ', error);
         await t.rollback()
         next(sequelizeErrorCatcher(error))
     }
@@ -577,5 +657,6 @@ module.exports = {
     InsertStock,
     DeleteStock,
     GetStockmovements,
-    DeleteStockmovement
+    DeleteStockmovement,
+    InsertStockList
 }

@@ -144,6 +144,17 @@ export const VISIT_UPDATE_STOCKS = 'Business/Visits/UpdateVisitStocks'
 
 export const VISIT_UPDATE_DEFINES = 'Business/Visits/UpdateVisitDefines'
 
+export const VISIT_WORK = 'Business/Visits/Work'
+
+export const VISIT_UPDATE_PAYMENTDEFINE = 'Business/Visits/UpdateVisitPaymentDefines'
+
+export const VISIT_COMPLETE = 'Business/Visits/Complete'
+
+export const PAYMENTPLAN = 'Business/Paymentplans'
+
+export const PAYMENTPLAN_COUNT = 'Business/Paymentplans/Counts'
+
+
 //Tags
 
 export const TABLE_CONFIG_TAG = 'TABLE_CONFIG_TAG'
@@ -179,5 +190,7 @@ export const WAREHOUSE_TAG = 'WAREHOUSE_TAG'
 export const STOCK_TAG = 'STOCK_TAG'
 
 export const VISIT_TAG = 'VISIT_TAG'
+
+export const PAYMENTPLAN_TAG = 'PAYMENTPLAN_TAG'
 
 

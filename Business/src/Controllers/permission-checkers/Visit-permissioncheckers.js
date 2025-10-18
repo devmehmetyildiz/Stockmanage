@@ -24,11 +24,31 @@ async function UpdateVisitDefines(req, res, next) {
     PermissionHandler(req, next, 'visitupdate')
 }
 
+async function UpdateVisitPaymentDefines(req, res, next) {
+    PermissionHandler(req, next, 'visitupdate')
+}
+
+async function CompleteVisit(req, res, next) {
+    PermissionHandler(req, next, 'visitupdate')
+}
+
+async function WorkVisit(req, res, next) {
+    PermissionHandler(req, next, 'visitupdate')
+}
+
+async function DeleteVisit(req, res, next) {
+    PermissionHandler(req, next, 'visitdelete')
+}
+
 module.exports = {
     GetVisitCounts,
     GetVisits,
     GetVisit,
     CreateVisit,
     UpdateVisitStocks,
-    UpdateVisitDefines
+    UpdateVisitDefines,
+    WorkVisit,
+    DeleteVisit,
+    UpdateVisitPaymentDefines,
+    CompleteVisit
 }

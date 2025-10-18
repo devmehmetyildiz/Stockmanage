@@ -41,7 +41,7 @@ const VisitDetailProducts: React.FC<VisitDetailProductsProps> = (props) => {
             )}
 
             {hasProducts && (
-                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3 mt-3 ">
+                <div className="flex flex-col w-full justify-start items-start gap-3 mt-3 ">
                     {productRows.map((product, index) => {
                         const stock = (stocks || []).find(item => item.Uuid === product.StockID)
                         const stockdefine = (stockdefines || []).find(item => item.Uuid === stock?.StockdefineID)
@@ -53,7 +53,7 @@ const VisitDetailProducts: React.FC<VisitDetailProductsProps> = (props) => {
                                 className="!bg-red-30 !rounded-xl !shadow !border-0 "
                             >
                                 <Card.Content>
-                                    <div className="flex items-start justify-between gap-3">
+                                    <div className="flex items-start justify-between gap-1">
                                         <div className="flex items-center gap-2">
                                             <div className='mb-1'>
                                                 <Icon name="cube" className='text-primary' />
@@ -62,18 +62,18 @@ const VisitDetailProducts: React.FC<VisitDetailProductsProps> = (props) => {
                                         </div>
                                         <Popup
                                             content={product.Description || t('Pages.Visits.Label.NoDescription')}
-                                            trigger={<Icon name="info circle" className="text-gray-400" />}
+                                            trigger={<div className='cursor-pointer'><Icon name="info circle" className="text-gray-400" /></div>}
                                         />
                                     </div>
 
-                                    <div className="mt-3 grid grid-cols-4 gap-2 text-sm ">
+                                    <div className="mt-1 grid grid-cols-4 gap-1 text-sm ">
                                         <div className="text-gray-500 col-span-3">{t('Pages.Visits.Columns.Amount')}</div>
-                                        <div className="text-gray-800 font-semibold">{product.Amount}</div>
+                                        <div className="text-gray-800 font-semibold">{`${product.Amount} ${t('Common.Unit')}`}</div>
 
                                         <div className="text-gray-500 col-span-3">{t('Pages.Visits.Label.IsTaken')}</div>
                                         <div className="text-gray-800">
                                             {product.Istaken ? (
-                                                <Label color="green" size="mini" className="!text-white">
+                                                <Label size="mini" className="!text-white !bg-primary">
                                                     {t('Common.Yes')}
                                                 </Label>
                                             ) : (
@@ -94,7 +94,7 @@ const VisitDetailProducts: React.FC<VisitDetailProductsProps> = (props) => {
                                     </div>
 
                                     {product.Description && (
-                                        <div className="mt-3 text-xs text-gray-500">{product.Description}</div>
+                                        <div className="mt-1 text-xs text-gray-500">{product.Description}</div>
                                     )}
                                 </Card.Content>
                             </Card>

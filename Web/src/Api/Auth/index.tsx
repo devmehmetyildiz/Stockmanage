@@ -17,7 +17,7 @@ export const authQuery = gatewayApi.enhanceEndpoints({ addTagTypes: [META_TAG] }
                 method: METHOD_POST,
                 body
             }),
-            invalidatesTags: [META_TAG]
+            invalidatesTags: (result) => result ? [META_TAG] : [],
         }),
         logout: builder.mutation<void, LogoutRequest>({
             query: (body) => ({

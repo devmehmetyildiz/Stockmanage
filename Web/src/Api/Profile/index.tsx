@@ -33,7 +33,7 @@ export const profileQuery = gatewayApi.enhanceEndpoints({ addTagTypes: [TABLE_CO
                 method: METHOD_POST,
                 body: body
             }),
-            invalidatesTags: [TABLE_CONFIG_TAG]
+            invalidatesTags: (result) => result ? [TABLE_CONFIG_TAG] : [],
         }),
         changePassword: builder.mutation<any, ProfileChangePasswordRequest>({
             query: (body) => ({
@@ -48,7 +48,7 @@ export const profileQuery = gatewayApi.enhanceEndpoints({ addTagTypes: [TABLE_CO
                 method: METHOD_DELETE,
                 body: body
             }),
-            invalidatesTags: [TABLE_CONFIG_TAG]
+            invalidatesTags: (result) => result ? [TABLE_CONFIG_TAG] : [],
         }),
     })
 })

@@ -2,7 +2,6 @@ import { useGetStocksQuery, useLazyGetStockMovementsQuery } from '@Api/Stock'
 import { useGetUsersListQuery } from '@Api/User'
 import Pagewrapper from '@Components/Common/Pagewrapper'
 import Title from '@Components/Common/Title'
-import { STOCK_SOURCETYPE_USER } from '@Constant/index'
 import Paths from '@Constant/path'
 import Pushnotification from '@Utils/Pushnotification'
 import validator from '@Utils/Validator'
@@ -16,6 +15,7 @@ import { Card, Icon } from 'semantic-ui-react'
 import { useGetWarehouseQuery } from '@Api/Warehouse'
 import StockMovementItem from './StockMovementItem'
 import { motion } from 'framer-motion'
+import { useGetVisitsQuery } from '@Api/Visit'
 
 
 const StockMovement: React.FC = () => {
@@ -30,6 +30,7 @@ const StockMovement: React.FC = () => {
 
     const stock = (stocks || []).find(u => u.Uuid === Id)
 
+    const { data: visits, isFetching: isVisitsFetching } = useGetVisitsQuery({ isActive: 1 })
     const { data: users, isFetching: isUsersFetching } = useGetUsersListQuery()
     const { data: stockdefine, isFetching: isStockdefinesFetching } = useGetStockdefineQuery({ Uuid: stock?.StockdefineID ?? '' }, { skip: !validator.isUUID(stock?.StockdefineID) })
     const { data: warehouse, isFetching: isWarehouseFetching } = useGetWarehouseQuery({ Uuid: stock?.WarehouseID ?? '' }, { skip: !validator.isUUID(stock?.WarehouseID) })
@@ -51,7 +52,7 @@ const StockMovement: React.FC = () => {
         }
     }, [Id, GetStockMovements, navigate, t])
 
-    return <Pagewrapper isLoading={isFetching || isUsersFetching || isStocksFetching || isStockdefinesFetching || isWarehouseFetching} direction='vertical' gap={4} alignTop>
+    return <Pagewrapper isLoading={isFetching || isUsersFetching || isStocksFetching || isStockdefinesFetching || isWarehouseFetching || isVisitsFetching} direction='vertical' gap={4} alignTop>
         <Title
             PageName={t('Pages.Stocks.Page.Header')}
             PageUrl={Paths.Stocks}
@@ -72,6 +73,9 @@ const StockMovement: React.FC = () => {
                             <Icon name="cubes" className='text-primary' size="large" />
                             {`${stockdefine?.Productname} (${warehouse?.Name})`}
                         </h2>
+                        <h3 className="text-xl font-bold text-gray-800 flex items-center gap-3 ">
+                            {`${t('Components.Datatable.Label.Total')} ${stock?.TotalAmount} ${t('Common.Unit')}`}
+                        </h3>
                         {stockdefine?.Description && (
                             <p className="text-gray-500 text-sm leading-relaxed max-w-lg">
                                 {stockdefine?.Description}
@@ -153,6 +157,7 @@ const StockMovement: React.FC = () => {
             <StockMovementTimeline
                 data={data}
                 users={users}
+                visits={visits}
             />
         </Contentwrapper>
     </Pagewrapper >

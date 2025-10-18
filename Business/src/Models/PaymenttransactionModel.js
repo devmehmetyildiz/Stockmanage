@@ -2,16 +2,19 @@ const { defaultTableColumns } = require("../Constants/DefaultColumns");
 
 module.exports = sequelize.define('paymenttransactionModel', {
     ...defaultTableColumns,
-    PaymentPlanID: {
+    PaymentplanID: {
         type: Sequelize.STRING
     },
     Paymentdate: {
         type: Sequelize.DATE
     },
+    Type: {
+        type: Sequelize.INTEGER
+    },
     Amount: {
         type: Sequelize.FLOAT
     },
-    PaymentMethod: {
+    Paymentmethod: {
         type: Sequelize.STRING
     },
     Referenceno: {

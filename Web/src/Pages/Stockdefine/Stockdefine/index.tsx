@@ -15,10 +15,14 @@ import { useGetStockdefinesQuery } from '@Api/Stockdefine'
 import StockdefineDeleteModal from '@Components/Stockdefine/StockdefineDeleteModal'
 import RouteKeys from '@Constant/routeKeys'
 import { DeleteCellHandler, EditCellHandler } from '@Components/Common/CellHandler'
+import { Link } from 'react-router-dom'
 
 const Stockdefine: React.FC = () => {
 
     const { t } = useTranslation()
+
+    const [expandedDepartments, setExpandedDepartments] = useState<number[]>([])
+
 
     const [deleteOpen, setDeleteOpen] = useState(false)
     const [record, setRecord] = useState<StockdefineItem | null>(null)
@@ -48,6 +52,28 @@ const Stockdefine: React.FC = () => {
         }} />
     }
 
+    const descriptionCellhandler = (row: StockdefineItem) => {
+        const itemId = row.Id
+        const itemsText = row.Description ?? ''
+        return itemsText.length - 35 > 20 ?
+            (
+                !expandedDepartments.includes(itemId) ?
+                    [itemsText.slice(0, 35), <Link to='#' className='text-primary' onClick={() => expandDepartments(itemId)}>{`${t('Common.Expand')}`}</Link>] :
+                    [itemsText, <Link to='#' className='text-primary' onClick={() => shrinkDepartments(itemId)}>{t('Common.Shrink')}</Link>]
+            ) : itemsText
+    }
+
+    const expandDepartments = (rowId: number) => {
+        setExpandedDepartments(prev => [
+            ...prev,
+            rowId
+        ])
+    }
+
+    const shrinkDepartments = (rowId: number) => {
+        setExpandedDepartments(prev => prev.filter(u => u !== rowId))
+    }
+
     const columns: ColumnType<StockdefineItem>[] = [
         { header: t("Common.Columns.Id"), accessorKey: 'Id', isIcon: true },
         { header: t("Common.Columns.Uuid"), accessorKey: 'Uuid' },
@@ -63,7 +89,7 @@ const Stockdefine: React.FC = () => {
         { header: t('Pages.Stockdefines.Columns.Connectiontype'), accessorKey: 'Connectiontype', },
         { header: t('Pages.Stockdefines.Columns.Suppliername'), accessorKey: 'Suppliername', },
         { header: t('Pages.Stockdefines.Columns.Suppliercontact'), accessorKey: 'Suppliercontact', },
-        { header: t('Pages.Stockdefines.Columns.Description'), accessorKey: 'Description' },
+        { header: t('Pages.Stockdefines.Columns.Description'), accessorKey: 'Description', cell: ({ row }) => descriptionCellhandler(row.original) },
         { header: t("Common.Columns.Createduser"), accessorKey: 'Createduser' },
         { header: t("Common.Columns.Createtime"), accessorKey: 'Createtime', accessorFn: row => dateCellhandler(row?.Createtime) },
         { header: t("Common.Columns.Updateduser"), accessorKey: 'Updateduser' },
