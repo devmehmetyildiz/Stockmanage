@@ -76,6 +76,7 @@ import VisitUpdateProducts from "@Pages/Visit/VisitUpdateProducts";
 import VisitUpdatePaymentdefines from "@Pages/Visit/VisitUpdatePaymentdefines";
 import VisitComplete from "@Pages/Visit/VisitComplete";
 import Paymentplan from "@Pages/Paymentplan/Paymentplan";
+import Paymentplantransaction from "@Pages/Paymentplantransaction/Paymentplantransaction";
 
 interface RouteItemType {
     path: string
@@ -135,6 +136,7 @@ const AppRouter = () => {
         { path: Paths.VisitsUpdatePaymentdefines, element: <VisitUpdatePaymentdefines />, requiredRole: [privileges.visitview, privileges.visitupdate] },
         { path: Paths.VisitComplete, element: <VisitComplete />, requiredRole: [privileges.visitview, privileges.visitupdate] },
         { path: Paths.Paymentplans, element: <Paymentplan />, requiredRole: [privileges.paymentplanview] },
+        { path: Paths.Paymentplantransactions, element: <Paymentplantransaction />, requiredRole: [privileges.paymentplanview] },
     ]
 
     const nonProtectedRoutes: RouteItemType[] = [

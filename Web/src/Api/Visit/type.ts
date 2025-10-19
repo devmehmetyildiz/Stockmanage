@@ -42,6 +42,12 @@ export interface VisitListItem {
     Status: number;
     Notes: string;
     Scheduledpayment: number
+    Isapproved: boolean
+    Isrejected: boolean
+    ApprovedUserID: string
+    RejectedUserID: string
+    ApproveDescription: string
+    RejectDescription: string
     Createduser: string;
     Createtime: Date;
     Updateduser: string | null;
@@ -114,10 +120,17 @@ export interface VisitCompleteApiRequest {
     Duedays: number,
     Startdate: string | Date,
     Prepaymentamount: number,
+    Prepaymenttype: number
     Returnedproducts: VisitStockItem[]
 }
 
 export interface VisitCompleteRequest extends VisitCompleteApiRequest {
     isFullPayment: boolean
+    isHavePrepayment: boolean
+}
+
+export interface VisitSendApproveRequest {
+    VisitID: string,
+    Comment: string
 }
 

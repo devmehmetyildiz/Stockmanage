@@ -150,7 +150,13 @@ export const VISIT_UPDATE_PAYMENTDEFINE = 'Business/Visits/UpdateVisitPaymentDef
 
 export const VISIT_COMPLETE = 'Business/Visits/Complete'
 
+export const VISIT_SEND_APPROVE = 'Business/Visits/SendApprove'
+
 export const PAYMENTPLAN = 'Business/Paymentplans'
+
+export const PAYMENTPLAN_TRANSACTION = 'Business/Paymentplans/Transactions'
+
+export const PAYMENTPLAN_TRANSACTION_COUNT = 'Business/Paymentplans/TransactionsCounts'
 
 export const PAYMENTPLAN_COUNT = 'Business/Paymentplans/Counts'
 

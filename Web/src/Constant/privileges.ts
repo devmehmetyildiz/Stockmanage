@@ -99,6 +99,7 @@ const stocknotification = 'stocknotification'
 const visitscreen = 'visitscreen'
 const visitview = 'visitview'
 const visitadd = 'visitadd'
+const visitapprove = 'visitapprove'
 const visitupdate = 'visitupdate'
 const visitdelete = 'visitdelete'
 const visitmanageview = 'visitmanageview'
@@ -219,6 +220,7 @@ const privileges = {
     visitdelete,
     visitmanageview,
     visitgetreport,
+    visitapprove,
     visitnotification,
     paymentplanscreen,
     paymentplanview,

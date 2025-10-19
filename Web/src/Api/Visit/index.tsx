@@ -1,6 +1,6 @@
 import { gatewayApi } from "@Api/api";
-import { VISIT, METHOD_GET, METHOD_POST, METHOD_PUT, VISIT_TAG, VISIT_GETCOUNT, VISIT_UPDATE_STOCKS, VISIT_UPDATE_DEFINES, VISIT_WORK, METHOD_DELETE, VISIT_UPDATE_PAYMENTDEFINE, VISIT_COMPLETE } from "@Constant/api";
-import { VisitCompleteApiRequest, VisitCreateRequest, VisitDeleteRequest, VisitItem, VisitListItem, VisitListRequest, VisitRequest, VisitUpdateDefinesRequest, VisitUpdatePaymentdefineRequest, VisitUpdateStocksRequest, VisitWorkRequest } from "./type";
+import { VISIT, METHOD_GET, METHOD_POST, METHOD_PUT, VISIT_TAG, VISIT_GETCOUNT, VISIT_UPDATE_STOCKS, VISIT_UPDATE_DEFINES, VISIT_WORK, METHOD_DELETE, VISIT_UPDATE_PAYMENTDEFINE, VISIT_COMPLETE, VISIT_SEND_APPROVE } from "@Constant/api";
+import { VisitCompleteApiRequest, VisitCreateRequest, VisitDeleteRequest, VisitItem, VisitListItem, VisitListRequest, VisitRequest, VisitSendApproveRequest, VisitUpdateDefinesRequest, VisitUpdatePaymentdefineRequest, VisitUpdateStocksRequest, VisitWorkRequest } from "./type";
 
 export const visitQuery = gatewayApi
     .enhanceEndpoints({ addTagTypes: [VISIT_TAG] })
@@ -68,6 +68,14 @@ export const visitQuery = gatewayApi
                 }),
                 invalidatesTags: (result) => result ? [VISIT_TAG] : [],
             }),
+            sendApproveVisit: builder.mutation<void, VisitSendApproveRequest>({
+                query: (body) => ({
+                    url: VISIT_SEND_APPROVE,
+                    method: METHOD_PUT,
+                    body,
+                }),
+                invalidatesTags: (result) => result ? [VISIT_TAG] : [],
+            }),
             completeVisit: builder.mutation<void, VisitCompleteApiRequest>({
                 query: (body) => ({
                     url: VISIT_COMPLETE,
@@ -97,5 +105,6 @@ export const {
     useWorkVisitMutation,
     useDeleteVisitMutation,
     useEditPaymentdefineVisitMutation,
-    useCompleteVisitMutation
+    useCompleteVisitMutation,
+    useSendApproveVisitMutation
 } = visitQuery;

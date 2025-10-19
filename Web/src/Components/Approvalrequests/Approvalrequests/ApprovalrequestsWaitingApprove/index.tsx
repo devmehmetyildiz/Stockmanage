@@ -34,7 +34,7 @@ const ApprovalrequestsWaitingApprove: React.FC<ApprovalrequestsWaitingApprovePro
     const { t } = useTranslation()
 
     const { data, isFetching } = useGetApprovalrequestsQuery({ isActive: 1, Isapproved: 0, Isrejected: 0 })
-    const { data: users, isFetching: isUsersFetching } = useGetUsersListQuery({ isActive: 1, Isworker: 1 })
+    const { data: users, isFetching: isUsersFetching } = useGetUsersListQuery({ isActive: 1, })
 
     const TableQuery = useGetTableMetaQuery({ Key: 'approvalrequestswaitingapprove' })
 

@@ -33,7 +33,6 @@ const Approvalrequest: React.FC = () => {
 
     const { activeTab, setActiveTab } = useTabNavigation({
         mainRoute: RouteKeys.Approvalrequests,
-        navigate,
         tabOrder: ['waitingapprove', 'approved', 'rejected'],
     })
 
@@ -76,7 +75,7 @@ const Approvalrequest: React.FC = () => {
                     {
                         name: t('Common.Button.Multiselect'),
                         onClick: () => setMultiProcessOpen(true),
-                        hidden:  !(activeTab === 0),
+                        hidden: !(activeTab === 0),
                     }
                 ]}
             />

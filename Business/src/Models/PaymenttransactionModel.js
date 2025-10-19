@@ -15,7 +15,7 @@ module.exports = sequelize.define('paymenttransactionModel', {
         type: Sequelize.FLOAT
     },
     Paymentmethod: {
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
     },
     Referenceno: {
         type: Sequelize.STRING

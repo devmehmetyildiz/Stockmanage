@@ -103,7 +103,7 @@ async function ApproveApprovalrequests(req, res, next) {
                 ApproveTime: new Date()
             }, { where: { Uuid: approveItem.Uuid }, transaction: t });
 
-            publishEvent("approve.response", approval.Service, approval.Table, {
+            publishEvent("approveResponse", approval.Service, approval.Table, {
                 Service: approval.Service,
                 Table: approval.Table,
                 Record: approval.Record,
@@ -174,7 +174,7 @@ async function RejectApprovalrequests(req, res, next) {
                 ApproveTime: new Date()
             }, { where: { Uuid: rejectItem.Uuid }, transaction: t });
 
-            publishEvent("approve.response", approval.Service, approval.Table, {
+            publishEvent("approveResponse", approval.Service, approval.Table, {
                 Service: approval.Service,
                 Table: approval.Table,
                 Record: approval.Record,
@@ -199,7 +199,7 @@ async function RejectApprovalrequests(req, res, next) {
 }
 
 async function ConsumeApprovalRequests() {
-    const { channel, q } = await initApproveMessageService('approve.request', 'System', 'Approval');
+    const { channel, q } = await initApproveMessageService('approveRequest', 'System', 'Approval');
 
     console.log('RabbitMQ consumer started, waiting for messages...');
 
@@ -219,7 +219,6 @@ async function ConsumeApprovalRequests() {
                 channel.ack(msg);
             } catch (error) {
                 console.error('Error processing message:', error);
-                // Hata olursa mesaj queue’da kalır
             }
         }
     });

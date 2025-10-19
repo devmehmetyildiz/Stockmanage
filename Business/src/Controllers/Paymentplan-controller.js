@@ -21,6 +21,24 @@ async function GetPaymentplans(req, res, next) {
     }
 }
 
+async function GetPaymenttransactions(req, res, next) {
+    try {
+        const transactions = await db.paymenttransactionModel.findAll({ where: req.query })
+        res.status(200).json(transactions)
+    } catch (error) {
+        next(sequelizeErrorCatcher(error))
+    }
+}
+
+async function GetPaymenttransactionCounts(req, res, next) {
+    try {
+        const transactions = await db.paymenttransactionModel.count({ where: req.query })
+        res.status(200).json(transactions)
+    } catch (error) {
+        next(sequelizeErrorCatcher(error))
+    }
+}
+
 async function GetPaymentplan(req, res, next) {
     const Uuid = req.params.ID
 
@@ -50,4 +68,6 @@ module.exports = {
     GetPaymentplansCount,
     GetPaymentplans,
     GetPaymentplan,
+    GetPaymenttransactions,
+    GetPaymenttransactionCounts
 }

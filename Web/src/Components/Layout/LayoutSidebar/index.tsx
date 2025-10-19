@@ -47,11 +47,20 @@ export const getSidebarRoutes = (t: any, userPrivileges: string[]) => {
             icon: 'building',
             items: [
                 { id: 1, subtitle: t('Pages.Visits.Page.Header'), url: Paths.Visits, permission: checkAuth(privileges.visitview) },
-                { id: 2, subtitle: t('Pages.Paymentplans.Page.Header'), url: Paths.Paymentplans, permission: checkAuth(privileges.paymentplanview) },
+                { id: 1, subtitle: t('Pages.Approvalrequests.Page.Header'), url: Paths.Approvalrequests, permission: checkAuth(privileges.approveview) },
             ]
         },
         {
             id: 2,
+            title: t('Sidebar.Menu.Claimpayments'),
+            icon: 'money bill alternate',
+            items: [
+                { id: 2, subtitle: t('Pages.Paymentplans.Page.Header'), url: Paths.Paymentplans, permission: checkAuth(privileges.paymentplanview) },
+                { id: 3, subtitle: t('Pages.Paymentplantransactions.Page.Header'), url: Paths.Paymentplantransactions, permission: checkAuth(privileges.paymentplanview) },
+            ]
+        },
+        {
+            id: 3,
             title: t('Sidebar.Menu.System'),
             icon: 'server',
             items: [
@@ -62,7 +71,7 @@ export const getSidebarRoutes = (t: any, userPrivileges: string[]) => {
             ]
         },
         {
-            id: 3,
+            id: 4,
             title: t('Sidebar.Menu.Warehouse'),
             icon: 'boxes',
             items: [
@@ -72,7 +81,7 @@ export const getSidebarRoutes = (t: any, userPrivileges: string[]) => {
             ]
         },
         {
-            id: 4,
+            id: 5,
             title: t('Sidebar.Menu.Setting'),
             icon: 'settings',
             items: [

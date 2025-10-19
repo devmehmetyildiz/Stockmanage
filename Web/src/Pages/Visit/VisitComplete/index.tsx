@@ -125,7 +125,7 @@ const VisitComplete: React.FC = () => {
         }
     }, [Id, GetVisit, navigate, t, reset]);
 
-    return <Pagewrapper isLoading={isFetching} direction="vertical" gap={4} alignTop className="!pb-10"  >
+    return <Pagewrapper isLoading={isFetching || isLoading} direction="vertical" gap={4} alignTop className="!pb-10"  >
         <Title
             PageName={t('Pages.Visits.Page.Header')}
             PageUrl={Paths.Visits}
@@ -177,6 +177,7 @@ const VisitComplete: React.FC = () => {
                         text={t('Common.Button.Goback')}
                     />
                     <FormButton
+                        loading={isLoading}
                         disabled={checkButtonValidation()}
                         text={activeStep === 'detail' ? t('Common.Columns.complete') : t('Common.Button.GoNext')}
                         onClick={() => onNextClick()}

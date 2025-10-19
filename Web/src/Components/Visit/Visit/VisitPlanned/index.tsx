@@ -18,15 +18,15 @@ import privileges from '@Constant/privileges'
 import { DeleteCellHandler, DetailCellHandler, EditCellHandler, WorkCellhandler } from '@Components/Common/CellHandler'
 import { CellContext } from '@tanstack/react-table'
 import RouteKeys from '@Constant/routeKeys'
-import VisitWorkModal from '@Components/Visit/VisitWorkModal'
 import VisitDeleteModal from '@Components/Visit/VisitDeleteModal'
+import VisitSendApproveModal from '@Components/Visit/VisitSendApproveModal'
 
 const VisitPlanned: React.FC = () => {
 
     const { t } = useTranslation()
 
     const [deleteOpen, setDeleteOpen] = useState(false)
-    const [workOpen, setWorkOpen] = useState(false)
+    const [sendApproveOpen, setSendApproveOpen] = useState(false)
     const [record, setRecord] = useState<VisitListItem | null>(null)
 
     const { data, isFetching } = useGetVisitsQuery({ isActive: 1, Status: VISIT_STATU_PLANNED })
@@ -70,6 +70,9 @@ const VisitPlanned: React.FC = () => {
         return <DetailCellHandler url={`/${RouteKeys.Visits}/${data.Uuid}/Detail`} />
     }
 
+    const boolCellhandler = (value: boolean) => {
+        return value ? t('Pages.Visits.Messages.Rejected') : ''
+    }
 
     const editProductsCellhandler = (wrapper: CellContext<any, unknown>) => {
         const data = wrapper.row.original as VisitListItem
@@ -83,12 +86,12 @@ const VisitPlanned: React.FC = () => {
         return <EditCellHandler url={`/${RouteKeys.Visits}/${data.Uuid}/edit-defines`} icon="pencil alternate" />
     }
 
-    const workCellhandler = (wrapper: CellContext<any, unknown>) => {
+    const sendApproveCellhandler = (wrapper: CellContext<any, unknown>) => {
         const data = wrapper.row.original as VisitListItem
 
         return <WorkCellhandler onClick={() => {
             setRecord(data)
-            setWorkOpen(true)
+            setSendApproveOpen(true)
         }} />
     }
 
@@ -111,6 +114,9 @@ const VisitPlanned: React.FC = () => {
         { header: t('Pages.Visits.Columns.PaymenttypeID'), accessorKey: 'PaymenttypeID', accessorFn: row => paymenttypeCellhandler(row.PaymenttypeID), cell: wrapper => loaderCellhandler(wrapper, isPaymenttypesFetching), },
         { header: t('Pages.Visits.Columns.Scheduledpayment'), accessorKey: 'Scheduledpayment', },
         { header: t("Pages.Visits.Columns.Visitdate"), accessorKey: 'Visitdate', accessorFn: row => dateCellhandler(row.Visitdate) },
+        { header: t('Pages.Visits.Columns.Isrejected'), accessorKey: 'Isrejected', accessorFn: row => boolCellhandler(row.Isrejected) },
+        { header: t('Pages.Visits.Columns.RejectedUserID'), accessorKey: 'RejectedUserID', accessorFn: row => userCellhandler(row.RejectedUserID), cell: wrapper => loaderCellhandler(wrapper, isUsersFetching) },
+        { header: t('Pages.Visits.Columns.RejectDescription'), accessorKey: 'RejectDescription', },
         { header: t("Common.Columns.Createduser"), accessorKey: 'Createduser' },
         { header: t("Common.Columns.Createtime"), accessorKey: 'Createtime', accessorFn: row => dateCellhandler(row?.Createtime) },
         { header: t("Common.Columns.Updateduser"), accessorKey: 'Updateduser' },
@@ -118,7 +124,7 @@ const VisitPlanned: React.FC = () => {
         { header: t("Pages.Visits.Columns.EditProducts"), accessorKey: 'editProducts', isIcon: true, pinned: true, role: privileges.visitupdate, cell: (wrapper) => editProductsCellhandler(wrapper), size: 45 },
         { header: t("Pages.Visits.Columns.EditDefines"), accessorKey: 'editDefines', isIcon: true, pinned: true, role: privileges.visitupdate, cell: (wrapper) => editDefinesCellhandler(wrapper), size: 45 },
         { header: t("Common.Columns.detail"), accessorKey: 'detail', isIcon: true, pinned: true, role: privileges.visitview, cell: (wrapper) => detailCellhandler(wrapper), size: 45 },
-        { header: t("Common.Columns.work"), accessorKey: 'work', isIcon: true, pinned: true, role: privileges.visitupdate, cell: (wrapper) => workCellhandler(wrapper), size: 45 },
+        { header: t("Common.Columns.sendApprove"), accessorKey: 'work', isIcon: true, pinned: true, role: privileges.visitupdate, cell: (wrapper) => sendApproveCellhandler(wrapper), size: 45 },
         { header: t("Common.Columns.delete"), accessorKey: 'delete', isIcon: true, pinned: true, role: privileges.visitupdate, cell: (wrapper) => deleteCellhandler(wrapper), size: 45 },
     ]
 
@@ -133,9 +139,9 @@ const VisitPlanned: React.FC = () => {
                 config={initialConfig}
             />
         </ExcelProvider>
-        <VisitWorkModal
-            open={workOpen}
-            setOpen={setWorkOpen}
+        <VisitSendApproveModal
+            open={sendApproveOpen}
+            setOpen={setSendApproveOpen}
             data={record}
             setData={setRecord}
         />

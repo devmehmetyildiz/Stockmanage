@@ -38,6 +38,25 @@ module.exports = sequelize.define('visitModel', {
     Scheduledpayment: {
         type: Sequelize.FLOAT
     },
+    Isapproved: {
+        type: Sequelize.BOOLEAN
+    },
+    Isrejected: {
+        type: Sequelize.BOOLEAN
+    },
+    ApprovedUserID: {
+        type: Sequelize.STRING
+    },
+    RejectedUserID: {
+        type: Sequelize.STRING
+    },
+    ApproveDescription: {
+        type: Sequelize.STRING
+    },
+    RejectDescription: {
+        type: Sequelize.STRING
+    },
+
 }, {
     tableName: 'visits',
     timestamps: false

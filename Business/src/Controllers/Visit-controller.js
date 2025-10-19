@@ -3,7 +3,7 @@ const createValidationError = require("../Utilities/Error").createValidationErro
 const createNotFoundError = require("../Utilities/Error").createNotFoundError
 const validator = require("../Utilities/Validator")
 const uuid = require('uuid').v4
-const { publishEvent } = require("../Services/MessageService")
+const { publishEvent, initApproveMessageService } = require("../Services/MessageService")
 const DoPut = require("../Utilities/DoPut")
 const DoGet = require("../Utilities/DoGet")
 const config = require("../Config")
@@ -23,6 +23,11 @@ const STOCK_SOURCETYPE_VISIT = 2
 const VISIT_PAYMENT_STATUS_NON = 0
 const VISIT_PAYMENT_STATUS_SEMI = 1
 const VISIT_PAYMENT_STATUS_FULL = 2
+
+const PAYMENT_TRANSACTION_TYPE_PREPAYMENT = 0
+const PAYMENT_TRANSACTION_TYPE_FULLPAYMENT = 1
+const PAYMENT_TRANSACTION_TYPE_TRANSACTION = 2
+const PAYMENT_TRANSACTION_TYPE_CLOSE_TRANSACTION = 3
 
 async function GetVisitCounts(req, res, next) {
     try {
@@ -353,6 +358,74 @@ async function UpdateVisitDefines(req, res, next) {
     }
 }
 
+async function SendApproveVisit(req, res, next) {
+    let validationErrors = []
+    const {
+        VisitID,
+        Comment
+    } = req.body
+
+    if (!validator.isUUID(VisitID)) {
+        validationErrors.push(req.t('Visits.Error.VisitIDRequired'))
+    }
+
+    if (validationErrors.length > 0) {
+        return next(createValidationError(validationErrors, req.t('Visits'), req.language))
+    }
+
+    const t = await db.sequelize.transaction()
+    const username = req?.identity?.user?.Username || 'System'
+
+    const visit = await db.visitModel.findOne({ where: { Uuid: VisitID } })
+    if (!visit) {
+        return next(createNotFoundError(req.t('Visits.Error.NotFound'), req.t('Visits'), req.language))
+    }
+    if (!visit.Isactive) {
+        return next(createNotFoundError(req.t('Visits.Error.NotActive'), req.t('Visits'), req.language))
+    }
+    if (visit.Status !== VISIT_STATU_PLANNED) {
+        return next(createNotFoundError(req.t('Visits.Error.NotPlanned'), req.t('Visits'), req.language))
+    }
+
+    try {
+        await db.visitModel.update({
+            Status: VISIT_STATU_ON_APPROVE,
+            Updateduser: username,
+            Updatetime: new Date(),
+        }, { transaction: t, where: { Uuid: VisitID } })
+
+        const doctor = await DoGet(config.services.Setting, `Doctordefines/${visit.DoctorID}`)
+        const location = await DoGet(config.services.Setting, `Locations/${visit.LocationID}`)
+        const user = await DoGet(config.services.Userrole, `Users/${visit.UserID}`)
+
+        const doctorName = doctor ? `${doctor.Name} ${doctor.Surname}` : req.t('General.NotFound')
+        const locationName = location ? location.Name : req.t('General.NotFound')
+        const userName = user ? `${user.Name} ${user.Surname}` : req.t('General.NotFound')
+
+        publishEvent("approveRequest", 'System', 'Approval', {
+            Service: 'Business',
+            Table: 'Visit',
+            Detiallink: `/Visits/${visit.Uuid}/Detail`,
+            Message: {
+                tr: `${locationName} bölgesindeki ${doctorName} doktoru için ${userName} Personeli tarafından açılan satış`,
+                en: `The sale opened by ${userName} staff for Dr. ${doctorName} in the ${locationName} region`
+            }[req.language],
+            Comment,
+            Record: visit.Uuid,
+            RequestTime: new Date(),
+            RequestUserID: req?.identity?.user?.Uuid ?? username,
+            ApproveRoles: 'visitapprove',
+        })
+
+        await t.commit()
+        res.status(200).json({ message: req.t('General.SuccessfullyUpdated'), entity: VisitID })
+
+    } catch (error) {
+        await t.rollback()
+        return next(sequelizeErrorCatcher(error))
+    }
+}
+
 async function WorkVisit(req, res, next) {
     let validationErrors = []
     const {
@@ -378,8 +451,11 @@ async function WorkVisit(req, res, next) {
     if (!visit.Isactive) {
         return next(createNotFoundError(req.t('Visits.Error.NotActive'), req.t('Visits'), req.language))
     }
-    if (visit.Status !== VISIT_STATU_PLANNED) {
-        return next(createNotFoundError(req.t('Visits.Error.NotPlanned'), req.t('Visits'), req.language))
+    if (visit.Status !== VISIT_STATU_ON_APPROVE) {
+        return next(createNotFoundError(req.t('Visits.Error.NotApproveStatu'), req.t('Visits'), req.language))
+    }
+    if (!(visit.Isapproved === true || visit.Isapproved === 1)) {
+        return next(createNotFoundError(req.t('Visits.Error.NotApproved'), req.t('Visits'), req.language))
     }
 
     const visitStocks = await db.visitproductModel.findAll({ where: { Isactive: true, VisitID } })
@@ -487,6 +563,7 @@ async function CompleteVisit(req, res, next) {
         Duedays,
         Startdate,
         Prepaymentamount,
+        Prepaymenttype,
         Returnedproducts,
     } = req.body
 
@@ -496,7 +573,12 @@ async function CompleteVisit(req, res, next) {
 
     if (Prepaymentamount && (!validator.isNumber(Prepaymentamount) || Prepaymentamount < 0)) {
         validationErrors.push(req.t('Visits.Error.PrepaymentInvalid'))
+    } else if (Prepaymentamount > 0) {
+        if (!validator.isNumber(Prepaymenttype)) {
+            validationErrors.push(req.t('Visits.Error.PrepaymenttypeInvalid'))
+        }
     }
+
 
     const isFullPayment = Number(Prepaymentamount || 0) >= Number(Totalamount)
 
@@ -524,7 +606,6 @@ async function CompleteVisit(req, res, next) {
     const username = req?.identity?.user?.Username || 'System'
 
     try {
-
         const visit = await db.visitModel.findOne({ where: { Uuid: VisitID } })
         if (!visit) {
             return next(createNotFoundError(req.t('Visits.Error.NotFound'), req.t('Visits'), req.language))
@@ -552,7 +633,6 @@ async function CompleteVisit(req, res, next) {
                     Sourcetype: STOCK_SOURCETYPE_VISIT,
                     SourceID: VisitID
                 })
-
             }
 
             try {
@@ -604,6 +684,7 @@ async function CompleteVisit(req, res, next) {
         await db.paymentplanModel.create({
             Uuid: planUuid,
             VisitID: VisitID,
+            PaymenttypeID: visit.PaymenttypeID,
             Totalamount,
             Prepaymentamount,
             Remainingvalue: Totalamount - Prepaymentamount,
@@ -625,6 +706,8 @@ async function CompleteVisit(req, res, next) {
                 Amount: Prepaymentamount,
                 Paymentdate: new Date(),
                 Status: true,
+                Type: isFullPayment ? PAYMENT_TRANSACTION_TYPE_FULLPAYMENT : PAYMENT_TRANSACTION_TYPE_PREPAYMENT,
+                Paymentmethod: Prepaymenttype,
                 Description: isFullPayment ? req.t('Visits.Messages.FullpaymentTransaction') : req.t('Visits.Messages.PrepaymentTransaction'),
                 Createduser: username,
                 Createtime: new Date(),
@@ -643,9 +726,11 @@ async function CompleteVisit(req, res, next) {
 
                 await db.paymenttransactionModel.create({
                     Uuid: uuid(),
+                    Referenceno: visit.Visitcode,
                     PaymentplanID: planUuid,
                     Amount: eachAmount,
                     Paymentdate: dueDate,
+                    Type: i === (Installmentcount - 1) ? PAYMENT_TRANSACTION_TYPE_CLOSE_TRANSACTION : PAYMENT_TRANSACTION_TYPE_TRANSACTION,
                     Status: false,
                     Description: `${i + 1}. ${req.t('Visits.Messages.Installment')}`,
                     Createduser: username,
@@ -656,7 +741,7 @@ async function CompleteVisit(req, res, next) {
         }
 
         await db.visitModel.update({
-            Status: VISIT_STATU_ON_APPROVE,
+            Status: VISIT_STATU_COMPLETED,
             Updateduser: username,
             Updatetime: new Date(),
         }, { transaction: t, where: { Uuid: VisitID } })
@@ -713,6 +798,48 @@ async function DeleteVisit(req, res, next) {
     }
 }
 
+async function ConsumeVisitRequests() {
+    const { channel, q } = await initApproveMessageService('approveResponse', 'Business', 'Visit');
+
+    console.log('RabbitMQ consumer started, waiting for messages...');
+
+    channel.consume(q.queue, async (msg) => {
+        if (msg) {
+            try {
+                const payload = JSON.parse(msg.content.toString());
+
+                if (payload.Isapproved) {
+                    await db.visitModel.update({
+                        Isapproved: true,
+                        ApprovedUserID: payload.ApproveUserID,
+                        ApproveDescription: payload.Comment,
+                        Updateduser: payload.ApproveUsername,
+                        Updatetime: new Date(),
+                    }, { where: { Uuid: payload.Record } })
+                    console.log('Visit record updated:', payload.Record);
+                    channel.ack(msg);
+                }
+                if (payload.Isrejected) {
+                    await db.visitModel.update({
+                        Isrejected: true,
+                        RejectedUserID: payload.ApproveUserID,
+                        RejectDescription: payload.Comment,
+                        Updateduser: payload.ApproveUsername,
+                        Updatetime: new Date(),
+                    }, { where: { Uuid: payload.Record } })
+
+                    console.log('Visit record updated:', payload.Record);
+                    channel.ack(msg);
+                }
+
+                console.log('Visit record passed:', payload.Record);
+            } catch (error) {
+                console.error('Error processing message:', error);
+            }
+        }
+    });
+}
+
 module.exports = {
     GetVisitCounts,
     GetVisits,
@@ -723,5 +850,7 @@ module.exports = {
     WorkVisit,
     DeleteVisit,
     UpdateVisitPaymentDefines,
-    CompleteVisit
+    CompleteVisit,
+    SendApproveVisit,
+    ConsumeVisitRequests
 }

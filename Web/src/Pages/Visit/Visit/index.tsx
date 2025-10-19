@@ -16,10 +16,7 @@ import useTabNavigation from '@Hooks/useTabNavigation'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-interface VisitProps {
-}
-
-const Visit: React.FC<VisitProps> = () => {
+const Visit: React.FC = () => {
 
     const { t } = useTranslation()
 
@@ -32,7 +29,7 @@ const Visit: React.FC<VisitProps> = () => {
 
     const { activeTab, setActiveTab } = useTabNavigation({
         mainRoute: RouteKeys.Visits,
-        tabOrder: ['planned', 'working', 'onapprove', 'completed', 'closed', 'declined'],
+        tabOrder: ['planned', 'onapprove', 'working', 'completed', 'closed', 'declined'],
     })
 
     return <Pagewrapper isLoading={isPlannedFetching || isWorkingFetching || isOnapproveFetching || isCompletedFetching || isDeclinedFetching || isClosedCountFetching} direction='vertical' gap={4} alignTop>
@@ -57,19 +54,19 @@ const Visit: React.FC<VisitProps> = () => {
                         render: () => <VisitPlanned />,
                     },
                     {
-                        menuItem: `${t('Pages.Visits.Tab.Working')} (${workingCount ?? 0})`,
-                        render: () => <VisitWorking />,
-                    },
-                    {
                         menuItem: `${t('Pages.Visits.Tab.Onapprove')} (${onapproveCount ?? 0})`,
                         render: () => <VisitOnapprove />,
+                    },
+                    {
+                        menuItem: `${t('Pages.Visits.Tab.Working')} (${workingCount ?? 0})`,
+                        render: () => <VisitWorking />,
                     },
                     {
                         menuItem: `${t('Pages.Visits.Tab.Completed')} (${completedCount ?? 0})`,
                         render: () => <VisitCompleted />,
                     },
                     {
-                        menuItem: `${t('Pages.Visits.Tab.Closed')} (${completedCount ?? 0})`,
+                        menuItem: `${t('Pages.Visits.Tab.Closed')} (${closedCount ?? 0})`,
                         render: () => <VisitClosed />,
                     },
                     {

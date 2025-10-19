@@ -59,11 +59,14 @@ const DetailModalCellHandler: React.FC<DetailModalCellHandlerProps> = ({ onClick
 
 interface DeleteCellHandlerProps {
     onClick: () => void
+    disabled?: boolean
 }
 
-const DeleteCellHandler: React.FC<DeleteCellHandlerProps> = ({ onClick }) => {
+const DeleteCellHandler: React.FC<DeleteCellHandlerProps> = ({ onClick, disabled }) => {
 
-    return <Icon link size='large' color='red' name='trash' onClick={onClick} />
+    return disabled
+        ? <Icon link size='large' color='grey' name='trash' />
+        : <Icon link size='large' color='red' name='trash' onClick={onClick} />
 }
 interface ExcelCellHandlerProps {
     onClick: () => void
@@ -139,11 +142,14 @@ const StopCellhandler: React.FC<StopCellhandlerProps> = ({ onClick }) => {
 
 interface WorkCellhandlerProps {
     onClick: () => void
+    disabled?: boolean
 }
 
-const WorkCellhandler: React.FC<WorkCellhandlerProps> = ({ onClick }) => {
+const WorkCellhandler: React.FC<WorkCellhandlerProps> = ({ onClick, disabled }) => {
 
-    return <Icon link size='large' color='blue' name='share' onClick={onClick} />
+    return disabled
+        ? <Icon link size='large' color='grey' name='share' />
+        : <Icon link size='large' color='blue' name='share' onClick={onClick} />
 }
 
 interface CompleteCellhandlerProps {

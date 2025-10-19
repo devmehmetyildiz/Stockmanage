@@ -32,6 +32,10 @@ async function CompleteVisit(req, res, next) {
     PermissionHandler(req, next, 'visitupdate')
 }
 
+async function SendApproveVisit(req, res, next) {
+    PermissionHandler(req, next, 'visitupdate')
+}
+
 async function WorkVisit(req, res, next) {
     PermissionHandler(req, next, 'visitupdate')
 }
@@ -50,5 +54,6 @@ module.exports = {
     WorkVisit,
     DeleteVisit,
     UpdateVisitPaymentDefines,
-    CompleteVisit
+    CompleteVisit,
+    SendApproveVisit
 }
