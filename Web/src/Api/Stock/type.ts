@@ -64,3 +64,18 @@ export interface StockDeleteRequest {
 export interface StockDeleteMovementRequest {
     Uuid: string
 }
+
+export interface StockStockLastMovementRequest {
+    WarehouseID: string
+}
+
+export interface StockLastMovementItem {
+    StockID: string
+    Type: number
+    Amount: number
+    Movementtype: number
+    Movementdate: Date
+    Sourcetype: number
+    SourceID: string
+    UserID: string
+}

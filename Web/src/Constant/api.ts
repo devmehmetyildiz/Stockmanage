@@ -132,6 +132,8 @@ export const STOCK_USE_STOCK = 'Warehouse/Stocks/UseStock'
 
 export const STOCK_INSERT_STOCK = 'Warehouse/Stocks/InsertStock'
 
+export const STOCK_GET_LAST_MOVEMENT = 'Warehouse/Stocks/GetLast5MovementsByWarehouse'
+
 export const STOCK_DELETE_STOCK = 'Warehouse/Stocks/DeleteStock'
 
 export const STOCK_DELETE_MOVEMENT = 'Warehouse/Stocks/DeleteMovement'

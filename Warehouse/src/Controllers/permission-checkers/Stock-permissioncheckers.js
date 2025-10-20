@@ -8,6 +8,10 @@ async function GetStockmovements(req, res, next) {
     PermissionHandler(req, next, 'stockscreen')
 }
 
+async function GetLast5MovementsByWarehouse(req, res, next) {
+    PermissionHandler(req, next, 'stockscreen')
+}
+
 async function CreateStock(req, res, next) {
     PermissionHandler(req, next, 'stockadd')
 }
@@ -46,5 +50,6 @@ module.exports = {
     InsertStock,
     DeleteStock,
     DeleteStockmovement,
-    InsertStockList
+    InsertStockList,
+    GetLast5MovementsByWarehouse
 }

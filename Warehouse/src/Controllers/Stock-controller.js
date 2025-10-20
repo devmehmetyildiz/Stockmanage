@@ -73,6 +73,42 @@ async function GetStockmovements(req, res, next) {
     }
 }
 
+async function GetLast5MovementsByWarehouse(req, res, next) {
+    const Uuid = req.params.ID
+
+    if (!validator.isUUID(Uuid)) {
+        return next(createValidationError([req.t('Warehouses.Error.IDRequired')], req.t('Stocks'), req.language))
+    }
+
+    try {
+        const query = `
+                     SELECT 
+                         sm.StockID,
+                         sm.Type,
+                         sm.Amount,
+                         sm.Movementtype,
+                         sm.Movementdate,
+                         sm.Sourcetype,
+                         sm.SourceID,
+                         sm.UserID
+                     FROM stockmovements sm
+                     INNER JOIN stocks s ON sm.StockID = s.Uuid AND s.Isactive = true
+                     INNER JOIN warehouses w ON s.WarehouseID = w.Uuid AND w.Isactive = true
+                     WHERE s.WarehouseID = :warehouseUuid AND sm.Isactive = true
+                     ORDER BY sm.Movementdate DESC
+                     LIMIT 5;
+                   `
+        const result = await db.sequelize.query(query, {
+            replacements: { warehouseUuid: Uuid },
+            type: db.Sequelize.QueryTypes.SELECT
+        })
+
+        res.status(200).json(result)
+    } catch (error) {
+        next(sequelizeErrorCatcher(error))
+    }
+}
+
 async function CreateStock(req, res, next) {
 
     let validationErrors = []
@@ -503,7 +539,6 @@ async function InsertStockList(req, res, next) {
                 Sourcetype,
                 SourceID
             } = returnstock
-            console.log('returnstock: ', returnstock);
 
             if (!validator.isNumber(Amount) || Amount <= 0) {
                 validationErrors.push(req.t('Stocks.Error.AmountRequired'))
@@ -658,5 +693,6 @@ module.exports = {
     DeleteStock,
     GetStockmovements,
     DeleteStockmovement,
-    InsertStockList
+    InsertStockList,
+    GetLast5MovementsByWarehouse
 }

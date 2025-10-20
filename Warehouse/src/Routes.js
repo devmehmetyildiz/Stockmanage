@@ -8,6 +8,7 @@ const Routes = [
   
   { method: 'get', path: '/Stocks/GetStocks', controller: 'Stock', action: 'GetStocks' },
   { method: 'get', path: '/Stocks/GetMovements', controller: 'Stock', action: 'GetStockmovements' },
+  { method: 'get', path: '/Stocks/GetLast5MovementsByWarehouse/:ID', controller: 'Stock', action: 'GetLast5MovementsByWarehouse' },
   { method: 'post', path: '/Stocks/CreateStock', controller: 'Stock', action: 'CreateStock' },
   { method: 'put', path: '/Stocks/UseStockList', controller: 'Stock', action: 'UseStockList' },
   { method: 'put', path: '/Stocks/UseStock', controller: 'Stock', action: 'UseStock' },
