@@ -33,6 +33,7 @@
     "Paymenttypes.Error.DuedaysRequired": "Beklenen ödeme günü gerekli",
     "Stockdefines": "Ürün Tanımları",
     "Stockdefines.Error.IDRequired": "Ürün tanımı ID değeri gerekli",
+    "Stockdefines.Error.ListNotFound": "Ürün tanımı listesi bulunamadı",
     "Stockdefines.Error.NotFound": "Ürün tanımı bulunamadı",
     "Stockdefines.Error.NotActive": "Ürün tanımı aktif değil",
     "Stockdefines.Error.ProductnameRequired": "Ürün adı gerekli",

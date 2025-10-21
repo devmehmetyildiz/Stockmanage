@@ -78,6 +78,7 @@ import VisitComplete from "@Pages/Visit/VisitComplete";
 import Paymentplan from "@Pages/Paymentplan/Paymentplan";
 import Paymentplantransaction from "@Pages/Paymentplantransaction/Paymentplantransaction";
 import WarehouseDetail from "@Pages/Warehouse/WarehouseDetail";
+import StockdefineMultiCreate from "@Pages/Stockdefine/StockdefineMultiCreate";
 
 interface RouteItemType {
     path: string
@@ -122,6 +123,7 @@ const AppRouter = () => {
         { path: Paths.LocationsEdit, element: <LocationEdit />, requiredRole: [privileges.locationview, privileges.locationupdate] },
         { path: Paths.Stockdefines, element: <Stockdefine />, requiredRole: [privileges.stockdefineview] },
         { path: Paths.StockdefinesCreate, element: <StockdefineCreate />, requiredRole: [privileges.stockdefineview, privileges.stockdefineadd] },
+        { path: Paths.StockdefinesMultiCreate, element: <StockdefineMultiCreate />, requiredRole: [privileges.stockdefineview, privileges.stockdefineadd] },
         { path: Paths.StockdefinesEdit, element: <StockdefineEdit />, requiredRole: [privileges.stockdefineview, privileges.stockdefineupdate] },
         { path: Paths.Warehouses, element: <Warehouse />, requiredRole: [privileges.warehouseview] },
         { path: Paths.WarehousesDetail, element: <WarehouseDetail />, requiredRole: [privileges.warehouseview] },

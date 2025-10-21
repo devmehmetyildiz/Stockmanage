@@ -49,6 +49,10 @@ export interface StockdefineAddRequest {
     Description?: string;
 }
 
+export interface StockdefineAddRequestWrapper {
+    DefineList: StockdefineAddRequest[]
+}
+
 export interface StockdefineEditRequest {
     Uuid: string;
     Productname: string;

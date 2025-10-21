@@ -1,7 +1,7 @@
 import { gatewayApi } from "@Api/api";
 import { STOCKDEFINE, STOCKDEFINE_COUNT, STOCKDEFINE_TAG, METHOD_DELETE, METHOD_GET, METHOD_POST, METHOD_PUT } from "@Constant/api";
 import {
-    StockdefineAddRequest,
+    StockdefineAddRequestWrapper,
     StockdefineDeleteRequest,
     StockdefineEditRequest,
     StockdefineItem,
@@ -35,7 +35,7 @@ export const stockdefineQuery = gatewayApi
                     method: METHOD_GET,
                 }),
             }),
-            addStockdefine: builder.mutation<void, StockdefineAddRequest>({
+            addStockdefine: builder.mutation<void, StockdefineAddRequestWrapper>({
                 query: (body) => ({
                     url: STOCKDEFINE,
                     method: METHOD_POST,

@@ -51,6 +51,7 @@ const DoctordefinesEdit = RouteKeys.Main + RouteKeys.Doctordefines + "/:Id/edit"
 
 const Stockdefines = RouteKeys.Main + RouteKeys.Stockdefines
 const StockdefinesCreate = RouteKeys.Main + RouteKeys.Stockdefines + "/Create"
+const StockdefinesMultiCreate = RouteKeys.Main + RouteKeys.Stockdefines + "/MultiCreate"
 const StockdefinesEdit = RouteKeys.Main + RouteKeys.Stockdefines + "/:Id/edit"
 
 const Paymenttypes = RouteKeys.Main + RouteKeys.Paymenttypes
@@ -112,6 +113,7 @@ const Paths = {
     DoctordefinesCreate,
     DoctordefinesEdit,
     Stockdefines,
+    StockdefinesMultiCreate,
     StockdefinesCreate,
     StockdefinesEdit,
     Paymenttypes,
@@ -132,7 +134,7 @@ const Paths = {
     VisitComplete,
     Paymentplans,
     Paymentplantransactions,
-    WarehousesDetail
+    WarehousesDetail,
 }
 
 export default Paths

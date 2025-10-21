@@ -56,7 +56,6 @@ async function AddCase(req, res, next) {
         Isdefault,
         Description,
     } = req.body
-    console.log('req.body: ', req.body);
 
     if (!validator.isString(Name)) {
         validationErrors.push(req.t('Cases.Error.NameRequired'))

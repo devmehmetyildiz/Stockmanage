@@ -34,7 +34,12 @@ const StockdefineCreate: React.FC = () => {
     const submit = () => {
         trigger().then((valid) => {
             if (valid) {
-                AddStockdefine(getValues())
+                const data = getValues()
+                AddStockdefine({
+                    DefineList: [
+                        data
+                    ]
+                })
                     .unwrap()
                     .then(() => {
                         Pushnotification({

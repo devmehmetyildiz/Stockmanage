@@ -15,7 +15,8 @@ import { useGetStockdefinesQuery } from '@Api/Stockdefine'
 import StockdefineDeleteModal from '@Components/Stockdefine/StockdefineDeleteModal'
 import RouteKeys from '@Constant/routeKeys'
 import { DeleteCellHandler, EditCellHandler } from '@Components/Common/CellHandler'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import StockdefineImportModal from '@Components/Stockdefine/StockdefineImportModal'
 
 const Stockdefine: React.FC = () => {
 
@@ -23,7 +24,8 @@ const Stockdefine: React.FC = () => {
 
     const [expandedDepartments, setExpandedDepartments] = useState<number[]>([])
 
-
+    const navigate = useNavigate()
+    const [importOpen, setImportOpen] = useState(false)
     const [deleteOpen, setDeleteOpen] = useState(false)
     const [record, setRecord] = useState<StockdefineItem | null>(null)
 
@@ -115,6 +117,16 @@ const Stockdefine: React.FC = () => {
                         Pagecreateheader: t('Pages.Stockdefines.Page.CreateHeader'),
                         Pagecreatelink: Paths.StockdefinesCreate
                     }}
+                    additionalButtons={[
+                        {
+                            onClick: () => setImportOpen(true),
+                            name: t('Pages.Stockdefines.Label.ImportExcel')
+                        },
+                        {
+                            onClick: () => navigate(`${Paths.Stockdefines}/MultiCreate`),
+                            name: t('Pages.Stockdefines.Label.AddMulti')
+                        }
+                    ]}
                 />
                 <DataTable
                     columns={columns}
@@ -127,6 +139,10 @@ const Stockdefine: React.FC = () => {
                 setOpen={setDeleteOpen}
                 data={record}
                 setData={setRecord}
+            />
+            <StockdefineImportModal
+                open={importOpen}
+                setOpen={setImportOpen}
             />
         </Pagewrapper>
     )

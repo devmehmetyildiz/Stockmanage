@@ -48,75 +48,25 @@ async function GetStockdefine(req, res, next) {
 
 async function AddStockdefine(req, res, next) {
 
-    let validationErrors = []
     const {
-        Productname,
-        Brand,
-        Barcodeno,
-        Model,
-        Category,
-        Diameter,
-        Length,
-        Material,
-        Surfacetreatment,
-        Connectiontype,
-        Suppliername,
-        Suppliercontact,
-        Description,
+        DefineList
     } = req.body
 
-    if (!validator.isString(Productname)) {
-        validationErrors.push(req.t('Stockdefines.Error.ProductnameRequired'))
-    }
-    if (!validator.isString(Barcodeno)) {
-        validationErrors.push(req.t('Stockdefines.Error.BarcodenoRequired'))
-    }
-    if (!validator.isString(Brand)) {
-        validationErrors.push(req.t('Stockdefines.Error.BrandRequired'))
-    }
-    if (!validator.isString(Model)) {
-        validationErrors.push(req.t('Stockdefines.Error.ModelRequired'))
-    }
-    if (!validator.isString(Category)) {
-        validationErrors.push(req.t('Stockdefines.Error.CategoryRequired'))
-    }
-    if (!validator.isString(Diameter)) {
-        validationErrors.push(req.t('Stockdefines.Error.DiameterRequired'))
-    }
-    if (!validator.isString(Length)) {
-        validationErrors.push(req.t('Stockdefines.Error.LengthRequired'))
-    }
-    if (!validator.isString(Material)) {
-        validationErrors.push(req.t('Stockdefines.Error.MaterialRequired'))
-    }
-    if (!validator.isString(Surfacetreatment)) {
-        validationErrors.push(req.t('Stockdefines.Error.SurfacetreatmentRequired'))
-    }
-    if (!validator.isString(Connectiontype)) {
-        validationErrors.push(req.t('Stockdefines.Error.ConnectiontypeRequired'))
-    }
-    if (!validator.isString(Suppliername)) {
-        validationErrors.push(req.t('Stockdefines.Error.SuppliernameRequired'))
-    }
-    if (!validator.isString(Suppliercontact)) {
-        validationErrors.push(req.t('Stockdefines.Error.SuppliercontactRequired'))
+    if (!DefineList || !validator.isArray(DefineList) || (DefineList || []).length <= 0) {
+        next(createValidationError([req.t('Stockdefines.Error.ListNotFound')], req.t('Stockdefines'), req.language))
     }
 
-    if (validationErrors.length > 0) {
-        return next(createValidationError(validationErrors, req.t('Stockdefines'), req.language))
-    }
 
-    const t = await db.sequelize.transaction()
     const username = req?.identity?.user?.Username || 'System'
-    const itemUuid = uuid()
 
-    try {
-        await db.stockdefineModel.create({
-            Uuid: itemUuid,
+    for (const stockdefine of DefineList) {
+
+        let validationErrors = []
+        const {
             Productname,
             Brand,
-            Model,
             Barcodeno,
+            Model,
             Category,
             Diameter,
             Length,
@@ -125,27 +75,111 @@ async function AddStockdefine(req, res, next) {
             Connectiontype,
             Suppliername,
             Suppliercontact,
-            Description,
-            Createduser: username,
-            Createtime: new Date(),
-            Isactive: true,
-        }, { transaction: t })
+        } = stockdefine
+
+        if (!validator.isString(Productname)) {
+            validationErrors.push(req.t('Stockdefines.Error.ProductnameRequired'))
+        }
+        if (!validator.isString(Barcodeno)) {
+            validationErrors.push(req.t('Stockdefines.Error.BarcodenoRequired'))
+        }
+        if (!validator.isString(Brand)) {
+            validationErrors.push(req.t('Stockdefines.Error.BrandRequired'))
+        }
+        if (!validator.isString(Model)) {
+            validationErrors.push(req.t('Stockdefines.Error.ModelRequired'))
+        }
+        if (!validator.isString(Category)) {
+            validationErrors.push(req.t('Stockdefines.Error.CategoryRequired'))
+        }
+        if (!validator.isString(Diameter)) {
+            validationErrors.push(req.t('Stockdefines.Error.DiameterRequired'))
+        }
+        if (!validator.isString(Length)) {
+            validationErrors.push(req.t('Stockdefines.Error.LengthRequired'))
+        }
+        if (!validator.isString(Material)) {
+            validationErrors.push(req.t('Stockdefines.Error.MaterialRequired'))
+        }
+        if (!validator.isString(Surfacetreatment)) {
+            validationErrors.push(req.t('Stockdefines.Error.SurfacetreatmentRequired'))
+        }
+        if (!validator.isString(Connectiontype)) {
+            validationErrors.push(req.t('Stockdefines.Error.ConnectiontypeRequired'))
+        }
+        if (!validator.isString(Suppliername)) {
+            validationErrors.push(req.t('Stockdefines.Error.SuppliernameRequired'))
+        }
+        if (!validator.isString(Suppliercontact)) {
+            validationErrors.push(req.t('Stockdefines.Error.SuppliercontactRequired'))
+        }
+
+        if (validationErrors.length > 0) {
+            return next(createValidationError(validationErrors, req.t('Stockdefines'), req.language))
+        }
+    }
+
+    const t = null
+    try {
+        let t = await db.sequelize.transaction()
+        const createdItems = []
+        for (const stockdefine of DefineList) {
+
+            const {
+                Productname,
+                Brand,
+                Barcodeno,
+                Model,
+                Category,
+                Diameter,
+                Length,
+                Material,
+                Surfacetreatment,
+                Connectiontype,
+                Suppliername,
+                Suppliercontact,
+                Description,
+            } = stockdefine
+
+            const itemUuid = uuid()
+            createdItems.push(itemUuid)
+            await db.stockdefineModel.create({
+                Uuid: itemUuid,
+                Productname,
+                Brand,
+                Model,
+                Barcodeno,
+                Category,
+                Diameter,
+                Length,
+                Material,
+                Surfacetreatment,
+                Connectiontype,
+                Suppliername,
+                Suppliercontact,
+                Description,
+                Createduser: username,
+                Createtime: new Date(),
+                Isactive: true,
+            }, { transaction: t })
+        }
 
         publishEvent("notificationCreate", 'User', 'Userrole', {
             type: 'created',
             service: req.t('Stockdefines'),
             role: 'stockdefinenotification',
             message: {
-                en: `${Productname} stock item created by ${username}`,
-                tr: `${Productname} ürün tanımı ${username} tarafından oluşturuldu`
+                en: `${DefineList.length} count stock item created by ${username}`,
+                tr: `${DefineList.length} adet ürün tanımı ${username} tarafından oluşturuldu`
             }[req.language],
             pushurl: '/Stockdefines'
         })
-
         await t.commit()
-        res.status(200).json({ message: req.t('General.SuccessfullyCreated'), entity: itemUuid })
+        res.status(200).json({ message: req.t('General.SuccessfullyCreated'), entities: createdItems })
     } catch (error) {
-        await t.rollback()
+        if (t) {
+            await t.rollback()
+        }
         next(sequelizeErrorCatcher(error))
     }
 }
