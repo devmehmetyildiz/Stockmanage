@@ -11,8 +11,8 @@ import { useGetLocationQuery } from '@Api/Location';
 import validator from '@Utils/Validator';
 import { VisitItem } from '@Api/Visit/type';
 import {
+    VISIT_STATU_CLOSED,
     VISIT_STATU_COMPLETED,
-    VISIT_STATU_DECLINED,
     VISIT_STATU_ON_APPROVE,
     VISIT_STATU_PLANNED,
     VISIT_STATU_WORKING,
@@ -61,7 +61,7 @@ const VisitDetailMeta: React.FC<VisitDetailMetaProps> = (props) => {
             { text: t('Option.VisitStatu.Working'), value: VISIT_STATU_WORKING, color: 'blue' },
             { text: t('Option.VisitStatu.Onapprove'), value: VISIT_STATU_ON_APPROVE, color: 'orange' },
             { text: t('Option.VisitStatu.Completed'), value: VISIT_STATU_COMPLETED, color: 'green' },
-            { text: t('Option.VisitStatu.Declined'), value: VISIT_STATU_DECLINED, color: 'red' },
+            { text: t('Option.VisitStatu.Closed'), value: VISIT_STATU_CLOSED, color: 'grey' },
         ],
         [t]
     );

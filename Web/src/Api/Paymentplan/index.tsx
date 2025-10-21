@@ -1,6 +1,6 @@
 import { gatewayApi } from "@Api/api";
-import { METHOD_GET, PAYMENTPLAN_TAG, PAYMENTPLAN, PAYMENTPLAN_COUNT, PAYMENTPLAN_TRANSACTION_COUNT, PAYMENTPLAN_TRANSACTION, } from "@Constant/api";
-import { PaymentplanItem, PaymentplanListItem, PaymentplanListRequest, PaymentplanRequest, PaymentplanTransactionListRequest } from "./type";
+import { METHOD_GET, PAYMENTPLAN_TAG, PAYMENTPLAN, PAYMENTPLAN_COUNT, PAYMENTPLAN_TRANSACTION_COUNT, PAYMENTPLAN_TRANSACTION, PAYMENTPLAN_APPROVE_TRANSACTION, METHOD_PUT, } from "@Constant/api";
+import { PaymentplanApproveTransactionRequest, PaymentplanItem, PaymentplanListItem, PaymentplanListRequest, PaymentplanRequest, PaymentplanTransactionItem, PaymentplanTransactionListRequest } from "./type";
 
 export const paymentplanQuery = gatewayApi
     .enhanceEndpoints({ addTagTypes: [PAYMENTPLAN_TAG] })
@@ -14,7 +14,7 @@ export const paymentplanQuery = gatewayApi
                 }),
                 providesTags: [PAYMENTPLAN_TAG],
             }),
-            getPaymentplantransactions: builder.query<PaymentplanTransactionListRequest[], PaymentplanTransactionListRequest | void>({
+            getPaymentplantransactions: builder.query<PaymentplanTransactionItem[], PaymentplanTransactionListRequest | void>({
                 query: (params) => ({
                     url: PAYMENTPLAN_TRANSACTION,
                     method: METHOD_GET,
@@ -44,6 +44,14 @@ export const paymentplanQuery = gatewayApi
                     method: METHOD_GET,
                 }),
             }),
+            approvePaymentplanTransaction: builder.mutation<void, PaymentplanApproveTransactionRequest>({
+                query: (body) => ({
+                    url: PAYMENTPLAN_APPROVE_TRANSACTION,
+                    method: METHOD_PUT,
+                    body
+                }),
+                invalidatesTags: (result) => result ? [PAYMENTPLAN_TAG] : [],
+            }),
         }),
     });
 
@@ -53,5 +61,6 @@ export const {
     useGetPaymentplansCountQuery,
     useGetPaymentplanQuery,
     useGetPaymentplantransactionsQuery,
-    useGetPaymentplantransactionCountsQuery
+    useGetPaymentplantransactionCountsQuery,
+    useApprovePaymentplanTransactionMutation,
 } = paymentplanQuery;

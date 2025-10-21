@@ -38,6 +38,9 @@ module.exports = sequelize.define('visitModel', {
     Scheduledpayment: {
         type: Sequelize.FLOAT
     },
+    Finalpayment: {
+        type: Sequelize.FLOAT
+    },
     Isapproved: {
         type: Sequelize.BOOLEAN
     },

@@ -162,6 +162,8 @@ export const PAYMENTPLAN_TRANSACTION_COUNT = 'Business/Paymentplans/Transactions
 
 export const PAYMENTPLAN_COUNT = 'Business/Paymentplans/Counts'
 
+export const PAYMENTPLAN_APPROVE_TRANSACTION = 'Business/Paymentplans/ApproveTransaction'
+
 
 //Tags
 

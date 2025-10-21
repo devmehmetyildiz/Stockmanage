@@ -68,8 +68,6 @@ export const VISIT_STATU_ON_APPROVE = 3
 
 export const VISIT_STATU_CLOSED = 4
 
-export const VISIT_STATU_DECLINED = 5
-
 export const VISIT_PAYMENT_STATUS_NON = 0
 
 export const VISIT_PAYMENT_STATUS_SEMI = 1

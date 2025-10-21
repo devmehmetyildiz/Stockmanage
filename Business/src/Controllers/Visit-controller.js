@@ -7,27 +7,21 @@ const { publishEvent, initApproveMessageService } = require("../Services/Message
 const DoPut = require("../Utilities/DoPut")
 const DoGet = require("../Utilities/DoGet")
 const config = require("../Config")
-const { Op } = require('sequelize')
-
-const VISIT_STATU_PLANNED = 0
-const VISIT_STATU_WORKING = 1
-const VISIT_STATU_COMPLETED = 2
-const VISIT_STATU_ON_APPROVE = 3
-const VISIT_STATU_CLOSED = 4
-const VISIT_STATU_DECLINED = 5
-
-const STOCK_SOURCETYPE_USER = 0
-const STOCK_SOURCETYPE_PURCHASEORDER = 1
-const STOCK_SOURCETYPE_VISIT = 2
-
-const VISIT_PAYMENT_STATUS_NON = 0
-const VISIT_PAYMENT_STATUS_SEMI = 1
-const VISIT_PAYMENT_STATUS_FULL = 2
-
-const PAYMENT_TRANSACTION_TYPE_PREPAYMENT = 0
-const PAYMENT_TRANSACTION_TYPE_FULLPAYMENT = 1
-const PAYMENT_TRANSACTION_TYPE_TRANSACTION = 2
-const PAYMENT_TRANSACTION_TYPE_CLOSE_TRANSACTION = 3
+const { Op, DATE } = require('sequelize')
+const {
+    VISIT_STATU_PLANNED,
+    VISIT_STATU_WORKING,
+    VISIT_STATU_COMPLETED,
+    VISIT_STATU_ON_APPROVE,
+    STOCK_SOURCETYPE_VISIT,
+    VISIT_PAYMENT_STATUS_NON,
+    VISIT_PAYMENT_STATUS_SEMI,
+    VISIT_PAYMENT_STATUS_FULL,
+    PAYMENT_TRANSACTION_TYPE_PREPAYMENT,
+    PAYMENT_TRANSACTION_TYPE_FULLPAYMENT,
+    PAYMENT_TRANSACTION_TYPE_TRANSACTION,
+    PAYMENT_TRANSACTION_TYPE_CLOSE_TRANSACTION,
+} = require("../Constants")
 
 async function GetVisitCounts(req, res, next) {
     try {
@@ -742,6 +736,8 @@ async function CompleteVisit(req, res, next) {
 
         await db.visitModel.update({
             Status: VISIT_STATU_COMPLETED,
+            Finalpayment: Totalamount,
+            Visitenddate: new DATE(),
             Updateduser: username,
             Updatetime: new Date(),
         }, { transaction: t, where: { Uuid: VisitID } })

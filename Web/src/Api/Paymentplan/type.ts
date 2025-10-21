@@ -2,9 +2,11 @@ import { DefaultRequestType } from "@Constant/common";
 
 export interface PaymentplanListRequest extends DefaultRequestType {
     Status?: number
+    VisitID?: string
 }
 export interface PaymentplanTransactionListRequest extends DefaultRequestType {
     Status?: number
+    PaymentplanID?: string
 }
 
 export interface PaymentplanRequest {
@@ -55,4 +57,10 @@ export interface PaymentplanTransactionItem {
 
 export interface PaymentplanItem extends PaymentplanListItem {
     Transactions: PaymentplanTransactionItem[]
+}
+
+export interface PaymentplanApproveTransactionRequest {
+    TransactionID: string,
+    Paymentmethod: number,
+    Description: string
 }

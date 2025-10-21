@@ -42,6 +42,7 @@ export interface VisitListItem {
     Status: number;
     Notes: string;
     Scheduledpayment: number
+    Finalpayment: number
     Isapproved: boolean
     Isrejected: boolean
     ApprovedUserID: string

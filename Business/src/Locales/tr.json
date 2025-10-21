@@ -32,5 +32,13 @@
     "Visits.Error.StartdateRequired": "Ziyaret Tarihi Geçmiş Tarihli Olamaz",
     "Visits.Messages.PrepaymentTransaction": "Ön Ödeme Tahsilatı",
     "Visits.Messages.FullpaymentTransaction": "Toplam Ödeme Tahsilatı",
-    "Visits.Messages.Installment": "Taksit"
+    "Visits.Messages.Installment": "Taksit",
+    "Paymentplans": "Ödeme Planları",
+    "Paymentplans.Error.IDRequired": "Ödeme Planı ID değeri gerekli",
+    "Paymentplans.Error.NotFound": "Ödeme Planı bulunamadı",
+    "Paymentplans.Error.NotActive": "Ödeme Planı aktif değil",
+    "Paymentplans.Error.TransactionIDRequired": "Ödeme Planı tahsilat ID değeri gerekli",
+    "Paymentplans.Error.TransactionNotFound": "Tahsilat bulunamadı",
+    "Paymentplans.Error.TransactionNotActive": "Tahsilat aktif değil",
+    "Paymentplans.Error.TransactionCompleted": "Tahsilat tamamlanmış"
 }

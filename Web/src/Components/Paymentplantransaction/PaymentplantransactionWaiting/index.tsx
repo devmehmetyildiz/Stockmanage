@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Pagewrapper from '@Components/Common/Pagewrapper'
 import DataTable, { ColumnType } from '@Components/Common/DataTable'
 import { useTranslation } from 'react-i18next'
@@ -11,10 +11,17 @@ import { useGetPaymentplansQuery, useGetPaymentplantransactionsQuery } from '@Ap
 import { loaderCellhandler } from '@Utils/CellHandler'
 import { useGetVisitsQuery } from '@Api/Visit'
 import { useGetDoctordefinesQuery } from '@Api/Doctordefine'
+import privileges from '@Constant/privileges'
+import { CellContext } from '@tanstack/react-table'
+import { CompleteCellhandler } from '@Components/Common/CellHandler'
+import PaymentplantransactionApproveModal from '../PaymentplantransactionApproveModal'
 
 const PaymentplantransactionWaiting: React.FC = () => {
 
     const { t } = useTranslation()
+
+    const [approveOpen, setApproveOpen] = useState(false)
+    const [record, setRecord] = useState<PaymentplanTransactionItem | null>(null)
 
     const { data, isFetching } = useGetPaymentplantransactionsQuery({ isActive: 1, Status: 0 })
 
@@ -50,6 +57,16 @@ const PaymentplantransactionWaiting: React.FC = () => {
         }).format(value || 0)
     }
 
+    const approveCellhandler = (wrapper: CellContext<any, unknown>) => {
+        const data = wrapper.row.original as PaymentplanTransactionItem
+
+        return <CompleteCellhandler onClick={() => {
+            setRecord(data)
+            setApproveOpen(true)
+        }} />
+    }
+
+
     const columns: ColumnType<PaymentplanTransactionItem>[] = [
         { header: t("Common.Columns.Id"), accessorKey: 'Id', isIcon: true },
         { header: t("Common.Columns.Uuid"), accessorKey: 'Uuid' },
@@ -61,6 +78,7 @@ const PaymentplantransactionWaiting: React.FC = () => {
         { header: t("Common.Columns.Createtime"), accessorKey: 'Createtime', accessorFn: row => dateCellhandler(row?.Createtime) },
         { header: t("Common.Columns.Updateduser"), accessorKey: 'Updateduser' },
         { header: t("Common.Columns.Updatetime"), accessorKey: 'Updatetime', accessorFn: row => dateCellhandler(row?.Updatetime) },
+        { header: t("Common.Columns.approve"), accessorKey: 'approve', isIcon: true, pinned: true, role: privileges.paymentplanupdate, cell: (wrapper) => approveCellhandler(wrapper), size: 45 },
     ]
 
     const tableKey = `${isVisitsFetching}-${isPaymentplansFetching}-${isDoctorsFetching}`
@@ -74,6 +92,12 @@ const PaymentplantransactionWaiting: React.FC = () => {
                 config={initialConfig}
             />
         </ExcelProvider>
+        <PaymentplantransactionApproveModal
+            open={approveOpen}
+            setOpen={setApproveOpen}
+            data={record}
+            setData={setRecord}
+        />
     </Pagewrapper>
     )
 }

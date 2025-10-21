@@ -1,9 +1,9 @@
 import { gatewayApi } from "@Api/api";
-import { VISIT, METHOD_GET, METHOD_POST, METHOD_PUT, VISIT_TAG, VISIT_GETCOUNT, VISIT_UPDATE_STOCKS, VISIT_UPDATE_DEFINES, VISIT_WORK, METHOD_DELETE, VISIT_UPDATE_PAYMENTDEFINE, VISIT_COMPLETE, VISIT_SEND_APPROVE } from "@Constant/api";
+import { VISIT, METHOD_GET, METHOD_POST, METHOD_PUT, VISIT_TAG, VISIT_GETCOUNT, VISIT_UPDATE_STOCKS, VISIT_UPDATE_DEFINES, VISIT_WORK, METHOD_DELETE, VISIT_UPDATE_PAYMENTDEFINE, VISIT_COMPLETE, VISIT_SEND_APPROVE, PAYMENTPLAN_TAG } from "@Constant/api";
 import { VisitCompleteApiRequest, VisitCreateRequest, VisitDeleteRequest, VisitItem, VisitListItem, VisitListRequest, VisitRequest, VisitSendApproveRequest, VisitUpdateDefinesRequest, VisitUpdatePaymentdefineRequest, VisitUpdateStocksRequest, VisitWorkRequest } from "./type";
 
 export const visitQuery = gatewayApi
-    .enhanceEndpoints({ addTagTypes: [VISIT_TAG] })
+    .enhanceEndpoints({ addTagTypes: [VISIT_TAG, PAYMENTPLAN_TAG] })
     .injectEndpoints({
         endpoints: (builder) => ({
             getVisits: builder.query<VisitListItem[], VisitListRequest | void>({
@@ -12,7 +12,7 @@ export const visitQuery = gatewayApi
                     method: METHOD_GET,
                     params: params || undefined,
                 }),
-                providesTags: [VISIT_TAG],
+                providesTags: [VISIT_TAG, PAYMENTPLAN_TAG],
             }),
             getVisitsCount: builder.query<number, VisitListRequest | void>({
                 query: (params) => ({
@@ -20,13 +20,14 @@ export const visitQuery = gatewayApi
                     method: METHOD_GET,
                     params: params || undefined,
                 }),
-                providesTags: [VISIT_TAG],
+                providesTags: [VISIT_TAG, PAYMENTPLAN_TAG],
             }),
             getVisit: builder.query<VisitItem, VisitRequest>({
                 query: (req) => ({
                     url: `${VISIT}/${req.Uuid}`,
                     method: METHOD_GET,
                 }),
+                providesTags: [VISIT_TAG, PAYMENTPLAN_TAG],
             }),
             createVisit: builder.mutation<void, VisitCreateRequest>({
                 query: (body) => ({
