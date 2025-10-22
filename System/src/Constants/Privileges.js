@@ -104,6 +104,7 @@ const Priveleges = [
     { code: 'visitdelete',       text: { en: 'Visits Delete',      tr: 'Ziyaretler Silme' },            group: { en: 'Visits', tr: 'Ziyaretler' } },
     { code: 'visitmanageview',   text: { en: 'Visits Manage View', tr: 'Ziyaretler Görünüm Ayarlama' }, group: { en: 'Visits', tr: 'Ziyaretler' } },
     { code: 'visitgetreport',    text: { en: 'Visits Get Report',  tr: 'Ziyaretler Rapor Alma' },       group: { en: 'Visits', tr: 'Ziyaretler' } },
+    { code: 'visitapprove',      text: { en: 'Visits Approve',     tr: 'Ziyaretler Onaylama' },         group: { en: 'Visits', tr: 'Ziyaretler' } },
     { code: 'visitnotification', text: { en: 'Visits Notification',tr: 'Ziyaretler Bildirim Alma' },    group: { en: 'Visits', tr: 'Ziyaretler' } },
     { code: 'paymentplanscreen',       text: { en: 'Payment Plans Screen',      tr: 'Ödeme Planları Veri' },             group: { en: 'Payment Plans', tr: 'Ödeme Planaları' } },
     { code: 'paymentplanview',         text: { en: 'Payment Plans View',        tr: 'Ödeme Planları Görüntüleme' },      group: { en: 'Payment Plans', tr: 'Ödeme Planaları' } },
