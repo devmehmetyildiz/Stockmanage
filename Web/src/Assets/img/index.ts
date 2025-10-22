@@ -1,5 +1,5 @@
 import logo from "./stovira.png"
-import loginbg from "./loginBg.jpg"
+import loginbg from "./loginBg.png"
 import contentbg from "./contentbg.png"
 import avatar from "./avatar.png"
 import loading from "./loading.gif"
