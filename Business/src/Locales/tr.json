@@ -38,6 +38,8 @@
     "Paymentplans.Error.NotFound": "Ödeme Planı bulunamadı",
     "Paymentplans.Error.NotActive": "Ödeme Planı aktif değil",
     "Paymentplans.Error.TransactionIDRequired": "Ödeme Planı tahsilat ID değeri gerekli",
+    "Paymentplans.Error.StartdateRequired": "Başlangıc tarihi gerekli",
+    "Paymentplans.Error.EnddateRequired": "Bitiş tarihi gerekli",
     "Paymentplans.Error.TransactionNotFound": "Tahsilat bulunamadı",
     "Paymentplans.Error.TransactionNotActive": "Tahsilat aktif değil",
     "Paymentplans.Error.TransactionCompleted": "Tahsilat tamamlanmış"

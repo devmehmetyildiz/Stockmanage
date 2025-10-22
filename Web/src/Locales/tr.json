@@ -666,6 +666,7 @@
         "Pages.Visits.Columns.Returnamount": "İade Edilecek Miktar",
         "Pages.Visits.Columns.Description": "Açıklama",
         "Pages.Visits.Columns.Scheduledpayment": "Planlanan Ödeme",
+        "Pages.Visits.Columns.ReminingValue": "Kalan Ödeme",
         "Pages.Visits.Columns.TotalAmount": "Toplam Ödeme",
         "Pages.Visits.Columns.Isapproved": "Onay Durumu",
         "Pages.Visits.Columns.ApprovedUserID": "Onaylayan Personel",
@@ -747,6 +748,9 @@
         "Pages.Paymentplans.Columns.Startdate": "Başlangıç Tarihi",
         "Pages.Paymentplans.Columns.Enddate": "Bitiş Tarihi",
         "Pages.Paymentplans.Columns.Status": "Durum",
+        "Pages.Paymentplans.Label.Details": "Plan Detayı",
+        "Pages.Paymentplans.Label.Paid": "Ödenen Tutar",
+        "Pages.Paymentplans.Label.Installments": "Taksitler",
         "Pages.Paymentplans.Messages.UndefinedPaymentplan": "Tanımsız Ödeme Planı",
         "Pages.Paymentplans.InstallmentcountRequired": "Taksit adeti gerekli",
         "Pages.Paymentplans.InstallmentintervalRequired": "Taksit döngüsü gerekli",
@@ -771,6 +775,8 @@
         "Pages.Paymentplantransactions.Approve.Label.ApproveCheck": " tutarındaki ödemeyi gerçekleştiriceksiniz.",
         "Pages.Paymentplantransactions.Messages.ApproveSuccess": "Ödeme başarıyla alındı",
         "Pages.Paymentplantransactions.Messages.PaymentmethodRequired": "Ödeme Yöntemi Gerekli",
-        "Pages.Paymentplantransactions.Messages.UndefinedPaymentplantransaction": "Tanımsız Tahsilat"
+        "Pages.Paymentplantransactions.Messages.UndefinedPaymentplantransaction": "Tanımsız Tahsilat",
+        "Pages.UserSalesReport.Page.Header": "Personel Satış Raporu",
+        "Pages.UserSalesReport.Messages.FetchList": "Listeyi Getir"
     }
 }

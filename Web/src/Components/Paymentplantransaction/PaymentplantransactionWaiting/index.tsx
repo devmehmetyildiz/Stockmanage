@@ -13,8 +13,9 @@ import { useGetVisitsQuery } from '@Api/Visit'
 import { useGetDoctordefinesQuery } from '@Api/Doctordefine'
 import privileges from '@Constant/privileges'
 import { CellContext } from '@tanstack/react-table'
-import { CompleteCellhandler } from '@Components/Common/CellHandler'
+import { CompleteCellhandler, DetailCellHandler } from '@Components/Common/CellHandler'
 import PaymentplantransactionApproveModal from '../PaymentplantransactionApproveModal'
+import RouteKeys from '@Constant/routeKeys'
 
 const PaymentplantransactionWaiting: React.FC = () => {
 
@@ -66,6 +67,12 @@ const PaymentplantransactionWaiting: React.FC = () => {
         }} />
     }
 
+    const detailCellhandler = (wrapper: CellContext<any, unknown>) => {
+        const data = wrapper.row.original as PaymentplanTransactionItem
+
+        return <DetailCellHandler url={`/${RouteKeys.Paymentplans}/${data.PaymentplanID}/Detail`} />
+    }
+
 
     const columns: ColumnType<PaymentplanTransactionItem>[] = [
         { header: t("Common.Columns.Id"), accessorKey: 'Id', isIcon: true },
@@ -79,6 +86,7 @@ const PaymentplantransactionWaiting: React.FC = () => {
         { header: t("Common.Columns.Updateduser"), accessorKey: 'Updateduser' },
         { header: t("Common.Columns.Updatetime"), accessorKey: 'Updatetime', accessorFn: row => dateCellhandler(row?.Updatetime) },
         { header: t("Common.Columns.approve"), accessorKey: 'approve', isIcon: true, pinned: true, role: privileges.paymentplanupdate, cell: (wrapper) => approveCellhandler(wrapper), size: 45 },
+        { header: t("Common.Columns.detail"), accessorKey: 'detail', isIcon: true, pinned: true, role: privileges.paymentplanview, cell: (wrapper) => detailCellhandler(wrapper), size: 45 },
     ]
 
     const tableKey = `${isVisitsFetching}-${isPaymentplansFetching}-${isDoctorsFetching}`

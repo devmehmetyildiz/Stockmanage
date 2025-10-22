@@ -17,6 +17,8 @@ const Routes = [
     { method: 'get', path: '/Paymentplans/:ID', controller: 'Paymentplan', action: 'GetPaymentplan' },
     { method: 'get', path: '/Paymentplans', controller: 'Paymentplan', action: 'GetPaymentplans' },
     { method: 'put', path: '/Paymentplans/ApproveTransaction', controller: 'Paymentplan', action: 'ApproveTransaction' },
+
+    { method: 'post', path: '/Reports/GetUserSalesReport', controller: 'Report', action: 'GetUserSalesReport' },
 ]
 
 module.exports = Routes

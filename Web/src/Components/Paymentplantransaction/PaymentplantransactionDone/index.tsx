@@ -12,6 +12,10 @@ import { loaderCellhandler } from '@Utils/CellHandler'
 import { useGetVisitsQuery } from '@Api/Visit'
 import { useGetDoctordefinesQuery } from '@Api/Doctordefine'
 import { PAYMENT_TRANSACTION_TYPE_CLOSE_TRANSACTION, PAYMENT_TRANSACTION_TYPE_FULLPAYMENT, PAYMENT_TRANSACTION_TYPE_PREPAYMENT, PAYMENT_TRANSACTION_TYPE_TRANSACTION, PAYMENTTYPE_TYPE_BANKTRANSFER, PAYMENTTYPE_TYPE_CASH, PAYMENTTYPE_TYPE_CREDITCARD, PAYMENTTYPE_TYPE_INVOICE } from '@Constant/index'
+import { DetailCellHandler } from '@Components/Common/CellHandler'
+import RouteKeys from '@Constant/routeKeys'
+import { CellContext } from '@tanstack/react-table'
+import privileges from '@Constant/privileges'
 
 const PaymentplantransactionDone: React.FC = () => {
 
@@ -72,6 +76,12 @@ const PaymentplantransactionDone: React.FC = () => {
         }).format(value || 0)
     }
 
+    const detailCellhandler = (wrapper: CellContext<any, unknown>) => {
+        const data = wrapper.row.original as PaymentplanTransactionItem
+
+        return <DetailCellHandler url={`/${RouteKeys.Paymentplans}/${data.PaymentplanID}/Detail`} />
+    }
+
     const columns: ColumnType<PaymentplanTransactionItem>[] = [
         { header: t("Common.Columns.Id"), accessorKey: 'Id', isIcon: true },
         { header: t("Common.Columns.Uuid"), accessorKey: 'Uuid' },
@@ -86,6 +96,7 @@ const PaymentplantransactionDone: React.FC = () => {
         { header: t("Common.Columns.Createtime"), accessorKey: 'Createtime', accessorFn: row => dateCellhandler(row?.Createtime) },
         { header: t("Common.Columns.Updateduser"), accessorKey: 'Updateduser' },
         { header: t("Common.Columns.Updatetime"), accessorKey: 'Updatetime', accessorFn: row => dateCellhandler(row?.Updatetime) },
+        { header: t("Common.Columns.detail"), accessorKey: 'detail', isIcon: true, pinned: true, role: privileges.paymentplanview, cell: (wrapper) => detailCellhandler(wrapper), size: 45 },
     ]
 
     const tableKey = `${isVisitsFetching}-${isPaymentplansFetching}-${isDoctorsFetching}`

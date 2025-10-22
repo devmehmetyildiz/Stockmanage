@@ -27,7 +27,7 @@ module.exports = sequelize.define('visitModel', {
         type: Sequelize.DATE
     },
     Visitenddate: {
-        type: Sequelize.STRING
+        type: Sequelize.DATE
     },
     Status: {
         type: Sequelize.INTEGER

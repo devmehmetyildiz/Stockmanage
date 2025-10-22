@@ -8,7 +8,7 @@ import validator from '@Utils/Validator'
 import React from 'react'
 import { useFieldArray } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { Form } from 'semantic-ui-react'
+import { Divider, Form } from 'semantic-ui-react'
 
 interface VisitCompleteStepProductProps {
     data: VisitItem | undefined
@@ -35,36 +35,39 @@ const VisitCompleteStepProduct: React.FC<VisitCompleteStepProductProps> = (props
                     const stock = (stocks || []).find(item => item.Uuid === visitProduct?.StockID)
                     const stockdefine = (stockdefines || []).find(item => item.Uuid === stock?.StockdefineID)
 
-                    return <Form.Group key={field.id} widths={'equal'} className='!my-0' >
-                        <Form.Field className='!w-auto !my-auto '>
-                            <div className='flex flex-row justify-start items-center gap-4 whitespace-nowrap'>
-                                <div className='font-bold'>{`${t('Pages.Visits.Label.Productname')} :   `}</div>
-                                <div>{stockdefine?.Productname}</div>
-                            </div>
-                            <div className='flex flex-row justify-start items-center gap-4 whitespace-nowrap'>
-                                <div className='font-bold'>{`${t('Pages.Visits.Label.Barcodeno')} :   `}</div>
-                                <div>{stockdefine?.Barcodeno}</div>
-                            </div>
-                            <div className='flex flex-row justify-start items-center gap-4 whitespace-nowrap'>
-                                <div className='font-bold'>{`${t('Pages.Visits.Label.RequestedAmount')} :   `}</div>
-                                <div>{visitProduct?.Amount}</div>
-                            </div>
-                        </Form.Field>
-                        <VisitAppForm.Input name={`Returnedproducts.${index}.Amount`} label={index === 0 ? t('Pages.Visits.Columns.Returnamount') : undefined} type='number' inputProps={{ min: 0, max: field.Amount }} required={t('Pages.Visits.Messages.AmountReqired')}
-                            rules={{
-                                validate: (value: any) => {
-                                    if (validator.isNumber(value)) {
-                                        if (value > (visitProduct?.Amount ?? 0)) {
-                                            return t('Pages.Visits.Messages.ReturnamountBigger')
+                    return <>
+                        <Form.Group key={field.id} widths={'equal'} className='!my-0' >
+                            <Form.Field className='!w-full !my-auto '>
+                                <div className='flex flex-row justify-start items-center gap-4 whitespace-nowrap'>
+                                    <div className='font-bold'>{`${t('Pages.Visits.Label.Productname')} :   `}</div>
+                                    <div>{stockdefine?.Productname}</div>
+                                </div>
+                                <div className='flex flex-row justify-start items-center gap-4 whitespace-nowrap'>
+                                    <div className='font-bold'>{`${t('Pages.Visits.Label.Barcodeno')} :   `}</div>
+                                    <div>{stockdefine?.Barcodeno}</div>
+                                </div>
+                                <div className='flex flex-row justify-start items-center gap-4 whitespace-nowrap'>
+                                    <div className='font-bold'>{`${t('Pages.Visits.Label.RequestedAmount')} :   `}</div>
+                                    <div>{visitProduct?.Amount}</div>
+                                </div>
+                            </Form.Field>
+                            <VisitAppForm.Input name={`Returnedproducts.${index}.Amount`} label={index === 0 ? t('Pages.Visits.Columns.Returnamount') : undefined} type='number' inputProps={{ min: 0, max: field.Amount }} required={t('Pages.Visits.Messages.AmountReqired')}
+                                rules={{
+                                    validate: (value: any) => {
+                                        if (validator.isNumber(value)) {
+                                            if (value > (visitProduct?.Amount ?? 0)) {
+                                                return t('Pages.Visits.Messages.ReturnamountBigger')
+                                            }
+                                            return true
+                                        } else {
+                                            return t('Pages.Visits.Messages.AmountReqired')
                                         }
-                                        return true
-                                    } else {
-                                        return t('Pages.Visits.Messages.AmountReqired')
                                     }
-                                }
-                            }} />
-                        <VisitAppForm.Input name={`Returnedproducts.${index}.Description`} label={index === 0 ? t('Pages.Visits.Columns.Description') : undefined} />
-                    </Form.Group>
+                                }} />
+                            <VisitAppForm.Input name={`Returnedproducts.${index}.Description`} label={index === 0 ? t('Pages.Visits.Columns.Description') : undefined} />
+                        </Form.Group>
+                        <Divider key={field.id}/>
+                    </>
                 })}
             </Form>
         </Contentwrapper>

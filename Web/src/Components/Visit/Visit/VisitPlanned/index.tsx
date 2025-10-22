@@ -46,7 +46,7 @@ const VisitPlanned: React.FC = () => {
 
     const userCellhandler = (value: string) => {
         const user = (users || []).find(u => u.Uuid === value)
-        return user ? `${user.Name} ${user.Surname}` : t('Common.NoDataFound')
+        return user ? `${user.Name} ${user.Surname}` : value
     }
 
     const doctordefineCellhandler = (value: string) => {
@@ -73,6 +73,17 @@ const VisitPlanned: React.FC = () => {
     const boolCellhandler = (value: boolean) => {
         return value ? t('Pages.Visits.Messages.Rejected') : ''
     }
+
+    const scheduledpaymentCellhanlder = (value: number) => {
+        if (value) {
+            return new Intl.NumberFormat('tr-TR', {
+                style: 'currency',
+                currency: 'TRY',
+            }).format(value || 0)
+        }
+        return t('Common.NoDataFound')
+    }
+
 
     const editProductsCellhandler = (wrapper: CellContext<any, unknown>) => {
         const data = wrapper.row.original as VisitListItem
@@ -112,7 +123,7 @@ const VisitPlanned: React.FC = () => {
         { header: t('Pages.Visits.Columns.DoctorID'), accessorKey: 'DoctorID', accessorFn: row => doctordefineCellhandler(row.DoctorID), cell: wrapper => loaderCellhandler(wrapper, isDoctordefinesFetching), isMobile: true },
         { header: t('Pages.Visits.Columns.LocationID'), accessorKey: 'LocationID', accessorFn: row => locationCellhandler(row.LocationID), cell: wrapper => loaderCellhandler(wrapper, isLocationsFetching), },
         { header: t('Pages.Visits.Columns.PaymenttypeID'), accessorKey: 'PaymenttypeID', accessorFn: row => paymenttypeCellhandler(row.PaymenttypeID), cell: wrapper => loaderCellhandler(wrapper, isPaymenttypesFetching), },
-        { header: t('Pages.Visits.Columns.Scheduledpayment'), accessorKey: 'Scheduledpayment', },
+        { header: t('Pages.Visits.Columns.Scheduledpayment'), accessorKey: 'Scheduledpayment', accessorFn: row => scheduledpaymentCellhanlder(row.Scheduledpayment) },
         { header: t("Pages.Visits.Columns.Visitdate"), accessorKey: 'Visitdate', accessorFn: row => dateCellhandler(row.Visitdate) },
         { header: t('Pages.Visits.Columns.Isrejected'), accessorKey: 'Isrejected', accessorFn: row => boolCellhandler(row.Isrejected) },
         { header: t('Pages.Visits.Columns.RejectedUserID'), accessorKey: 'RejectedUserID', accessorFn: row => userCellhandler(row.RejectedUserID), cell: wrapper => loaderCellhandler(wrapper, isUsersFetching) },

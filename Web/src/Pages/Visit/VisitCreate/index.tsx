@@ -107,7 +107,7 @@ const VisitCreate: React.FC = () => {
             PageUrl={Paths.Visits}
         />
         <FormProvider<VisitCreateRequest> {...methods}>
-            <Contentwrapper>
+            <Contentwrapper className='z-20'>
                 <Form>
                     <Form.Group widths={'equal'}>
                         <VisitAppForm.Select name='LocationID' label={t('Pages.Visits.Columns.LocationID')} required={t('Pages.Visits.Messages.LocationIDRequired')} options={locationOpiton} />
@@ -122,7 +122,7 @@ const VisitCreate: React.FC = () => {
                     </Form.Group>
                 </Form>
             </Contentwrapper>
-            <Contentwrapper>
+            <Contentwrapper className='z-10'>
                 <VisitCreateStockForm />
             </Contentwrapper>
         </FormProvider>

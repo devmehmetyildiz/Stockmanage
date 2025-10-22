@@ -53,6 +53,17 @@ const VisitWorking: React.FC = () => {
         return location?.Name ?? t('Common.NoDataFound')
     }
 
+    const scheduledpaymentCellhanlder = (value: number) => {
+        if (value) {
+            return new Intl.NumberFormat('tr-TR', {
+                style: 'currency',
+                currency: 'TRY',
+            }).format(value || 0)
+        }
+        return t('Common.NoDataFound')
+    }
+
+
     const paymenttypeCellhandler = (value: string) => {
         const paymenttype = (paymenttypes || []).find(u => u.Uuid === value)
         return paymenttype?.Name ?? t('Common.NoDataFound')
@@ -84,7 +95,7 @@ const VisitWorking: React.FC = () => {
         { header: t('Pages.Visits.Columns.DoctorID'), accessorKey: 'DoctorID', accessorFn: row => doctordefineCellhandler(row.DoctorID), cell: wrapper => loaderCellhandler(wrapper, isDoctordefinesFetching), isMobile: true },
         { header: t('Pages.Visits.Columns.LocationID'), accessorKey: 'LocationID', accessorFn: row => locationCellhandler(row.LocationID), cell: wrapper => loaderCellhandler(wrapper, isLocationsFetching), },
         { header: t('Pages.Visits.Columns.PaymenttypeID'), accessorKey: 'PaymenttypeID', accessorFn: row => paymenttypeCellhandler(row.PaymenttypeID), cell: wrapper => loaderCellhandler(wrapper, isPaymenttypesFetching), },
-        { header: t('Pages.Visits.Columns.Scheduledpayment'), accessorKey: 'Scheduledpayment', },
+        { header: t('Pages.Visits.Columns.Scheduledpayment'), accessorKey: 'Scheduledpayment', accessorFn: row => scheduledpaymentCellhanlder(row?.Scheduledpayment) },
         { header: t("Pages.Visits.Columns.Visitdate"), accessorKey: 'Visitdate', accessorFn: row => dateCellhandler(row.Visitdate) },
         { header: t("Pages.Visits.Columns.Visitstartdate"), accessorKey: 'Visitstartdate', accessorFn: row => dateCellhandler(row.Visitdate) },
         { header: t("Common.Columns.Createduser"), accessorKey: 'Createduser' },

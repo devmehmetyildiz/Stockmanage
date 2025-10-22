@@ -6,12 +6,16 @@ import { FormatDate } from '@Utils/FormatDate'
 import { useGetTableMetaQuery } from '@Api/Profile'
 import FormatTableMeta from '@Utils/FormatTableMeta'
 import { ExcelProvider } from '@Context/ExcelContext'
-import { PaymentplanListItem } from '@Api/Paymentplan/type'
+import { PaymentplanItem, PaymentplanListItem } from '@Api/Paymentplan/type'
 import { useGetPaymentplansQuery } from '@Api/Paymentplan'
 import { VISIT_PAYMENT_STATUS_SEMI, } from '@Constant/index'
 import { useGetPaymenttypesQuery } from '@Api/Paymenttype'
 import { loaderCellhandler } from '@Utils/CellHandler'
 import { useGetVisitsQuery } from '@Api/Visit'
+import { DetailCellHandler } from '@Components/Common/CellHandler'
+import RouteKeys from '@Constant/routeKeys'
+import { CellContext } from '@tanstack/react-table'
+import privileges from '@Constant/privileges'
 
 const PaymentplanSemi: React.FC = () => {
 
@@ -47,6 +51,12 @@ const PaymentplanSemi: React.FC = () => {
         }).format(value || 0)
     }
 
+    const detailCellhandler = (wrapper: CellContext<any, unknown>) => {
+        const data = wrapper.row.original as PaymentplanItem
+
+        return <DetailCellHandler url={`/${RouteKeys.Paymentplans}/${data.Uuid}/Detail`} />
+    }
+
     const columns: ColumnType<PaymentplanListItem>[] = [
         { header: t("Common.Columns.Id"), accessorKey: 'Id', isIcon: true },
         { header: t("Common.Columns.Uuid"), accessorKey: 'Uuid' },
@@ -64,6 +74,7 @@ const PaymentplanSemi: React.FC = () => {
         { header: t("Common.Columns.Createtime"), accessorKey: 'Createtime', accessorFn: row => dateCellhandler(row?.Createtime) },
         { header: t("Common.Columns.Updateduser"), accessorKey: 'Updateduser' },
         { header: t("Common.Columns.Updatetime"), accessorKey: 'Updatetime', accessorFn: row => dateCellhandler(row?.Updatetime) },
+        { header: t("Common.Columns.detail"), accessorKey: 'detail', isIcon: true, pinned: true, role: privileges.visitview, cell: (wrapper) => detailCellhandler(wrapper), size: 45 },
     ]
 
     const tableKey = `${isVisitsFetching}-${isPaymenttypesFetching}`

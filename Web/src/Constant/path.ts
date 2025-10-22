@@ -76,8 +76,11 @@ const VisitsUpdatePaymentdefines = RouteKeys.Main + RouteKeys.Visits + "/:Id/edi
 const VisitComplete = RouteKeys.Main + RouteKeys.Visits + "/:Id/complete"
 
 const Paymentplans = RouteKeys.Main + RouteKeys.Paymentplans
+const PaymentplansDetail = RouteKeys.Main + RouteKeys.Paymentplans + "/:Id/Detail"
 
 const Paymentplantransactions = RouteKeys.Main + RouteKeys.Paymentplantransactions
+
+const UserSalesReports = RouteKeys.Main + RouteKeys.UserSalesReports
 
 const Paths = {
     Login,
@@ -135,6 +138,8 @@ const Paths = {
     Paymentplans,
     Paymentplantransactions,
     WarehousesDetail,
+    PaymentplansDetail,
+    UserSalesReports
 }
 
 export default Paths

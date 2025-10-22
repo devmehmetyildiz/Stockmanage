@@ -21,6 +21,7 @@ const {
     PAYMENT_TRANSACTION_TYPE_FULLPAYMENT,
     PAYMENT_TRANSACTION_TYPE_TRANSACTION,
     PAYMENT_TRANSACTION_TYPE_CLOSE_TRANSACTION,
+    VISIT_STATU_CLOSED,
 } = require("../Constants")
 
 async function GetVisitCounts(req, res, next) {
@@ -735,9 +736,9 @@ async function CompleteVisit(req, res, next) {
         }
 
         await db.visitModel.update({
-            Status: VISIT_STATU_COMPLETED,
+            Status: isFullPayment ? VISIT_STATU_CLOSED : VISIT_STATU_COMPLETED,
             Finalpayment: Totalamount,
-            Visitenddate: new DATE(),
+            Visitenddate: new Date(),
             Updateduser: username,
             Updatetime: new Date(),
         }, { transaction: t, where: { Uuid: VisitID } })
@@ -818,6 +819,7 @@ async function ConsumeVisitRequests() {
                 if (payload.Isrejected) {
                     await db.visitModel.update({
                         Isrejected: true,
+                        Status: VISIT_STATU_PLANNED,
                         RejectedUserID: payload.ApproveUserID,
                         RejectDescription: payload.Comment,
                         Updateduser: payload.ApproveUsername,

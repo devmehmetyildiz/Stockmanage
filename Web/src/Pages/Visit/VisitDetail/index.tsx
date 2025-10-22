@@ -105,7 +105,7 @@ const VisitDetail: React.FC = () => {
             <VisitDetailMeta
                 data={data}
             />
-            <div className="w-full flex flex-col lg:flex-row justify-center items-stretch gap-4">
+            <div className="w-full flex flex-col lg:flex-row justify-center items-stretch gap-4 ">
                 <VisitDetailProducts
                     data={data}
                 />

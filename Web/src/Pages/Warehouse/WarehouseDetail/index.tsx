@@ -28,7 +28,7 @@ const WarehouseDetail: React.FC = () => {
     const { data: stockdefines, isFetching: isStockdefinesFetching } = useGetStockdefinesQuery({ isActive: 1 }, { skip: !validator.isUUID(warehouse?.Uuid) })
 
     const activeProductCount = (stocks || []).length
-    const totalAmount = (stocks || []).reduce((sum, s) => sum + (s.TotalAmount ?? 0), 0)
+    const totalAmount = (stocks || []).reduce((sum, s) => sum + (validator.isNumber(s.TotalAmount) ? Number(s.TotalAmount) : 0), 0)
 
     const getStockdefineName = (id: string) => {
         const sd = (stockdefines || []).find(d => d.Uuid === id)
