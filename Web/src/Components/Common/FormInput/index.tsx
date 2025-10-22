@@ -22,6 +22,7 @@ export interface FormInputProps<T extends object> {
     additionalIcon?: React.ReactElement<any> | React.ReactElement<any>[]
     step?: string
     showPriceIcon?: boolean
+    caseSensitvy?: 'lower' | 'upper'
 }
 
 //TODO NUMBER INPUTLARDA 0 YAZILAMIYOR
@@ -31,7 +32,7 @@ const FormInput = <T extends object>(props: FormInputProps<T>) => {
 
     const { t } = useTranslation()
 
-    const { label, icon, name, transparent, divider, rules, required, inputProps, placeholder, type, size, disableFullWidth, inputClassName, additionalIcon, step, showPriceIcon } = props
+    const { label, icon, name, transparent, divider, rules, required, inputProps, placeholder, type, size, disableFullWidth, inputClassName, additionalIcon, step, showPriceIcon, caseSensitvy } = props
 
     const [isPasswordVisible, setIsPasswordVisible] = useState(false)
 
@@ -109,7 +110,17 @@ const FormInput = <T extends object>(props: FormInputProps<T>) => {
                                         } else if (type === 'number') {
                                             field.onChange(validator.isNumber(e.target.value) ? Number(e.target.value) : e.target.value)
                                         } else {
-                                            field.onChange(e.target.value)
+                                            if (caseSensitvy && e.target.value && validator.isString(e.target.value) && (e.target.value ?? '').length > 0) {
+                                                if (caseSensitvy === 'lower') {
+                                                    field.onChange(e.target.value.toLocaleLowerCase('tr'))
+                                                } else if (caseSensitvy === 'upper') {
+                                                    field.onChange(e.target.value.toLocaleUpperCase('tr'))
+                                                } else {
+                                                    field.onChange(e.target.value)
+                                                }
+                                            } else {
+                                                field.onChange(e.target.value)
+                                            }
                                         }
                                     }}
                                 >

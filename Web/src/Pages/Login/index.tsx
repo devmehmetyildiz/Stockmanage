@@ -81,6 +81,7 @@ const Login: React.FC = () => {
                                 size='large'
                                 placeholder={t('Pages.Login.Columns.Username')}
                                 divider='bottom'
+                                caseSensitvy='lower'
                                 required={t('Pages.Login.Messages.UsernameRequired')}
                             />
                             <FormInput<LoginRequest>

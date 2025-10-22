@@ -70,6 +70,8 @@
         "Option.ZoomIn": "Yakınlaştır",
         "Option.Pan": "Kaydır",
         "Option.Reset": "Yakınlaştırmayı sıfırla",
+        "Common.StartDate": "Başlangıç Tarihi",
+        "Common.EndDate": "Bitiş Tarihi",
         "Common.SomethingWentWrong": "Birşeyler Yanlış Gitti",
         "Common.Errors": "Hatalar",
         "Common.Paid": "Ödendi",

@@ -17,6 +17,7 @@ import VisitWorkModal from '@Components/Visit/VisitWorkModal'
 import VisitDeleteModal from '@Components/Visit/VisitDeleteModal'
 import { loaderCellhandler } from '@Utils/CellHandler'
 import RouteKeys from '@Constant/routeKeys'
+import useHasPrivileges from '@Hooks/useHasPrivileges'
 
 const VisitOnapprove: React.FC = () => {
 
@@ -25,8 +26,9 @@ const VisitOnapprove: React.FC = () => {
     const [deleteOpen, setDeleteOpen] = useState(false)
     const [workOpen, setWorkOpen] = useState(false)
     const [record, setRecord] = useState<VisitListItem | null>(null)
+    const { isHasPrivilege, isMetaLoading, isSuccess, UserID } = useHasPrivileges(privileges.visitmanageall)
 
-    const { data, isFetching } = useGetVisitsQuery({ isActive: 1, Status: VISIT_STATU_ON_APPROVE })
+    const { data, isFetching } = useGetVisitsQuery({ Status: VISIT_STATU_ON_APPROVE, UserID: isHasPrivilege ? UserID : undefined, isActive: 1 }, { skip: !isSuccess })
 
     const { data: users, isFetching: isUsersFetching } = useGetUsersListQuery({ isActive: 1 })
 
@@ -91,7 +93,7 @@ const VisitOnapprove: React.FC = () => {
 
     const tableKey = `${isUsersFetching}`
 
-    return (<Pagewrapper padding={0} isLoading={isFetching} direction='vertical' gap={4} alignTop>
+    return (<Pagewrapper padding={0} isLoading={isFetching || isMetaLoading} direction='vertical' gap={4} alignTop>
         <ExcelProvider>
             <DataTable
                 key={tableKey}

@@ -41,6 +41,12 @@ async function GetUserSalesReport(req, res, next) {
             ORDER BY TotalSales DESC;
         `;
 
+        const query1 = `
+        select * from 
+        
+        
+        `
+
         const results = await db.sequelize.query(query, {
             replacements: { Startdate, Enddate },
             type: db.Sequelize.QueryTypes.SELECT

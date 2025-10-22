@@ -18,13 +18,15 @@ import privileges from '@Constant/privileges'
 import { CompleteCellhandler, DetailCellHandler, EditCellHandler } from '@Components/Common/CellHandler'
 import { CellContext } from '@tanstack/react-table'
 import RouteKeys from '@Constant/routeKeys'
+import useHasPrivileges from '@Hooks/useHasPrivileges'
 
 const VisitWorking: React.FC = () => {
 
     const { t } = useTranslation()
 
-    const { data, isFetching } = useGetVisitsQuery({ isActive: 1, Status: VISIT_STATU_WORKING })
+    const { isHasPrivilege, isMetaLoading, isSuccess, UserID } = useHasPrivileges(privileges.visitmanageall)
 
+    const { data, isFetching } = useGetVisitsQuery({ Status: VISIT_STATU_WORKING, UserID: isHasPrivilege ? UserID : undefined, isActive: 1 }, { skip: !isSuccess })
     const { data: users, isFetching: isUsersFetching } = useGetUsersListQuery({ isActive: 1 })
     const { data: doctordefines, isFetching: isDoctordefinesFetching } = useGetDoctordefinesQuery({ isActive: 1 })
     const { data: locations, isFetching: isLocationsFetching } = useGetLocationsQuery({ isActive: 1 })
@@ -109,7 +111,7 @@ const VisitWorking: React.FC = () => {
 
     const tableKey = `${isUsersFetching}-${isDoctordefinesFetching}-${isLocationsFetching}-${isPaymenttypesFetching}`
 
-    return (<Pagewrapper padding={0} isLoading={isFetching} direction='vertical' gap={4} alignTop>
+    return (<Pagewrapper padding={0} isLoading={isFetching || isMetaLoading} direction='vertical' gap={4} alignTop>
         <ExcelProvider>
             <DataTable
                 key={tableKey}

@@ -9,8 +9,10 @@ import VisitPlanned from '@Components/Visit/Visit/VisitPlanned'
 import VisitWorking from '@Components/Visit/Visit/VisitWorking'
 import { VISIT_STATU_CLOSED, VISIT_STATU_COMPLETED, VISIT_STATU_ON_APPROVE, VISIT_STATU_PLANNED, VISIT_STATU_WORKING } from '@Constant/index'
 import Paths from '@Constant/path'
+import privileges from '@Constant/privileges'
 import RouteKeys from '@Constant/routeKeys'
 import { ExcelProvider } from '@Context/ExcelContext'
+import useHasPrivileges from '@Hooks/useHasPrivileges'
 import useTabNavigation from '@Hooks/useTabNavigation'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -19,18 +21,20 @@ const Visit: React.FC = () => {
 
     const { t } = useTranslation()
 
-    const { data: plannedCount, isFetching: isPlannedFetching } = useGetVisitsCountQuery({ Status: VISIT_STATU_PLANNED, isActive: 1 })
-    const { data: workingCount, isFetching: isWorkingFetching } = useGetVisitsCountQuery({ Status: VISIT_STATU_WORKING, isActive: 1 })
-    const { data: onapproveCount, isFetching: isOnapproveFetching } = useGetVisitsCountQuery({ Status: VISIT_STATU_ON_APPROVE, isActive: 1 })
-    const { data: completedCount, isFetching: isCompletedFetching } = useGetVisitsCountQuery({ Status: VISIT_STATU_COMPLETED, isActive: 1 })
-    const { data: closedCount, isFetching: isClosedCountFetching } = useGetVisitsCountQuery({ Status: VISIT_STATU_CLOSED, isActive: 1 })
+    const { isHasPrivilege, isMetaLoading, isSuccess, UserID } = useHasPrivileges(privileges.visitmanageall)
+
+    const { data: plannedCount, isFetching: isPlannedFetching } = useGetVisitsCountQuery({ Status: VISIT_STATU_PLANNED, UserID: isHasPrivilege ? UserID : undefined, isActive: 1 }, { skip: !isSuccess })
+    const { data: workingCount, isFetching: isWorkingFetching } = useGetVisitsCountQuery({ Status: VISIT_STATU_WORKING, UserID: isHasPrivilege ? UserID : undefined, isActive: 1 }, { skip: !isSuccess })
+    const { data: onapproveCount, isFetching: isOnapproveFetching } = useGetVisitsCountQuery({ Status: VISIT_STATU_ON_APPROVE, UserID: isHasPrivilege ? UserID : undefined, isActive: 1 }, { skip: !isSuccess })
+    const { data: completedCount, isFetching: isCompletedFetching } = useGetVisitsCountQuery({ Status: VISIT_STATU_COMPLETED, UserID: isHasPrivilege ? UserID : undefined, isActive: 1 }, { skip: !isSuccess })
+    const { data: closedCount, isFetching: isClosedCountFetching } = useGetVisitsCountQuery({ Status: VISIT_STATU_CLOSED, UserID: isHasPrivilege ? UserID : undefined, isActive: 1 }, { skip: !isSuccess })
 
     const { activeTab, setActiveTab } = useTabNavigation({
         mainRoute: RouteKeys.Visits,
         tabOrder: ['planned', 'onapprove', 'working', 'completed', 'closed'],
     })
 
-    return <Pagewrapper isLoading={isPlannedFetching || isWorkingFetching || isOnapproveFetching || isCompletedFetching || isClosedCountFetching} direction='vertical' gap={4} alignTop>
+    return <Pagewrapper isLoading={isPlannedFetching || isWorkingFetching || isOnapproveFetching || isCompletedFetching || isClosedCountFetching || isMetaLoading} direction='vertical' gap={4} alignTop>
         <ExcelProvider>
             <Title
                 PageName={t('Pages.Visits.Page.Header')}
