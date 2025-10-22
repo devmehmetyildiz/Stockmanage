@@ -8,7 +8,6 @@ import { ExcelProvider } from '@Context/ExcelContext'
 import UserDeleteModal from '@Components/User/UserDeleteModal'
 import useTabNavigation from '@Hooks/useTabNavigation'
 import RouteKeys from '@Constant/routeKeys'
-import { useNavigate } from 'react-router-dom'
 import AppTab from '@Components/Common/AppTab'
 import { useGetUsersCountQuery } from '@Api/User'
 import UserAppUser from '@Components/User/User/UserAppUser'
@@ -20,7 +19,6 @@ const User: React.FC = () => {
 
     const { t } = useTranslation()
 
-    const navigate = useNavigate()
 
     const [deleteOpen, setDeleteOpen] = useState(false)
     const [removeOpen, setRemoveOpen] = useState(false)
@@ -32,7 +30,6 @@ const User: React.FC = () => {
 
     const { activeTab, setActiveTab } = useTabNavigation({
         mainRoute: RouteKeys.Users,
-        navigate,
         tabOrder: ['working', 'nonworking', 'appuser'],
     })
 
