@@ -11,11 +11,13 @@ import { useLazyGetVisitQuery } from '@Api/Visit';
 import VisitDetailPayments from '@Components/Visit/VisitDetail/VisitDetailPayments';
 import VisitDetailProducts from '@Components/Visit/VisitDetail/VisitDetailProducts';
 import VisitDetailMeta from '@Components/Visit/VisitDetail/VisitDetailMeta';
-import { VISIT_STATU_PLANNED, VISIT_STATU_WORKING } from '@Constant/index';
+import { VISIT_STATU_ON_APPROVE, VISIT_STATU_PLANNED, VISIT_STATU_WORKING } from '@Constant/index';
 import VisitWorkModal from '@Components/Visit/VisitWorkModal';
 import VisitDeleteModal from '@Components/Visit/VisitDeleteModal';
 import { VisitListItem } from '@Api/Visit/type';
 import RouteKeys from '@Constant/routeKeys';
+import privileges from '@Constant/privileges';
+import VisitSendApproveModal from '@Components/Visit/VisitSendApproveModal';
 
 const VisitDetail: React.FC = () => {
     const { Id } = useParams();
@@ -24,6 +26,7 @@ const VisitDetail: React.FC = () => {
 
     const [deleteOpen, setDeleteOpen] = useState(false)
     const [workOpen, setWorkOpen] = useState(false)
+    const [sendApproveOpen, setSendApproveOpen] = useState(false)
     const [record, setRecord] = useState<VisitListItem | null>(null)
 
     const [GetVisit, { isFetching, data, isError }] = useLazyGetVisitQuery();
@@ -35,28 +38,50 @@ const VisitDetail: React.FC = () => {
                     name: t('Pages.Visits.Columns.EditProducts'),
                     onClick: () => {
                         navigate(`/${RouteKeys.Visits}/${data.Uuid}/edit-products`)
-                    }
+                    },
+                    role: privileges.visitupdate
                 },
                 {
                     name: t('Pages.Visits.Columns.EditDefines'),
                     onClick: () => {
                         navigate(`/${RouteKeys.Visits}/${data.Uuid}/edit-defines`)
-                    }
+                    },
+                    role: privileges.visitupdate
                 },
                 {
 
-                    name: t('Common.Columns.work'),
+                    name: t('Common.Columns.sendApprove'),
                     onClick: () => {
                         setRecord(data)
-                        setWorkOpen(true)
-                    }
+                        setSendApproveOpen(true)
+                    },
+                    role: privileges.visitupdate
                 },
                 {
                     name: t('Common.Columns.delete'),
                     onClick: () => {
                         setRecord(data)
                         setDeleteOpen(true)
-                    }
+                    },
+                    role: privileges.visitdelete
+                },
+            ] as TitleAdditionalButtonType[]
+        } else if (data?.Status === VISIT_STATU_ON_APPROVE) {
+            return [
+                {
+                    name: t('Pages.Visits.Columns.EditPaymentDefines'),
+                    onClick: () => {
+                        navigate(`/${RouteKeys.Visits}/${data.Uuid}/edit-payment-defines`)
+                    },
+                    role: privileges.visitupdate
+                },
+                {
+                    name: t('Common.Columns.work'),
+                    onClick: () => {
+                        setRecord(data)
+                        setWorkOpen(true)
+                    },
+                    role: privileges.visitupdate
                 },
             ] as TitleAdditionalButtonType[]
         } else if (data?.Status === VISIT_STATU_WORKING) {
@@ -65,13 +90,15 @@ const VisitDetail: React.FC = () => {
                     name: t('Pages.Visits.Columns.EditPaymentDefines'),
                     onClick: () => {
                         navigate(`/${RouteKeys.Visits}/${data.Uuid}/edit-payment-defines`)
-                    }
+                    },
+                    role: privileges.visitupdate
                 },
                 {
                     name: t('Common.Columns.complete'),
                     onClick: () => {
                         navigate(`/${RouteKeys.Visits}/${data.Uuid}/complete`)
-                    }
+                    },
+                    role: privileges.visitupdate
                 },
             ] as TitleAdditionalButtonType[]
         }
@@ -128,6 +155,12 @@ const VisitDetail: React.FC = () => {
             <VisitDeleteModal
                 open={deleteOpen}
                 setOpen={setDeleteOpen}
+                data={record}
+                setData={setRecord}
+            />
+            <VisitSendApproveModal
+                open={sendApproveOpen}
+                setOpen={setSendApproveOpen}
                 data={record}
                 setData={setRecord}
             />

@@ -115,14 +115,17 @@ const Stockdefine: React.FC = () => {
                     excelExportName={t('Pages.Stockdefines.Page.Header')}
                     create={{
                         Pagecreateheader: t('Pages.Stockdefines.Page.CreateHeader'),
-                        Pagecreatelink: Paths.StockdefinesCreate
+                        Pagecreatelink: Paths.StockdefinesCreate,
+                        role: privileges.stockdefineadd
                     }}
                     additionalButtons={[
                         {
+                            role: privileges.stockdefineadd,
                             onClick: () => setImportOpen(true),
                             name: t('Pages.Stockdefines.Label.ImportExcel')
                         },
                         {
+                            role: privileges.stockdefineadd,
                             onClick: () => navigate(`${Paths.Stockdefines}/MultiCreate`),
                             name: t('Pages.Stockdefines.Label.AddMulti')
                         }

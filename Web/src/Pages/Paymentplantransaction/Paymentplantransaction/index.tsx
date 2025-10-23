@@ -12,6 +12,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 const Paymentplantransaction: React.FC = () => {
+    
     const { t } = useTranslation()
 
     const { data: waitingCount, isFetching: isWaitingFetching } = useGetPaymentplantransactionCountsQuery({ Status: 0, isActive: 1 })

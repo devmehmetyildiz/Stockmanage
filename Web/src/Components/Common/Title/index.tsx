@@ -6,6 +6,9 @@ import TitleExcelExport from './TitleExcelExport'
 import FormButton from '../FormButton'
 import TitleAdditonalButtons from './TitleAdditonalButtons'
 import useMobile from '@Hooks/useMobile'
+import useHasPrivileges from '@Hooks/useHasPrivileges'
+import { useGetPrivilegesQuery } from '@Api/Profile'
+import privileges from '@Constant/privileges'
 
 export interface TitleAdditionalButtonType {
     name?: string
@@ -16,6 +19,7 @@ export interface TitleAdditionalButtonType {
     disabled?: boolean
     disabledCouseText?: string
     secondary?: boolean
+    role?: string
 }
 
 interface TitleProps {
@@ -27,6 +31,7 @@ interface TitleProps {
     create?: {
         Pagecreatelink: string
         Pagecreateheader: string
+        role?: string
     }
     additionalButtons?: TitleAdditionalButtonType[]
     additionalButtonLeftAling?: boolean
@@ -39,6 +44,14 @@ const Title: React.FC<PropsWithChildren<TitleProps>> = ({ PageName, PageUrl, exc
 
     //TODO column chooser ekle
     const { isTablet, isMobileLarge } = useMobile()
+
+    const { data: rawUserPrivileges, } = useGetPrivilegesQuery()
+
+    const userPrivileges = rawUserPrivileges || []
+
+    const checkUserHasPrivileges = (role?: string) => {
+        return role && (userPrivileges.includes(role) || userPrivileges.includes(privileges.admin))
+    }
 
     return <div className='w-full mx-auto align-middle'>
         <Header className='!text-secondary !bg-transparent !border-none' as='h1' attached='top' >
@@ -63,7 +76,7 @@ const Title: React.FC<PropsWithChildren<TitleProps>> = ({ PageName, PageUrl, exc
                         <TitleExcelExport
                             name={excelExportName ?? ''}
                         />
-                        {create && <Link className="pr-1" to={create.Pagecreatelink}>
+                        {create && checkUserHasPrivileges(create.role) && <Link className="pr-1" to={create.Pagecreatelink}>
                             <FormButton
                                 text={create.Pagecreateheader}
                             />

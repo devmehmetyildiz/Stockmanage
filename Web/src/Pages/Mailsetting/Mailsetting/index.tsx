@@ -84,7 +84,8 @@ const Mailsetting: React.FC = () => {
                 excelExportName={t('Pages.Mailsettings.Page.Header')}
                 create={{
                     Pagecreateheader: t('Pages.Mailsettings.Page.CreateHeader'),
-                    Pagecreatelink: Paths.MailsettingsCreate
+                    Pagecreatelink: Paths.MailsettingsCreate,
+                    role: privileges.mailsettingadd
                 }}
             />
             <DataTable

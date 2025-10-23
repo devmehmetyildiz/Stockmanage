@@ -81,7 +81,8 @@ const Paymenttype: React.FC = () => {
                     excelExportName={t('Pages.Paymenttypes.Page.Header')}
                     create={{
                         Pagecreateheader: t('Pages.Paymenttypes.Page.CreateHeader'),
-                        Pagecreatelink: Paths.PaymenttypesCreate
+                        Pagecreatelink: Paths.PaymenttypesCreate,
+                        role: privileges.paymenttypeadd
                     }}
                 />
                 <DataTable

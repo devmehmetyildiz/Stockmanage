@@ -103,7 +103,8 @@ const Doctordefine: React.FC = () => {
                     excelExportName={t('Pages.Doctordefines.Page.Header')}
                     create={{
                         Pagecreateheader: t('Pages.Doctordefines.Page.CreateHeader'),
-                        Pagecreatelink: Paths.DoctordefinesCreate
+                        Pagecreatelink: Paths.DoctordefinesCreate,
+                        role:privileges.doctordefineadd
                     }}
                 />
                 <DataTable

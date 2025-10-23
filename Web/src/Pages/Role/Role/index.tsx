@@ -111,7 +111,8 @@ const Role: React.FC = () => {
                 excelExportName={t('Pages.Roles.Page.Header')}
                 create={{
                     Pagecreateheader: t('Pages.Roles.Page.CreateHeader'),
-                    Pagecreatelink: Paths.RolesCreate
+                    Pagecreatelink: Paths.RolesCreate,
+                    role:privileges.roleadd
                 }}
             />
             <DataTable

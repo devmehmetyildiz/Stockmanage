@@ -1,3 +1,5 @@
+import { useGetPrivilegesQuery } from '@Api/Profile'
+import privileges from '@Constant/privileges'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Icon, SemanticICONS } from 'semantic-ui-react'
@@ -5,11 +7,19 @@ import { Icon, SemanticICONS } from 'semantic-ui-react'
 interface EditCellHandlerProps {
     url: string
     icon?: SemanticICONS
+    role?: string
 }
 
-const EditCellHandler: React.FC<EditCellHandlerProps> = ({ url, icon }) => {
+const EditCellHandler: React.FC<EditCellHandlerProps> = ({ url, icon, role }) => {
+    const { data: userPrivileges, isFetching } = useGetPrivilegesQuery()
 
-    return <Link to={url} ><Icon size='large' className='!text-primary' name={icon ?? 'edit'} /></Link>
+    if (role && (!(userPrivileges || []).includes(role)) && !(userPrivileges || []).includes(privileges.admin)) {
+        return null
+    }
+
+    return isFetching
+        ? <Icon size='large' color='grey' name={icon ?? 'edit'} />
+        : <Link to={url} ><Icon size='large' className='!text-primary' name={icon ?? 'edit'} /></Link>
 }
 
 interface MovementCellHandlerProps {
@@ -60,11 +70,18 @@ const DetailModalCellHandler: React.FC<DetailModalCellHandlerProps> = ({ onClick
 interface DeleteCellHandlerProps {
     onClick: () => void
     disabled?: boolean
+    role?: string
 }
 
-const DeleteCellHandler: React.FC<DeleteCellHandlerProps> = ({ onClick, disabled }) => {
+const DeleteCellHandler: React.FC<DeleteCellHandlerProps> = ({ onClick, disabled, role }) => {
 
-    return disabled
+    const { data: userPrivileges, isFetching } = useGetPrivilegesQuery()
+
+    if (role && (!(userPrivileges || []).includes(role)) && !(userPrivileges || []).includes(privileges.admin)) {
+        return null
+    }
+
+    return disabled || isFetching
         ? <Icon link size='large' color='grey' name='trash' />
         : <Icon link size='large' color='red' name='trash' onClick={onClick} />
 }

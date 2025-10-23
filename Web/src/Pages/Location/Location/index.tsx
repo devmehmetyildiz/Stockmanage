@@ -76,7 +76,8 @@ const Location: React.FC = () => {
                     excelExportName={t('Pages.Locations.Page.Header')}
                     create={{
                         Pagecreateheader: t('Pages.Locations.Page.CreateHeader'),
-                        Pagecreatelink: Paths.LocationsCreate
+                        Pagecreatelink: Paths.LocationsCreate,
+                        role:privileges.locationadd
                     }}
                 />
                 <DataTable

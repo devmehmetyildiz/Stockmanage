@@ -17,6 +17,7 @@ import { FormatFullDate } from '@Utils/FormatDate'
 import WarehouseDetailMovementFeed from '@Components/Warehouse/WarehouseDetail/WarehouseDetailMovementFeed'
 import FormButton from '@Components/Common/FormButton'
 import RouteKeys from '@Constant/routeKeys'
+import privileges from '@Constant/privileges'
 
 const WarehouseDetail: React.FC = () => {
     const { t } = useTranslation()
@@ -111,6 +112,7 @@ const WarehouseDetail: React.FC = () => {
                     </FormButton>
 
                     <FormButton
+                        role={privileges.warehouseupdate}
                         icon
                         text=''
                         showChildren

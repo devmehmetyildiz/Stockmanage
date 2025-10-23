@@ -86,7 +86,8 @@ const Stock: React.FC = () => {
                     excelExportName={t('Pages.Stocks.Page.Header')}
                     create={{
                         Pagecreateheader: t('Pages.Stocks.Page.CreateHeader'),
-                        Pagecreatelink: Paths.StocksCreate
+                        Pagecreatelink: Paths.StocksCreate,
+                        role: privileges.stockadd
                     }}
                 />
                 <DataTable

@@ -119,7 +119,8 @@ const Rule: React.FC = () => {
                 excelExportName={t('Pages.Rules.Page.Header')}
                 create={{
                     Pagecreateheader: t('Pages.Rules.Page.CreateHeader'),
-                    Pagecreatelink: Paths.RulesCreate
+                    Pagecreatelink: Paths.RulesCreate,
+                    role: privileges.ruleadd
                 }}
             />
             <DataTable

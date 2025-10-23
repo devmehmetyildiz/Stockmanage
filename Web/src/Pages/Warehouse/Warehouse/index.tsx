@@ -15,6 +15,7 @@ import { Card, Icon } from 'semantic-ui-react'
 import { useNavigate } from 'react-router-dom'
 import NotfoundScreen from '@Components/Common/NotfoundScreen'
 import { useGetStocksQuery } from '@Api/Stock'
+import privileges from '@Constant/privileges'
 
 const Warehouse: React.FC = () => {
 
@@ -50,7 +51,8 @@ const Warehouse: React.FC = () => {
                     excelExportName={t('Pages.Warehouses.Page.Header')}
                     create={{
                         Pagecreateheader: t('Pages.Warehouses.Page.CreateHeader'),
-                        Pagecreatelink: Paths.WarehousesCreate
+                        Pagecreatelink: Paths.WarehousesCreate,
+                        role: privileges.warehouseadd
                     }}
                 />
 
@@ -104,9 +106,11 @@ const Warehouse: React.FC = () => {
                                     <Card.Content extra>
                                         <div className="flex justify-end items-center gap-3">
                                             <EditCellHandler
+                                                role={privileges.warehouseupdate}
                                                 url={`/${RouteKeys.Warehouses}/${warehouse.Uuid}/edit`}
                                             />
                                             <DeleteCellHandler
+                                                role={privileges.warehousedelete}
                                                 onClick={() => {
                                                     setRecord(warehouse)
                                                     setDeleteOpen(true)

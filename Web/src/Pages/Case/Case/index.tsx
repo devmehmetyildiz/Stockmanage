@@ -96,7 +96,8 @@ const Case: React.FC = () => {
                 excelExportName={t('Pages.Cases.Page.Header')}
                 create={{
                     Pagecreateheader: t('Pages.Cases.Page.CreateHeader'),
-                    Pagecreatelink: Paths.CasesCreate
+                    Pagecreatelink: Paths.CasesCreate,
+                    role:privileges.caseadd
                 }}
             />
             <DataTable

@@ -13,10 +13,7 @@ import useTabNavigation from '@Hooks/useTabNavigation'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-interface PaymentplanProps {
-}
-
-const Paymentplan: React.FC<PaymentplanProps> = () => {
+const Paymentplan: React.FC = () => {
 
     const { t } = useTranslation()
 

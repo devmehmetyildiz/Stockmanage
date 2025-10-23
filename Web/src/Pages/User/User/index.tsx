@@ -14,6 +14,7 @@ import UserAppUser from '@Components/User/User/UserAppUser'
 import UserLeftWorker from '@Components/User/User/UserLeftWorker'
 import UserWorking from '@Components/User/User/UserWorking'
 import UserLeftModal from '@Components/User/UserLeftModal'
+import privileges from '@Constant/privileges'
 
 const User: React.FC = () => {
 
@@ -47,7 +48,8 @@ const User: React.FC = () => {
                 excelExportName={t('Pages.Users.Page.Header')}
                 create={{
                     Pagecreateheader: t('Pages.Users.Page.CreateHeader'),
-                    Pagecreatelink: Paths.UsersCreate
+                    Pagecreatelink: Paths.UsersCreate,
+                    role:privileges.useradd
                 }}
             />
             <AppTab

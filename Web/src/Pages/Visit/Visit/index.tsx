@@ -42,7 +42,8 @@ const Visit: React.FC = () => {
                 excelExportName={t('Pages.Visits.Page.Header')}
                 create={{
                     Pagecreateheader: t('Pages.Visits.Page.CreateHeader'),
-                    Pagecreatelink: Paths.VisitsCreate
+                    Pagecreatelink: Paths.VisitsCreate,
+                    role: privileges.visitadd
                 }}
             />
             <AppTab

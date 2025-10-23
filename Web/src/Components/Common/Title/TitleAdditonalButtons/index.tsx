@@ -1,7 +1,9 @@
 import React from 'react'
 import { TitleAdditionalButtonType } from '..'
-import { Button, Icon, Popup } from 'semantic-ui-react'
+import { Button, Icon } from 'semantic-ui-react'
 import FormButton from '@Components/Common/FormButton'
+import { useGetPrivilegesQuery } from '@Api/Profile'
+import privileges from '@Constant/privileges'
 
 interface TitleAdditonalButtonsProps {
     additionalButtons: TitleAdditionalButtonType[]
@@ -12,7 +14,21 @@ const TitleAdditonalButtons: React.FC<TitleAdditonalButtonsProps> = (props) => {
 
     const { additionalButtons, leftAling } = props
 
+    const { data: userPrivileges, isFetching: isPrivilegesFetching } = useGetPrivilegesQuery()
+
+    if (!userPrivileges || isPrivilegesFetching) {
+        return null
+    }
+
+    const checkUserHasPrivileges = (role?: string) => {
+        return role && (userPrivileges.includes(role) || userPrivileges.includes(privileges.admin))
+    }
+
     return additionalButtons.map((buttonMeta, index) => {
+
+        if (buttonMeta.role && !checkUserHasPrivileges(buttonMeta.role)) {
+            return null
+        }
 
         if (buttonMeta.iconOnly) {
 
