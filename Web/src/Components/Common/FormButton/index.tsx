@@ -25,7 +25,7 @@ const FormButton: React.FC<PropsWithChildren<FormButtonProps>> = (props) => {
         Paths.ResetPassword
     ]
 
-    const { data: userPrivileges, isFetching } = useGetPrivilegesQuery(undefined, { skip: globalRoutes.includes(location.pathname) })
+    const { data: userPrivileges, isFetching } = useGetPrivilegesQuery(undefined, { skip: globalRoutes.some(route => location.pathname.includes(route)) })
 
     if (role && (!(userPrivileges || []).includes(role)) && !(userPrivileges || []).includes(privileges.admin)) {
         return null

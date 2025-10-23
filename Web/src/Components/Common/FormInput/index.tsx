@@ -25,7 +25,6 @@ export interface FormInputProps<T extends object> {
     caseSensitvy?: 'lower' | 'upper'
 }
 
-//TODO NUMBER INPUTLARDA 0 YAZILAMIYOR
 const FormInput = <T extends object>(props: FormInputProps<T>) => {
 
     const { control, formState } = useFormContext<T>()
