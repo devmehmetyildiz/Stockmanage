@@ -80,7 +80,7 @@ const PaymentplansDetail = RouteKeys.Main + RouteKeys.Paymentplans + "/:Id/Detai
 
 const Paymentplantransactions = RouteKeys.Main + RouteKeys.Paymentplantransactions
 
-const UserSalesReports = RouteKeys.Main + RouteKeys.UserSalesReports
+const Organisation = RouteKeys.Main + RouteKeys.Organisation
 
 const Paths = {
     Login,
@@ -139,7 +139,7 @@ const Paths = {
     Paymentplantransactions,
     WarehousesDetail,
     PaymentplansDetail,
-    UserSalesReports
+    Organisation
 }
 
 export default Paths

@@ -18,7 +18,12 @@ const Routes = [
     { method: 'get', path: '/Paymentplans', controller: 'Paymentplan', action: 'GetPaymentplans' },
     { method: 'put', path: '/Paymentplans/ApproveTransaction', controller: 'Paymentplan', action: 'ApproveTransaction' },
 
-    { method: 'post', path: '/Reports/GetUserSalesReport', controller: 'Report', action: 'GetUserSalesReport' },
+    { method: 'post', path: '/Reports/SaleReportByDoctor', controller: 'Report', action: 'SaleReportByDoctor' },
+    { method: 'post', path: '/Reports/SaleReportByLocation', controller: 'Report', action: 'SaleReportByLocation' },
+    { method: 'post', path: '/Reports/VisitProductReport', controller: 'Report', action: 'VisitProductReport' },
+    { method: 'post', path: '/Reports/UserSaleReport', controller: 'Report', action: 'UserSaleReport' },
+    { method: 'post', path: '/Reports/DailySalesReport', controller: 'Report', action: 'DailySalesReport' },
+    { method: 'post', path: '/Reports/MonthlySalesReport', controller: 'Report', action: 'MonthlySalesReport' },
 ]
 
 module.exports = Routes

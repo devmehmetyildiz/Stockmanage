@@ -46,7 +46,7 @@ const Paymentplans = "Paymentplans"
 
 const Paymentplantransactions = "Paymentplantransactions"
 
-const UserSalesReports = "UserSalesReports"
+const Organisation = "Organisation"
 
 const RouteKeys = {
     Main,
@@ -73,7 +73,7 @@ const RouteKeys = {
     Visits,
     Paymentplans,
     Paymentplantransactions,
-    UserSalesReports
+    Organisation
 }
 
 export default RouteKeys

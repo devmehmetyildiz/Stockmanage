@@ -45,8 +45,13 @@ const authSlice = createSlice({
             }
             window.location.assign(`/Login?${params.toString().replace(/%2F/g, '/')}`)
         },
+        logoutByUser: (state) => {
+            //eslint-disable-next-line
+            state = initialState
+            window.location.assign(`/Login`)
+        },
     },
 });
 
-export const { setCredentials, logout, getCredentials } = authSlice.actions;
+export const { setCredentials, logout, getCredentials, logoutByUser } = authSlice.actions;
 export default authSlice.reducer;

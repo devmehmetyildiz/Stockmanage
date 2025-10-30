@@ -22,3 +22,10 @@ export const DataCleaner = (data: any) => {
     }
     return data
 }
+
+export const TransposeCurreny = (value: any) => {
+    return new Intl.NumberFormat('tr-TR', {
+        style: 'currency',
+        currency: 'TRY',
+    }).format(value || 0)
+}

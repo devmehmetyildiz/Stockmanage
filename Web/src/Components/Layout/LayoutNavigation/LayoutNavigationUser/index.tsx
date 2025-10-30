@@ -1,5 +1,5 @@
 import { useLogoutMutation } from '@Api/Auth'
-import { logout } from '@Api/Auth/slice'
+import { logoutByUser } from '@Api/Auth/slice'
 import { useGetMetaQuery } from '@Api/Profile'
 import { ProfileMetaResponse } from '@Api/Profile/type'
 import FormButton from '@Components/Common/FormButton'
@@ -57,7 +57,7 @@ const LayoutNavigationUser: React.FC = () => {
                 })
                     .unwrap()
                     .then(() => {
-                        dispatch(logout())
+                        dispatch(logoutByUser())
                     })
             }}
             onCancel={() => setOpen(false)}

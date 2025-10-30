@@ -1,10 +1,42 @@
-export interface ReportUserSaleReportItem {
-    UserID: string,
-    VisitCount: number,
-    TotalSales: number,
-    Paid: number,
-    Unpaid: number,
-    CollectionRate: number
+export interface ReportSaleByDoctorItem {
+    DoctorID: string
+    VisitCount: number
+    TotalPayment: number
+    TotalRealPayment: number
+    TotalRemaining: number
+}
+
+export interface ReportSaleByLocationItem {
+    LocationID: string
+    VisitCount: number
+    TotalPayment: number
+    TotalRealPayment: number
+    TotalRemaining: number
+
+}
+export interface ReportVisitProductItem {
+    StockID: string
+    SoldAmount: number
+    ReturnedAmount: number
+}
+
+export interface ReportSaleByUserItem {
+    UserID: string
+    VisitCount: number
+    TotalPayment: number
+    AvgPaymentPerVisit: number
+}
+
+export interface ReportDailySalesItem {
+    SalesDate: string
+    VisitCount: number
+    TotalPayment: number
+}
+
+export interface ReportMonthlySalesItem {
+    SalesMonth: string
+    VisitCount: number
+    TotalPayment: number
 }
 
 export interface ReportRequest {

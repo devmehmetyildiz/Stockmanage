@@ -155,34 +155,34 @@ const ResetPassword: React.FC = () => {
 
     return <Pagewrapper padding={40} fullscreen isLoading={isLoading || isFetching} direction='vertical' alignTop gap={4} className={styles.login}>
         <div className='w-full'>
-            <Pagewrapper direction='vertical' alignTop gap={4}>
-                <Title
-                    PageName={t('Pages.PasswordReset.Page.Header')}
-                    AdditionalName={user?.Username}
-                    PageUrl={Paths.ResetPassword}
-                />
-                <FormProvider<PasswordResetRequestForm> {...methods}>
-                    <Contentwrapper>
+            <Pagewrapper direction='vertical'  gap={4}>
+                <Contentwrapper bottomRounded>
+                    <Title
+                        PageName={t('Pages.PasswordReset.Page.Header')}
+                        AdditionalName={user?.Username}
+                        PageUrl={Paths.ResetPassword}
+                    />
+                    <FormProvider<PasswordResetRequestForm> {...methods}>
                         <Form>
                             <Form.Group widths={'equal'}>
                                 <ResetPasswordAppForm.Input name='Password' label={t('Pages.PasswordReset.Columns.Newpassword')} required={t('Pages.PasswordReset.Messages.NewpasswordReqired')} inputProps={passwordType} rules={{ validate: (value) => passwordValidation(value) }} additionalIcon={additionalicon} />
                                 <ResetPasswordAppForm.Input name='PasswordRe' label={t('Pages.PasswordReset.Columns.NewpasswordRe')} required={t('Pages.PasswordReset.Messages.NewpasswordConfirmReqired')} inputProps={passwordType} rules={{ validate: (value) => passwordValidation(value) }} />
                             </Form.Group>
                         </Form>
-                    </Contentwrapper>
-                </FormProvider>
-                <FormFooter>
-                    <FormButton
-                        onClick={() => navigate(Paths.Login)}
-                        secondary
-                        text={t('Common.Button.Goback')}
-                    />
-                    <FormButton
-                        loading={isLoading}
-                        text={t('Common.Button.Create')}
-                        onClick={() => submit()}
-                    />
-                </FormFooter>
+                    </FormProvider>
+                    <FormFooter transparent>
+                        <FormButton
+                            onClick={() => navigate(Paths.Login)}
+                            secondary
+                            text={t('Common.Button.Goback')}
+                        />
+                        <FormButton
+                            loading={isLoading}
+                            text={t('Common.Button.Update')}
+                            onClick={() => submit()}
+                        />
+                    </FormFooter>
+                </Contentwrapper>
             </Pagewrapper>
         </div>
     </Pagewrapper >

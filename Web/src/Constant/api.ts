@@ -164,9 +164,17 @@ export const PAYMENTPLAN_COUNT = 'Business/Paymentplans/Counts'
 
 export const PAYMENTPLAN_APPROVE_TRANSACTION = 'Business/Paymentplans/ApproveTransaction'
 
-export const REPORT_USERSALE = 'Business/Reports/GetUserSalesReport'
+export const REPORT_SALEBYDOCTOR  = 'Business/Reports/SaleReportByDoctor'
 
+export const REPORT_SALEBYLOCATION = 'Business/Reports/SaleReportByLocation'
 
+export const REPORT_VISITPRODUCT = 'Business/Reports/VisitProductReport'
+
+export const REPORT_SALEBYUSER = 'Business/Reports/UserSaleReport'
+
+export const REPORT_DAILYSALES = 'Business/Reports/DailySalesReport'
+
+export const REPORT_MONTHLYSALES = 'Business/Reports/MonthlySalesReport'
 //Tags
 
 export const TABLE_CONFIG_TAG = 'TABLE_CONFIG_TAG'

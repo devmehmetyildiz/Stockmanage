@@ -42,5 +42,8 @@
     "Paymentplans.Error.EnddateRequired": "Bitiş tarihi gerekli",
     "Paymentplans.Error.TransactionNotFound": "Tahsilat bulunamadı",
     "Paymentplans.Error.TransactionNotActive": "Tahsilat aktif değil",
-    "Paymentplans.Error.TransactionCompleted": "Tahsilat tamamlanmış"
+    "Paymentplans.Error.TransactionCompleted": "Tahsilat tamamlanmış",
+    "Reports": "Raporlar",
+    "Reports.Error.StartdateRequired": "Başlangıc tarihi gerekli",
+    "Reports.Error.EnddateRequired": "Bitiş tarihi gerekli"
 }

@@ -8,6 +8,7 @@ import { Mutex } from "async-mutex";
 import { METHOD_POST } from "@Constant/api";
 import { LoginResponse } from "./Auth/type";
 import validator from "@Utils/Validator";
+import RouteKeys from "@Constant/routeKeys";
 
 interface BaseQueryType {
     baseUrl: string;
@@ -86,9 +87,9 @@ const customBaseQuery = ({ baseUrl }: BaseQueryType): BaseQueryFn<string | Fetch
         let result = await rawBaseQuery(args, api, extraOptions);
 
         const globalRoutes = [
-            Paths.Login,
-            Paths.ForgetPassword,
-            Paths.ResetPassword
+            RouteKeys.Login,
+            RouteKeys.ForgetPassword,
+            RouteKeys.ResetPassword
         ]
 
         if (result.error?.status === API_UNAUTHORIZE_ERROR && !(globalRoutes.some(route => location.pathname.includes(route)))) {

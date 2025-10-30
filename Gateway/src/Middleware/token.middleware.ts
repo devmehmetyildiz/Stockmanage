@@ -1,6 +1,6 @@
-import { Injectable, NestMiddleware, UnauthorizedException } from '@nestjs/common';
+import { Injectable, NestMiddleware, } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
-import axios, { AxiosResponse } from 'axios';
+import axios from 'axios';
 import config from 'src/config';
 
 @Injectable()

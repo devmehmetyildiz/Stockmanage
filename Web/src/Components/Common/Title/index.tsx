@@ -9,6 +9,7 @@ import useMobile from '@Hooks/useMobile'
 import useHasPrivileges from '@Hooks/useHasPrivileges'
 import { useGetPrivilegesQuery } from '@Api/Profile'
 import privileges from '@Constant/privileges'
+import RouteKeys from '@Constant/routeKeys'
 
 export interface TitleAdditionalButtonType {
     name?: string
@@ -45,7 +46,13 @@ const Title: React.FC<PropsWithChildren<TitleProps>> = ({ PageName, PageUrl, exc
     //TODO column chooser ekle
     const { isTablet, isMobileLarge } = useMobile()
 
-    const { data: rawUserPrivileges, } = useGetPrivilegesQuery()
+    const globalRoutes = [
+        RouteKeys.Login,
+        RouteKeys.ForgetPassword,
+        RouteKeys.ResetPassword
+    ]
+
+    const { data: rawUserPrivileges, } = useGetPrivilegesQuery(undefined, { skip: globalRoutes.some(route => location.pathname.includes(route)) })
 
     const userPrivileges = rawUserPrivileges || []
 

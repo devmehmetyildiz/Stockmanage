@@ -1,6 +1,7 @@
 import { useGetPrivilegesQuery } from '@Api/Profile'
 import Paths from '@Constant/path'
 import privileges from '@Constant/privileges'
+import RouteKeys from '@Constant/routeKeys'
 import React, { PropsWithChildren } from 'react'
 import { useLocation } from 'react-router-dom'
 import { Button, ButtonProps } from 'semantic-ui-react'
@@ -20,11 +21,11 @@ const FormButton: React.FC<PropsWithChildren<FormButtonProps>> = (props) => {
     const location = useLocation()
 
     const globalRoutes = [
-        Paths.Login,
-        Paths.ForgetPassword,
-        Paths.ResetPassword
+        RouteKeys.Login,
+        RouteKeys.ForgetPassword,
+        RouteKeys.ResetPassword
     ]
-
+    
     const { data: userPrivileges, isFetching } = useGetPrivilegesQuery(undefined, { skip: globalRoutes.some(route => location.pathname.includes(route)) })
 
     if (role && (!(userPrivileges || []).includes(role)) && !(userPrivileges || []).includes(privileges.admin)) {
