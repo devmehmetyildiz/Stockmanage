@@ -1,4 +1,4 @@
-import { API_FETCH_ERROR, API_UNAUTHORIZE_ERROR, STORAGE_KEY_PATIENTCARE_LANGUAGE, STORAGE_KEY_PATIENTCARE_REFRESHTOKEN } from "@Constant/index";
+import { API_FETCH_ERROR, API_UNAUTHORIZE_ERROR, STORAGE_KEY_LANGUAGE, } from "@Constant/index";
 import { BaseQueryApi, BaseQueryFn, FetchArgs, fetchBaseQuery, FetchBaseQueryError, FetchBaseQueryMeta, QueryReturnValue } from "@reduxjs/toolkit/query";
 import Pushnotification from "@Utils/Pushnotification";
 import { RootState } from "./store";
@@ -71,7 +71,7 @@ const getRawBaseQuery = (baseUrl: string) => fetchBaseQuery({
     baseUrl: baseUrl,
     prepareHeaders: (headers, { getState }) => {
         const token = (getState() as RootState).auth.accessToken;
-        const language = localStorage.getItem(STORAGE_KEY_PATIENTCARE_LANGUAGE);
+        const language = localStorage.getItem(STORAGE_KEY_LANGUAGE);
         headers.set('Authorization', `Bearer ${token}`);
         headers.set('Language', language ?? 'tr');
         return headers;

@@ -206,7 +206,7 @@ async function responseToGetTokenByGrantPassword(req, res, next) {
         return next(sequelizeErrorCatcher(err))
     }
 
-    res.cookie("patientcare", accessToken.accessToken, {
+    res.cookie("stovira", accessToken.accessToken, {
         httpOnly: false,
         secure: false,
     }).status(200).json(accessToken)
@@ -298,7 +298,7 @@ async function responseToGetTokenByRefreshToken(req, res, next) {
         return next(sequelizeErrorCatcher(err))
     }
 
-    res.cookie("patientcare", accessToken.accessToken, {
+    res.cookie("stovira", accessToken.accessToken, {
         httpOnly: false,
         secure: false,
     }).status(200).json(accessToken)

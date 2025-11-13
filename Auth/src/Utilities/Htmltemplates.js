@@ -479,7 +479,7 @@ function Createresettemplate(Username, Url) {
                               </tr>
                             </table>
                             <p>Teşekkürler,
-                              <br>Elder Camp Takımı</p>
+                              <br>Stovira Takımı</p>
                             <!-- Sub copy -->
                             <table class="body-sub" role="presentation">
                               <tr>

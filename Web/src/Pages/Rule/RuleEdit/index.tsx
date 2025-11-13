@@ -6,7 +6,7 @@ import FormFooter from '@Components/Common/FormFooter'
 import Pagewrapper from '@Components/Common/Pagewrapper'
 import Title from '@Components/Common/Title'
 import Paths from '@Constant/path'
-import { breakdownmainteanciesrule, mainteancecreaterule, maintestrule, patientroutinecreaterrule, patienttodoccreaterule, personelshifteditorrule, usercreaterule } from '@Constant/ruleTemplates'
+import { breakdownmainteanciesrule, mainteancecreaterule, maintestrule, usercreaterule } from '@Constant/ruleTemplates'
 import { Editor } from '@monaco-editor/react'
 import CheckForm from '@Utils/CheckForm'
 import { createAppForm } from '@Utils/CreateAppForm'
@@ -84,12 +84,9 @@ const RuleEdit: React.FC = () => {
 
   const Templateoptions = [
     { key: 1, text: "Breakdown and Mainteancies Notification Rule", value: breakdownmainteanciesrule },
-    { key: 2, text: "Patient Todo Create Rule", value: patienttodoccreaterule },
-    { key: 3, text: "Personel Shift Editor Rule", value: personelshifteditorrule },
     { key: 4, text: "User Create Rule", value: usercreaterule },
     { key: 5, text: "Mainteance Creater Rule", value: mainteancecreaterule },
     { key: 6, text: "Mail Test Rule", value: maintestrule },
-    { key: 7, text: "Patient Routine Creater Rule", value: patientroutinecreaterrule },
   ]
 
   useEffect(() => {
