@@ -26,8 +26,6 @@ const About = "About"
 
 const Approvalrequests = "Approvalrequests"
 
-const Cases = "Cases"
-
 const Doctordefines = "Doctordefines"
 
 const Locations = "Locations"
@@ -63,7 +61,6 @@ const RouteKeys = {
     ResetPassword,
     About,
     Approvalrequests,
-    Cases,
     Doctordefines,
     Locations,
     Stockdefines,

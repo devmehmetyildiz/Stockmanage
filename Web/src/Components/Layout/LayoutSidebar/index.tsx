@@ -88,11 +88,10 @@ export const getSidebarRoutes = (t: any, userPrivileges: string[]) => {
             items: [
                 { id: 1, subtitle: t('Pages.Users.Page.Header'), url: Paths.Users, permission: checkAuth(privileges.userview) },
                 { id: 2, subtitle: t('Pages.Roles.Page.Header'), url: Paths.Roles, permission: checkAuth(privileges.roleview) },
-                { id: 3, subtitle: t('Pages.Cases.Page.Header'), url: Paths.Cases, permission: checkAuth(privileges.caseview) },
-                { id: 4, subtitle: t('Pages.Doctordefines.Page.Header'), url: Paths.Doctordefines, permission: checkAuth(privileges.doctordefineview) },
-                { id: 5, subtitle: t('Pages.Locations.Page.Header'), url: Paths.Locations, permission: checkAuth(privileges.locationview) },
-                { id: 6, subtitle: t('Pages.Paymenttypes.Page.Header'), url: Paths.Paymenttypes, permission: checkAuth(privileges.paymenttypeview) },
-                { id: 7, subtitle: t('Pages.Stockdefines.Page.Header'), url: Paths.Stockdefines, permission: checkAuth(privileges.stockdefineview) },
+                { id: 3, subtitle: t('Pages.Doctordefines.Page.Header'), url: Paths.Doctordefines, permission: checkAuth(privileges.doctordefineview) },
+                { id: 4, subtitle: t('Pages.Locations.Page.Header'), url: Paths.Locations, permission: checkAuth(privileges.locationview) },
+                { id: 5, subtitle: t('Pages.Paymenttypes.Page.Header'), url: Paths.Paymenttypes, permission: checkAuth(privileges.paymenttypeview) },
+                { id: 6, subtitle: t('Pages.Stockdefines.Page.Header'), url: Paths.Stockdefines, permission: checkAuth(privileges.stockdefineview) },
             ]
         },
     ]

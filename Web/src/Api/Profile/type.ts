@@ -37,7 +37,6 @@ export interface ProfileMetaResponse {
     Workstarttime: Date
     Workendtime: Date
     Leftinfo: string
-    CaseID: string
     Isworking: boolean
     ShiftdefineID: string
     ProfessionID: string

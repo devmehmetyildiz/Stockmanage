@@ -37,10 +37,6 @@ const About = RouteKeys.Main + RouteKeys.About
 
 const Approvalrequests = RouteKeys.Main + RouteKeys.Approvalrequests
 
-const Cases = RouteKeys.Main + RouteKeys.Cases
-const CasesCreate = RouteKeys.Main + RouteKeys.Cases + "/Create"
-const CasesEdit = RouteKeys.Main + RouteKeys.Cases + "/:Id/edit"
-
 const Locations = RouteKeys.Main + RouteKeys.Locations
 const LocationsCreate = RouteKeys.Main + RouteKeys.Locations + "/Create"
 const LocationsEdit = RouteKeys.Main + RouteKeys.Locations + "/:Id/edit"
@@ -106,9 +102,6 @@ const Paths = {
     ResetPassword,
     About,
     Approvalrequests,
-    Cases,
-    CasesCreate,
-    CasesEdit,
     Locations,
     LocationsCreate,
     LocationsEdit,

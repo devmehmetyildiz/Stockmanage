@@ -31,12 +31,6 @@ const usernotification = 'usernotification'
 const approvalrequestcreen = 'approvalrequestcreen'
 const approvalrequestview = 'approvalrequestview'
 const approvalrequestupdate = 'approvalrequestupdate'
-const casescreen = 'casescreen'
-const caseview = 'caseview'
-const caseadd = 'caseadd'
-const caseupdate = 'caseupdate'
-const casedelete = 'casedelete'
-const casenotification = 'casenotification'
 const doctordefinescreen = 'doctordefinescreen'
 const doctordefineview = 'doctordefineview'
 const doctordefineadd = 'doctordefineadd'
@@ -122,12 +116,6 @@ const privileges = {
     approvalrequestcreen,
     approvalrequestview,
     approvalrequestupdate,
-    casescreen,
-    caseview,
-    caseadd,
-    caseupdate,
-    casedelete,
-    casenotification,
     doctordefinescreen,
     doctordefineview,
     doctordefineadd,

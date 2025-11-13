@@ -30,18 +30,6 @@ export const PASSWORD_REGEX = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&.])[A
 
 export const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-export const CASE_STATU_START = 0
-
-export const CASE_STATU_WORKING = 1
-
-export const CASE_STATU_COMPLETE = 2
-
-export const CASE_STATU_STOP = 3
-
-export const CASE_STATU_ON_DECLINE_APPROVE = 4
-
-export const CASE_STATU_DECLINED = 5
-
 export const PAYMENTTYPE_TYPE_INVOICE = 0
 
 export const PAYMENTTYPE_TYPE_INSTALLMENT = 1

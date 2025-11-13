@@ -1,11 +1,4 @@
 const Routes = [
-    { method: 'get', path: '/Cases/Counts', controller: 'Case', action: 'GetCasesCount' },
-    { method: 'get', path: '/Cases/:ID', controller: 'Case', action: 'GetCase' },
-    { method: 'get', path: '/Cases', controller: 'Case', action: 'GetCases' },
-    { method: 'post', path: '/Cases', controller: 'Case', action: 'AddCase' },
-    { method: 'put', path: '/Cases', controller: 'Case', action: 'UpdateCase' },
-    { method: 'delete', path: '/Cases/:ID', controller: 'Case', action: 'DeleteCase' },
-
     { method: 'get', path: '/Stockdefines/Counts', controller: 'Stockdefine', action: 'GetStockdefinesCount' },
     { method: 'get', path: '/Stockdefines/:ID', controller: 'Stockdefine', action: 'GetStockdefine' },
     { method: 'get', path: '/Stockdefines', controller: 'Stockdefine', action: 'GetStockdefines' },

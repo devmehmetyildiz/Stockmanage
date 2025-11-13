@@ -70,7 +70,10 @@ const VisitCompleted: React.FC = () => {
                 currency: 'TRY',
             }).format(plan?.Remainingvalue || 0)
         }
-        return t('Common.NoDataFound')
+        return Intl.NumberFormat('tr-TR', {
+            style: 'currency',
+            currency: 'TRY',
+        }).format(0)
     }
 
     const scheduledpaymentCellhanlder = (value: number) => {

@@ -46,10 +46,6 @@ import Paymenttype from "@Pages/Paymenttype/Paymenttype";
 import PaymenttypeCreate from "@Pages/Paymenttype/PaymenttypeCreate";
 import PaymenttypeEdit from "@Pages/Paymenttype/PaymenttypeEdit";
 
-import Case from "@Pages/Case/Case";
-import CaseCreate from "@Pages/Case/CaseCreate";
-import CaseEdit from "@Pages/Case/CaseEdit";
-
 import Doctordefine from "@Pages/Doctordefine/Doctordefine";
 import DoctordefineCreate from "@Pages/Doctordefine/DoctordefineCreate";
 import DoctordefineEdit from "@Pages/Doctordefine/DoctordefineEdit";
@@ -114,9 +110,6 @@ const AppRouter = () => {
         { path: Paths.Paymenttypes, element: <Paymenttype />, requiredRole: [privileges.paymenttypeview] },
         { path: Paths.PaymenttypesCreate, element: <PaymenttypeCreate />, requiredRole: [privileges.paymenttypeview, privileges.paymenttypeadd] },
         { path: Paths.PaymenttypesEdit, element: <PaymenttypeEdit />, requiredRole: [privileges.paymenttypeview, privileges.paymenttypeupdate] },
-        { path: Paths.Cases, element: <Case />, requiredRole: [privileges.caseview] },
-        { path: Paths.CasesCreate, element: <CaseCreate />, requiredRole: [privileges.caseview, privileges.caseadd] },
-        { path: Paths.CasesEdit, element: <CaseEdit />, requiredRole: [privileges.caseview, privileges.caseupdate] },
         { path: Paths.Doctordefines, element: <Doctordefine />, requiredRole: [privileges.doctordefineview] },
         { path: Paths.DoctordefinesCreate, element: <DoctordefineCreate />, requiredRole: [privileges.doctordefineview, privileges.doctordefineadd] },
         { path: Paths.DoctordefinesEdit, element: <DoctordefineEdit />, requiredRole: [privileges.doctordefineview, privileges.doctordefineupdate] },

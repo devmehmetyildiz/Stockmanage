@@ -98,10 +98,6 @@ export const USERNOTIFICATION_DELETE_BY_USERID = 'Userrole/Usernotifications/Del
 
 export const USERNOTIFICATION_DELETE_READ_BY_USERID = 'Userrole/Usernotifications/DeleteUsernotificationbyidreaded'
 
-export const CASE = 'Setting/Cases'
-
-export const CASE_COUNT = 'Setting/Cases/Counts'
-
 export const LOCATION = 'Setting/Locations'
 
 export const LOCATION_COUNT = 'Setting/Locations/Counts'
@@ -195,8 +191,6 @@ export const ROLE_TAG = 'ROLE_TAG'
 
 export const NOTIFICATION_UPDATE_TAG = 'NOTIFICATION_UPDATE_TAG'
 
-export const CASE_TAG = 'CASE_TAG'
-
 export const LOCATION_TAG = 'LOCATION_TAG'
 
 export const PAYMENTTYPE_TAG = 'PAYMENTTYPE_TAG'
@@ -210,6 +204,8 @@ export const WAREHOUSE_TAG = 'WAREHOUSE_TAG'
 export const STOCK_TAG = 'STOCK_TAG'
 
 export const VISIT_TAG = 'VISIT_TAG'
+
+export const VISIT_COMPLETE_TAG = 'VISIT_COMPLETE_TAG'
 
 export const PAYMENTPLAN_TAG = 'PAYMENTPLAN_TAG'
 
