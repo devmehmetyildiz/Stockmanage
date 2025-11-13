@@ -23,7 +23,6 @@ const userview = 'userview'
 const useradd = 'useradd'
 const userupdate = 'userupdate'
 const userremove = 'userremove'
-const userupdatecase = 'userupdatecase'
 const userupdatemovement = 'userupdatemovement'
 const userdeletemovement = 'userdeletemovement'
 const userdelete = 'userdelete'
@@ -108,9 +107,6 @@ const privileges = {
     useradd,
     userupdate,
     userremove,
-    userupdatecase,
-    userupdatemovement,
-    userdeletemovement,
     userdelete,
     usernotification,
     approvalrequestcreen,

@@ -34,7 +34,7 @@ export const getSidebarRoutes = (t: any, userPrivileges: string[]) => {
     const checkAuth = (authname: string) => {
 
         let isAvailable = false
-        if (userPrivileges.includes('admin') || userPrivileges.includes(authname)) {
+        if (userPrivileges.includes(privileges.admin) || userPrivileges.includes(authname)) {
             isAvailable = true
         }
         return isAvailable
@@ -96,7 +96,17 @@ export const getSidebarRoutes = (t: any, userPrivileges: string[]) => {
         },
     ]
 
-    return pages
+    return pages.map(mainPane => {
+        const avilableItems = mainPane.items.filter(u => u.permission)
+        if (avilableItems.length > 0) {
+            return {
+                ...mainPane,
+                items: avilableItems
+            }
+        } else {
+            return null
+        }
+    }).filter(u => !!u)
 }
 
 const LayoutSidebar: React.FC<LayoutSidebarProps> = ({ visible, setVisible }) => {

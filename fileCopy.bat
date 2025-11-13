@@ -8,7 +8,7 @@ set SOURCE_FOLDER=\Privileges.js
 set SOURCE=%TARGET_PREFIX%%SOURCE_FOLDER_PATH%%SOURCE_FOLDER%
 
 :: Hedef prefixler listesi
-set PREFIXES=Business Log Setting System Userrole
+set PREFIXES=Business Log Setting System Userrole Warehouse
 
 for %%P in (%PREFIXES%) do (
     :: Target klasörü es geç
