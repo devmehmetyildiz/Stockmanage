@@ -12,6 +12,7 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { Form, Header, Image, Modal } from 'semantic-ui-react'
 import { PAYMENTTYPE_TYPE_BANKTRANSFER, PAYMENTTYPE_TYPE_CASH, PAYMENTTYPE_TYPE_CREDITCARD, PAYMENTTYPE_TYPE_INVOICE } from '@Constant/index'
+import { SuppressDate } from '@Utils/FormatDate'
 
 interface PaymentplantransactionApproveModalProps {
     open: boolean
@@ -78,7 +79,8 @@ const PaymentplantransactionApproveModal: React.FC<PaymentplantransactionApprove
             reset({
                 TransactionID: data.Uuid,
                 Description: '',
-                Paymentmethod: 4
+                Paymentmethod: 4,
+                Paydate: SuppressDate(new Date(), true)
             })
         }
     }, [reset, open, data])
@@ -90,8 +92,7 @@ const PaymentplantransactionApproveModal: React.FC<PaymentplantransactionApprove
         size='small'
     >
         <Modal.Header>{t('Pages.Paymentplantransactions.Page.ApproveHeader')}</Modal.Header>
-        <Modal.Content image>
-            <Image size='medium' src={imgs.approve} wrapped />
+        <Modal.Content>
             <Modal.Description>
                 <Header>{formattedTotal}</Header>
                 <p className='mb-6'>
@@ -103,6 +104,7 @@ const PaymentplantransactionApproveModal: React.FC<PaymentplantransactionApprove
                             <Form>
                                 <Form.Group widths={'equal'}>
                                     <TransactionAppForm.Select name='Paymentmethod' label={t('Pages.Paymentplantransactions.Label.Paymentmethod')} required={t('Pages.Paymentplantransactions.Messages.PaymentmethodRequired')} options={paymentTypeOption} />
+                                    <TransactionAppForm.Input name='Paydate' label={t('Pages.Paymentplantransactions.Label.Paydate')} required={t('Pages.Paymentplantransactions.Messages.PaydateRequired')} type={'datetime-local'} />
                                 </Form.Group>
                                 <Form.Group widths={'equal'}>
                                     <TransactionAppForm.Input name='Description' label={t('Pages.Paymentplantransactions.Label.Description')} />

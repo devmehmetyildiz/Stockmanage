@@ -56,7 +56,7 @@ const VisitCompleteStepProduct: React.FC<VisitCompleteStepProductProps> = (props
                                     validate: (value: any) => {
                                         if (validator.isNumber(value)) {
                                             if (value > (visitProduct?.Amount ?? 0)) {
-                                                return t('Pages.Visits.Messages.ReturnamountBigger')
+                                                return t('Pages.Visits.Messages.ReturnAmountBigger')
                                             }
                                             return true
                                         } else {

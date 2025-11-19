@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Pagewrapper from '@Components/Common/Pagewrapper'
 import DataTable, { ColumnType } from '@Components/Common/DataTable'
 import { useTranslation } from 'react-i18next'
-import { FormatDate } from '@Utils/FormatDate'
+import { FormatDate, FormatFullDate } from '@Utils/FormatDate'
 import { useGetTableMetaQuery } from '@Api/Profile'
 import FormatTableMeta from '@Utils/FormatTableMeta'
 import { ExcelProvider } from '@Context/ExcelContext'
@@ -33,6 +33,10 @@ const PaymentplantransactionDone: React.FC = () => {
 
     const dateCellhandler = (value: any) => {
         return FormatDate(value)
+    }
+ 
+    const fulldateCellhandler = (value: any) => {
+        return FormatFullDate(value)
     }
 
     const paymentplanCellhandler = (value: string) => {
@@ -87,7 +91,8 @@ const PaymentplantransactionDone: React.FC = () => {
         { header: t("Common.Columns.Uuid"), accessorKey: 'Uuid' },
         { header: t('Pages.Paymentplantransactions.Columns.PaymentplanID'), accessorKey: 'PaymentplanID', accessorFn: row => paymentplanCellhandler(row.PaymentplanID), cell: wrapper => loaderCellhandler(wrapper, isVisitsFetching || isPaymentplansFetching), isMobile: true },
         { header: t('Pages.Paymentplantransactions.Columns.Doctor'), accessorKey: 'DoctorID', accessorFn: row => doctorCellhandler(row.PaymentplanID), cell: wrapper => loaderCellhandler(wrapper, isVisitsFetching || isPaymentplansFetching || isDoctorsFetching), isMobile: true },
-        { header: t('Pages.Paymentplantransactions.Columns.Paymentdate'), accessorKey: 'Paymentdate', accessorFn: row => dateCellhandler(row.Paymentdate), isMobile: true },
+        { header: t('Pages.Paymentplantransactions.Columns.Paymentdate'), accessorKey: 'Paymentdate', accessorFn: row => dateCellhandler(row.Paymentdate), },
+        { header: t('Pages.Paymentplantransactions.Label.Paydate'), accessorKey: 'Paydate', accessorFn: row => fulldateCellhandler(row.Paymentdate), isMobile: true },
         { header: t('Pages.Paymentplantransactions.Columns.Type'), accessorKey: 'Type', accessorFn: row => paymentTransactionCellhandler(row.Type) },
         { header: t('Pages.Paymentplantransactions.Columns.Amount'), accessorKey: 'Amount', accessorFn: row => formatCurrencyCellHandler(row.Amount) },
         { header: t('Pages.Paymentplantransactions.Columns.Paymentmethod'), accessorKey: 'Paymentmethod', accessorFn: row => paymentTypeCellhandler(row.Paymentmethod) },

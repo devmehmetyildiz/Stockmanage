@@ -62,5 +62,6 @@ export interface PaymentplanItem extends PaymentplanListItem {
 export interface PaymentplanApproveTransactionRequest {
     TransactionID: string,
     Paymentmethod: number,
+    Paydate: string,
     Description: string
 }

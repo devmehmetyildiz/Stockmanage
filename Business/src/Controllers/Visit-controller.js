@@ -77,7 +77,8 @@ async function CreateVisit(req, res, next) {
         Stocks,
         WarehouseID,
         PaymenttypeID,
-        Scheduledpayment
+        Scheduledpayment,
+        Description
     } = req.body
 
     if (!validator.isUUID(UserID)) {
@@ -159,6 +160,7 @@ async function CreateVisit(req, res, next) {
             Scheduledpayment,
             Status: 0,
             Notes,
+            Description,
             Createduser: username,
             Createtime: new Date(),
             Isactive: true,
@@ -289,7 +291,8 @@ async function UpdateVisitDefines(req, res, next) {
         Visitdate,
         Notes,
         PaymenttypeID,
-        Scheduledpayment
+        Scheduledpayment,
+        Description
     } = req.body
 
     if (!validator.isUUID(VisitID)) {
@@ -342,6 +345,7 @@ async function UpdateVisitDefines(req, res, next) {
             Visitdate,
             Scheduledpayment,
             Notes,
+            Description,
             Updateduser: username,
             Updatetime: new Date(),
         }, { transaction: t, where: { Uuid: VisitID } })
@@ -700,6 +704,7 @@ async function CompleteVisit(req, res, next) {
                 PaymentplanID: planUuid,
                 Amount: Prepaymentamount,
                 Paymentdate: new Date(),
+                Paydate: new Date(),
                 Status: true,
                 Type: isFullPayment ? PAYMENT_TRANSACTION_TYPE_FULLPAYMENT : PAYMENT_TRANSACTION_TYPE_PREPAYMENT,
                 Paymentmethod: Prepaymenttype,

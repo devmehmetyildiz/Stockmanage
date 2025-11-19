@@ -39,7 +39,7 @@ const VisitComplete: React.FC = () => {
         mode: 'onChange',
     })
 
-    const { getValues, formState, trigger, setValue, reset } = methods
+    const { getValues, formState, trigger, reset } = methods
 
     const checkButtonValidation = () => {
         if (activeStep === 'product') {
@@ -163,7 +163,9 @@ const VisitComplete: React.FC = () => {
                     />
                     : null}
                 {activeStep === 'payment' ?
-                    <VisitCompleteStepPayment />
+                    <VisitCompleteStepPayment
+                        data={data}
+                    />
                     : null}
                 {activeStep === 'detail' ?
                     <VisitStepCompleteDetail

@@ -80,6 +80,7 @@ const VisitOnapprove: React.FC = () => {
         { header: t('Pages.Visits.Columns.Visitcode'), accessorKey: 'Visitcode', isMobile: true },
         { header: t("Pages.Visits.Columns.Visitdate"), accessorKey: 'Visitdate', accessorFn: row => dateCellhandler(row.Visitdate) },
         { header: t("Pages.Visits.Columns.Isapproved"), accessorKey: 'Isapproved', accessorFn: row => boolCellhandler(row.Isapproved) },
+        { header: t('Pages.Visits.Columns.Description'), accessorKey: 'Description', },
         { header: t("Pages.Visits.Columns.ApprovedUserID"), accessorKey: 'ApprovedUserID', accessorFn: row => userCellhandler(row.ApprovedUserID), cell: wrapper => loaderCellhandler(wrapper, isUsersFetching) },
         { header: t("Pages.Visits.Columns.ApproveDescription"), accessorKey: 'ApproveDescription' },
         { header: t("Common.Columns.Createduser"), accessorKey: 'Createduser' },

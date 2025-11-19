@@ -20,11 +20,20 @@ const Layout = () => {
     const MetaQuery = useGetMetaQuery()
     const PrivilegeQuery = useGetPrivilegesQuery()
 
+    const { data } = MetaQuery
+
     const isLoading =
         MetaQuery.isLoading ||
         MetaQuery.isFetching ||
         PrivilegeQuery.isLoading ||
         PrivilegeQuery.isFetching
+
+    useEffect(() => {
+        const current = localStorage.getItem('i18nextLng')
+        if (data && data.Language !== current) {
+            localStorage.setItem('i18nextLng', (data?.Language ?? 'tr').toLocaleLowerCase('tr'))
+        }
+    }, [data])
 
     useEffect(() => {
         changeSidebar(visible)

@@ -115,6 +115,7 @@ const VisitCreate: React.FC = () => {
                     </Form.Group>
                     <Form.Group widths={'equal'}>
                         <VisitAppForm.Input name='Visitdate' label={t('Pages.Visits.Columns.Visitdate')} type='date' required={t('Pages.Visits.Messages.VisitdateReqired')} />
+                        <VisitAppForm.Input name='Description' label={t('Pages.Visits.Columns.Description')} />
                     </Form.Group>
                     <Form.Group widths={'equal'}>
                         <VisitAppForm.Select name='PaymenttypeID' label={t('Pages.Visits.Columns.PaymenttypeID')} options={paymenttypeOpiton} />

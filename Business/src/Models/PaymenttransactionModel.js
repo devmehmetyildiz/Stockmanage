@@ -20,6 +20,9 @@ module.exports = sequelize.define('paymenttransactionModel', {
     Referenceno: {
         type: Sequelize.STRING
     },
+    Paydate: {
+        type: Sequelize.DATE
+    },
     Status: {
         type: Sequelize.BOOLEAN
     },

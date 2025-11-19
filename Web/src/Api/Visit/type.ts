@@ -40,6 +40,7 @@ export interface VisitListItem {
     Visitstartdate: Date | null;
     Visitenddate: Date | null;
     Status: number;
+    Description: string,
     Notes: string;
     Scheduledpayment: number
     Finalpayment: number
@@ -79,6 +80,7 @@ export interface VisitCreateRequest {
     Scheduledpayment: number,
     Notes: string,
     Stocks: VisitStockItem[]
+    Description: string
 }
 
 export interface VisitUpdateStocksRequest {
@@ -103,6 +105,7 @@ export interface VisitUpdateDefinesRequest {
     Notes: string,
     Scheduledpayment: number
     PaymenttypeID: string;
+    Description: string
 }
 
 export interface VisitWorkRequest {

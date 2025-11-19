@@ -1,1 +1,5 @@
-{}
+{
+    "Logs": "Logs",
+    "Logs.Error.StartdateRequired": "Start Date Required",
+    "Logs.Error.EnddateRequired": "End Date Required"
+}

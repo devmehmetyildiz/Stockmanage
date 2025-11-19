@@ -18,6 +18,12 @@ const mutex = new Mutex();
 
 const checkError = async (result: QueryReturnValue<unknown, FetchBaseQueryError, FetchBaseQueryMeta>, api: BaseQueryApi) => {
     if (result.error) {
+        if ((result.error as any)?.error === 'AbortError: signal is aborted without reason') {
+            return
+        }
+        if ((result.error as any)?.error === 'AbortError: The user aborted a request.') {
+            return
+        }
         if (result.error.status === API_UNAUTHORIZE_ERROR) {
             const data = result.error.data as any;
             const list = data?.list;

@@ -1,4 +1,5 @@
-import { VisitCompleteRequest } from '@Api/Visit/type'
+import { useGetPaymenttypeQuery } from '@Api/Paymenttype'
+import { VisitCompleteRequest, VisitItem } from '@Api/Visit/type'
 import Contentwrapper from '@Components/Common/Contentwrapper'
 import Pagewrapper from '@Components/Common/Pagewrapper'
 import { PAYMENTTYPE_TYPE_BANKTRANSFER, PAYMENTTYPE_TYPE_CASH, PAYMENTTYPE_TYPE_CREDITCARD, PAYMENTTYPE_TYPE_INSTALLMENT, PAYMENTTYPE_TYPE_INVOICE } from '@Constant/index'
@@ -10,14 +11,21 @@ import { useTranslation } from 'react-i18next'
 import { Form } from 'semantic-ui-react'
 
 const VisitAppForm = createAppForm<VisitCompleteRequest>()
+interface VisitCompleteStepPaymentProps {
+    data: VisitItem | undefined
+}
 
-const VisitCompleteStepPayment: React.FC = () => {
+const VisitCompleteStepPayment: React.FC<VisitCompleteStepPaymentProps> = ({ data: visitData }) => {
 
     const { t } = useTranslation()
 
+    const PaymenttypeID = visitData?.PaymenttypeID
+
+    const { data, isFetching } = useGetPaymenttypeQuery({ Uuid: PaymenttypeID ?? '' }, { skip: !validator.isUUID(PaymenttypeID) })
+
     const { watch, setValue } = useFormContext<VisitCompleteRequest>()
 
-    const [isFullPayment, Totalamount] = watch(['isFullPayment', 'Totalamount'])
+    const [isFullPayment, Totalamount, Prepaymentamount] = watch(['isFullPayment', 'Totalamount', 'Prepaymentamount'])
 
     const paymentTypeOption = [
         { text: t('Option.Paymenttype.Cash'), value: PAYMENTTYPE_TYPE_CASH },
@@ -25,6 +33,14 @@ const VisitCompleteStepPayment: React.FC = () => {
         { text: t('Option.Paymenttype.BankTransfer'), value: PAYMENTTYPE_TYPE_BANKTRANSFER },
         { text: t('Option.Paymenttype.Invoice'), value: PAYMENTTYPE_TYPE_INVOICE },
     ]
+
+    useEffect(() => {
+        if (data) {
+            setValue('Duedays', data.Duedays ?? 0)
+            setValue('Installmentcount', data.Installmentcount ?? 0)
+            setValue('Installmentinterval', data.Installmentinterval ?? 0)
+        }
+    }, [data, setValue])
 
     useEffect(() => {
         if (isFullPayment) {
@@ -35,7 +51,8 @@ const VisitCompleteStepPayment: React.FC = () => {
         }
     }, [setValue, isFullPayment])
 
-    return <Pagewrapper dynamicHeight alignTop direction='vertical' gap={4}>
+
+    return <Pagewrapper isLoading={isFetching} dynamicHeight alignTop direction='vertical' gap={4}>
         <Contentwrapper className='!bg-transparent !outline-none !shadow-none'>
             <Form>
                 <Form.Group widths={'equal'}>
@@ -45,21 +62,19 @@ const VisitCompleteStepPayment: React.FC = () => {
                 {!isFullPayment ?
                     <>
                         <Form.Group widths={'equal'}>
-                            <VisitAppForm.Input name='Prepaymentamount' label={t('Pages.Visits.Label.Prepayment')} required={t('Pages.Visits.Messages.PrepaymentReqired')} type='number' inputProps={{ min: 0 }}
-                                rules={{
+                            <VisitAppForm.Input name='Prepaymentamount' label={t('Pages.Visits.Label.Prepayment')} type='number' inputProps={{ min: 0 }}
+                                rules={validator.isNumber(Prepaymentamount) && Prepaymentamount > 0 ? {
                                     validate: (value: any) => {
                                         if (validator.isNumber(value)) {
                                             if (value > Totalamount) {
                                                 return t('Pages.Visits.Messages.PrepaymentBigger')
                                             }
                                             return true
-                                        } else {
-                                            return t('Pages.Visits.Messages.PrepaymentReqired')
                                         }
                                     }
-                                }} showPriceIcon
+                                } : undefined} showPriceIcon
                             />
-                            <VisitAppForm.Select name='Prepaymenttype' label={t('Pages.Visits.Label.Prepaymenttype')} required={t('Pages.Visits.Messages.PrepaymenttypeReqired')} options={paymentTypeOption} />
+                            <VisitAppForm.Select name='Prepaymenttype' label={t('Pages.Visits.Label.Prepaymenttype')} options={paymentTypeOption} />
                         </Form.Group>
                         <Form.Group widths={'equal'}>
                             <VisitAppForm.Input name='Installmentcount' label={t('Pages.Visits.Label.Installmentcount')} required={t('Pages.Visits.InstallmentcountRequired')} type='number' inputProps={{ min: 0 }} />

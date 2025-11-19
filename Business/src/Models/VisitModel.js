@@ -59,7 +59,9 @@ module.exports = sequelize.define('visitModel', {
     RejectDescription: {
         type: Sequelize.STRING
     },
-
+    Description: {
+        type: Sequelize.STRING
+    },
 }, {
     tableName: 'visits',
     timestamps: false

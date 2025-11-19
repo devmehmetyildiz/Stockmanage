@@ -70,6 +70,7 @@ async function ApproveTransaction(req, res, next) {
     const {
         TransactionID,
         Paymentmethod,
+        Paydate,
         Description
     } = req.body
 
@@ -78,6 +79,9 @@ async function ApproveTransaction(req, res, next) {
     }
     if (!validator.isNumber(Paymentmethod)) {
         validationErrors.push(req.t('Paymentplans.Error.PaymentmethodRequired'))
+    }
+    if (!validator.isISODate(Paydate)) {
+        validationErrors.push(req.t('Paymentplans.Error.PaydateRequired'))
     }
 
     if (validationErrors.length > 0) {
@@ -109,7 +113,7 @@ async function ApproveTransaction(req, res, next) {
         }
 
         await db.paymenttransactionModel.update({
-            Paymentdate: new Date(),
+            Paydate,
             Status: true,
             Paymentmethod,
             Description,

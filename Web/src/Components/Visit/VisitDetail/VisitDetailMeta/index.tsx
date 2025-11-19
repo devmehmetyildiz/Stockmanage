@@ -185,6 +185,11 @@ const VisitDetailMeta: React.FC<VisitDetailMetaProps> = (props) => {
                                 : t('Common.NoDataFound')
                         }
                     />
+                    <VisitDetailLabel
+                        icon="facebook messenger"
+                        label={t('Pages.Visits.Columns.Description')}
+                        value={data?.Description ?? '-'}
+                    />
                 </div>
             </Card>
         </motion.div>

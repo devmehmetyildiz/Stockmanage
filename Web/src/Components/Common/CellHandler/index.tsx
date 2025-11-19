@@ -2,7 +2,7 @@ import { useGetPrivilegesQuery } from '@Api/Profile'
 import privileges from '@Constant/privileges'
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Icon, SemanticICONS } from 'semantic-ui-react'
+import { Icon, SemanticCOLORS, SemanticICONS } from 'semantic-ui-react'
 
 interface EditCellHandlerProps {
     url: string
@@ -172,14 +172,16 @@ const WorkCellhandler: React.FC<WorkCellhandlerProps> = ({ onClick, disabled }) 
 interface CompleteCellhandlerProps {
     onClick?: () => void
     url?: string
+    icon?: SemanticICONS
+    color?: SemanticCOLORS
 }
 
-const CompleteCellhandler: React.FC<CompleteCellhandlerProps> = ({ onClick, url }) => {
+const CompleteCellhandler: React.FC<CompleteCellhandlerProps> = ({ onClick, url, icon, color }) => {
 
     if (url) {
-        return <Link to={url} ><Icon link size='large' color='blue' name='share' /></Link>
+        return <Link to={url} ><Icon link size='large' color={color ?? 'blue'} name={icon ?? 'share'} /></Link>
     }
-    return <Icon link size='large' color='blue' name='share' onClick={onClick} />
+    return <Icon link size='large' color={color ?? 'blue'} name={icon ?? 'share'} onClick={onClick} />
 }
 
 export {

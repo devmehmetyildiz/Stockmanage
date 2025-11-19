@@ -100,6 +100,7 @@ const VisitWorking: React.FC = () => {
         { header: t('Pages.Visits.Columns.Scheduledpayment'), accessorKey: 'Scheduledpayment', accessorFn: row => scheduledpaymentCellhanlder(row?.Scheduledpayment) },
         { header: t("Pages.Visits.Columns.Visitdate"), accessorKey: 'Visitdate', accessorFn: row => dateCellhandler(row.Visitdate) },
         { header: t("Pages.Visits.Columns.Visitstartdate"), accessorKey: 'Visitstartdate', accessorFn: row => dateCellhandler(row.Visitdate) },
+        { header: t("Pages.Visits.Columns.Description"), accessorKey: 'Description' },
         { header: t("Common.Columns.Createduser"), accessorKey: 'Createduser' },
         { header: t("Common.Columns.Createtime"), accessorKey: 'Createtime', accessorFn: row => dateCellhandler(row?.Createtime) },
         { header: t("Common.Columns.Updateduser"), accessorKey: 'Updateduser' },

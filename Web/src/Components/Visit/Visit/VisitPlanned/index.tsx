@@ -128,6 +128,7 @@ const VisitPlanned: React.FC = () => {
         { header: t('Pages.Visits.Columns.PaymenttypeID'), accessorKey: 'PaymenttypeID', accessorFn: row => paymenttypeCellhandler(row.PaymenttypeID), cell: wrapper => loaderCellhandler(wrapper, isPaymenttypesFetching), },
         { header: t('Pages.Visits.Columns.Scheduledpayment'), accessorKey: 'Scheduledpayment', accessorFn: row => scheduledpaymentCellhanlder(row.Scheduledpayment) },
         { header: t("Pages.Visits.Columns.Visitdate"), accessorKey: 'Visitdate', accessorFn: row => dateCellhandler(row.Visitdate) },
+        { header: t('Pages.Visits.Columns.Description'), accessorKey: 'Description', },
         { header: t('Pages.Visits.Columns.Isrejected'), accessorKey: 'Isrejected', accessorFn: row => boolCellhandler(row.Isrejected) },
         { header: t('Pages.Visits.Columns.RejectedUserID'), accessorKey: 'RejectedUserID', accessorFn: row => userCellhandler(row.RejectedUserID), cell: wrapper => loaderCellhandler(wrapper, isUsersFetching) },
         { header: t('Pages.Visits.Columns.RejectDescription'), accessorKey: 'RejectDescription', },
