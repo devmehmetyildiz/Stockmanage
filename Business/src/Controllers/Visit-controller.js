@@ -69,7 +69,8 @@ async function GetVisit(req, res, next) {
 async function CreateVisit(req, res, next) {
     let validationErrors = []
     const {
-        UserID,
+        WorkerUserID,
+        ResponsibleUserID,
         DoctorID,
         LocationID,
         Visitdate,
@@ -81,8 +82,11 @@ async function CreateVisit(req, res, next) {
         Description
     } = req.body
 
-    if (!validator.isUUID(UserID)) {
-        validationErrors.push(req.t('Visits.Error.UserIDRequired'))
+    if (!validator.isUUID(WorkerUserID)) {
+        validationErrors.push(req.t('Visits.Error.WorkerUserIDRequired'))
+    }
+    if (!validator.isUUID(ResponsibleUserID)) {
+        validationErrors.push(req.t('Visits.Error.ResponsibleUserIDRequired'))
     }
     if (!validator.isUUID(DoctorID)) {
         validationErrors.push(req.t('Visits.Error.DoctorIDRequired'))
@@ -151,7 +155,8 @@ async function CreateVisit(req, res, next) {
         await db.visitModel.create({
             Uuid: itemUuid,
             Visitcode: visitCode,
-            UserID,
+            WorkerUserID,
+            ResponsibleUserID,
             DoctorID,
             PaymenttypeID,
             WarehouseID,
@@ -285,7 +290,8 @@ async function UpdateVisitDefines(req, res, next) {
     const {
         VisitID,
         Visitcode,
-        UserID,
+        ResponsibleUserID,
+        WorkerUserID,
         DoctorID,
         LocationID,
         Visitdate,
@@ -298,8 +304,11 @@ async function UpdateVisitDefines(req, res, next) {
     if (!validator.isUUID(VisitID)) {
         validationErrors.push(req.t('Visits.Error.VisitIDRequired'))
     }
-    if (!validator.isUUID(UserID)) {
-        validationErrors.push(req.t('Visits.Error.UserIDRequired'))
+    if (!validator.isUUID(ResponsibleUserID)) {
+        validationErrors.push(req.t('Visits.Error.ResponsibleUserIDRequired'))
+    }
+    if (!validator.isUUID(WorkerUserID)) {
+        validationErrors.push(req.t('Visits.Error.WorkerUserIDRequired'))
     }
     if (!validator.isUUID(DoctorID)) {
         validationErrors.push(req.t('Visits.Error.DoctorIDRequired'))
@@ -338,7 +347,8 @@ async function UpdateVisitDefines(req, res, next) {
 
         await db.visitModel.update({
             Visitcode,
-            UserID,
+            ResponsibleUserID,
+            WorkerUserID,
             DoctorID,
             LocationID,
             PaymenttypeID,
@@ -395,12 +405,12 @@ async function SendApproveVisit(req, res, next) {
 
         const doctor = await DoGet(config.services.Setting, `Doctordefines/${visit.DoctorID}`)
         const location = await DoGet(config.services.Setting, `Locations/${visit.LocationID}`)
-        const user = await DoGet(config.services.Userrole, `Users/${visit.UserID}`)
+        const workerUser = await DoGet(config.services.Userrole, `Users/${visit.WorkerUserID}`)
 
         const doctorName = doctor ? `${doctor.Name} ${doctor.Surname}` : req.t('General.NotFound')
         const locationName = location ? location.Name : req.t('General.NotFound')
-        const userName = user ? `${user.Name} ${user.Surname}` : req.t('General.NotFound')
-
+        const userName = workerUser ? `${workerUser.Name} ${workerUser.Surname}` : req.t('General.NotFound')
+        
         publishEvent("approveRequest", 'System', 'Approval', {
             Service: 'Business',
             Table: 'Visit',

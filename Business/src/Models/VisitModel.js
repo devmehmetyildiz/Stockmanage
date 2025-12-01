@@ -5,7 +5,10 @@ module.exports = sequelize.define('visitModel', {
     Visitcode: {
         type: Sequelize.STRING
     },
-    UserID: {
+    WorkerUserID: {
+        type: Sequelize.STRING
+    },
+    ResponsibleUserID: {
         type: Sequelize.STRING
     },
     DoctorID: {

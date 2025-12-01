@@ -31,7 +31,8 @@ export interface VisitListItem {
     Id: number;
     Uuid: string;
     Visitcode: string;
-    UserID: string;
+    WorkerUserID: string;
+    ResponsibleUserID: string;
     DoctorID: string;
     LocationID: string;
     PaymenttypeID: string;
@@ -71,7 +72,8 @@ export interface VisitStockItem {
 
 export interface VisitCreateRequest {
     Visitcode: string,
-    UserID: string,
+    WorkerUserID: string,
+    ResponsibleUserID: string,
     DoctorID: string,
     WarehouseID: string,
     LocationID: string,
@@ -98,7 +100,8 @@ export interface VisitUpdatePaymentdefineRequest {
 export interface VisitUpdateDefinesRequest {
     VisitID: string,
     Visitcode: string,
-    UserID: string,
+    WorkerUserID: string,
+    ResponsibleUserID: string,
     DoctorID: string,
     LocationID: string,
     Visitdate: string | Date,

@@ -1,3 +1,4 @@
+import { useLazyServiceUsageCountDailyQuery } from '@Api/Log'
 import { useGetMetaQuery } from '@Api/Profile'
 import { useCreateStockMutation } from '@Api/Stock'
 import { StockCreateRequest } from '@Api/Stock/type'
@@ -17,7 +18,7 @@ import validator from '@Utils/Validator'
 import React, { useEffect, useMemo } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { DropdownItemProps, Form } from 'semantic-ui-react'
 
 const StockAppForm = createAppForm<StockCreateRequest>()
@@ -27,7 +28,7 @@ const StockCreate: React.FC = () => {
     const { t } = useTranslation()
 
     const navigate = useNavigate()
-
+    const location = useLocation()
     const methods = useForm<StockCreateRequest>({
         mode: 'onChange',
     })
@@ -69,7 +70,9 @@ const StockCreate: React.FC = () => {
                             Subject: t('Pages.Stocks.Page.Header'),
                             Description: t('Pages.Stocks.Messages.AddSuccess')
                         })
-                        navigate(Paths.Stocks)
+                        const returnUrlParams = new URLSearchParams(location.search);
+                        const returnUrl = returnUrlParams.get('returnUrl');
+                        navigate(returnUrl || Paths.Stocks)
                     })
             } else {
                 CheckForm(formState, t('Pages.Stocks.Page.Header'))

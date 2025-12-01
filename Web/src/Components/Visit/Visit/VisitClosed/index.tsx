@@ -19,6 +19,7 @@ import { DetailCellHandler } from '@Components/Common/CellHandler'
 import { CellContext } from '@tanstack/react-table'
 import RouteKeys from '@Constant/routeKeys'
 import useHasPrivileges from '@Hooks/useHasPrivileges'
+import { useGetPaymentplansQuery } from '@Api/Paymentplan'
 
 const VisitClosed: React.FC = () => {
 
@@ -31,6 +32,7 @@ const VisitClosed: React.FC = () => {
     const { data: doctordefines, isFetching: isDoctordefinesFetching } = useGetDoctordefinesQuery({ isActive: 1 })
     const { data: locations, isFetching: isLocationsFetching } = useGetLocationsQuery({ isActive: 1 })
     const { data: paymenttypes, isFetching: isPaymenttypesFetching } = useGetPaymenttypesQuery({ isActive: 1 })
+    const { data: plans, isFetching: isPlansFetching } = useGetPaymentplansQuery({ isActive: 1 })
 
     const TableQuery = useGetTableMetaQuery({ Key: 'visitclosed' })
 
@@ -66,15 +68,27 @@ const VisitClosed: React.FC = () => {
         return <DetailCellHandler url={`/${RouteKeys.Visits}/${data.Uuid}/Detail`} />
     }
 
+    const totalValueCellhanlder = (value: string) => {
+        const plan = (plans || []).find(u => u.VisitID === value)
+        if (plan?.Totalamount) {
+            return new Intl.NumberFormat('tr-TR', {
+                style: 'currency',
+                currency: 'TRY',
+            }).format(plan.Totalamount || 0)
+        }
+        return t('Common.NoDataFound')
+    }
+
     const columns: ColumnType<VisitListItem>[] = [
         { header: t("Common.Columns.Id"), accessorKey: 'Id', isIcon: true },
         { header: t("Common.Columns.Uuid"), accessorKey: 'Uuid' },
         { header: t('Pages.Visits.Columns.Visitcode'), accessorKey: 'Visitcode', isMobile: true },
-        { header: t('Pages.Visits.Columns.UserID'), accessorKey: 'UserID', accessorFn: row => userCellhandler(row.UserID), cell: wrapper => loaderCellhandler(wrapper, isUsersFetching) },
+        { header: t('Pages.Visits.Columns.WorkerUserID'), accessorKey: 'WorkerUserID', accessorFn: row => userCellhandler(row.WorkerUserID), cell: wrapper => loaderCellhandler(wrapper, isUsersFetching) },
+        { header: t('Pages.Visits.Columns.ResponsibleUserID'), accessorKey: 'ResponsibleUserID', accessorFn: row => userCellhandler(row.ResponsibleUserID), cell: wrapper => loaderCellhandler(wrapper, isUsersFetching) },
         { header: t('Pages.Visits.Columns.DoctorID'), accessorKey: 'DoctorID', accessorFn: row => doctordefineCellhandler(row.DoctorID), cell: wrapper => loaderCellhandler(wrapper, isDoctordefinesFetching), isMobile: true },
         { header: t('Pages.Visits.Columns.LocationID'), accessorKey: 'LocationID', accessorFn: row => locationCellhandler(row.LocationID), cell: wrapper => loaderCellhandler(wrapper, isLocationsFetching), },
         { header: t('Pages.Visits.Columns.PaymenttypeID'), accessorKey: 'PaymenttypeID', accessorFn: row => paymenttypeCellhandler(row.PaymenttypeID), cell: wrapper => loaderCellhandler(wrapper, isPaymenttypesFetching), },
-        { header: t('Pages.Visits.Columns.Scheduledpayment'), accessorKey: 'Scheduledpayment', },
+        { header: t('Pages.Visits.Columns.TotalAmount'), accessorKey: 'TotalAmount', accessorFn: row => totalValueCellhanlder(row.Uuid), cell: wrapper => loaderCellhandler(wrapper, isPlansFetching) },
         { header: t("Pages.Visits.Columns.Visitdate"), accessorKey: 'Visitdate', accessorFn: row => dateCellhandler(row.Visitdate) },
         { header: t("Pages.Visits.Columns.Visitstartdate"), accessorKey: 'Visitstartdate', accessorFn: row => dateCellhandler(row.Visitdate) },
         { header: t("Pages.Visits.Columns.Description"), accessorKey: 'Description', },
@@ -85,7 +99,7 @@ const VisitClosed: React.FC = () => {
         { header: t("Common.Columns.detail"), accessorKey: 'detail', isIcon: true, pinned: true, role: privileges.visitview, cell: (wrapper) => detailCellhandler(wrapper), size: 45 },
     ]
 
-    const tableKey = `${isUsersFetching}-${isDoctordefinesFetching}-${isLocationsFetching}-${isPaymenttypesFetching}`
+    const tableKey = `${isUsersFetching}-${isDoctordefinesFetching}-${isLocationsFetching}-${isPaymenttypesFetching}-${isPlansFetching}`
 
     return (<Pagewrapper padding={0} isLoading={isFetching || isMetaLoading} direction='vertical' gap={4} alignTop>
         <ExcelProvider>

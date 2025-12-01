@@ -49,7 +49,7 @@ const Organization: React.FC = () => {
                 setReqBody={setReqBody}
             />
             {isDateSetted && reqBody ?
-                <div className='w-full'>
+                <div className='w-full pb-6'>
                     <OrganizationKpi filters={reqBody} />
                     <Pagewrapper dynamicHeight gap={4} direction='vertical' alignTop padding={0}>
                         <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 w-full">

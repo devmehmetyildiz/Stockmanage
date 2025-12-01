@@ -58,8 +58,41 @@ const version1_0_0_0_beta: ChangeLogItem = {
     ]
 }
 
+const version1_0_0_0_rc: ChangeLogItem = {
+    version: "1.0.0.0-rc",
+    changes: [
+        {
+            title: 'Kurum Yönetimi',
+            commits: [
+                "Menü sıralama düzenlemesi"
+            ]
+        },
+        {
+            title: 'Ziyaretler',
+            commits: [
+                "İşlemi yapan kullanıcı yerine Sorumlu kullanıcı ve çalışan kullanıcı kolonları eklendi"
+            ]
+        },
+        {
+            title: 'Depolar Ve Ürün Yönetimi',
+            commits: [
+                "Depolar sayfasına ürün girişi butonu eklendi"
+            ]
+        },
+    ],
+    bugs: [
+        {
+            title: 'Ziyaretler',
+            commits: [
+                'Tamamlanan ve kapatılan sayfalarındaki ödeme kolonlarındaki veri çekim hatası giderildi'
+            ]
+        }
+    ]
+}
+
 export default
     [
+        version1_0_0_0_rc,
         version1_0_0_0_beta,
         version1_0_0_0_preAlpha,
     ] as ChangeLogItem[]

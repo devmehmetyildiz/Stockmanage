@@ -2,6 +2,7 @@ import { useGetDoctordefinesQuery } from '@Api/Doctordefine'
 import { useGetLocationsQuery } from '@Api/Location'
 import { useGetPaymenttypesQuery } from '@Api/Paymenttype'
 import { useGetMetaQuery } from '@Api/Profile'
+import { useGetUsersListQuery } from '@Api/User'
 import { useCreateVisitMutation } from '@Api/Visit'
 import { VisitCreateRequest } from '@Api/Visit/type'
 import Contentwrapper from '@Components/Common/Contentwrapper'
@@ -40,6 +41,7 @@ const VisitCreate: React.FC = () => {
     const { data: doctordefines, isFetching: isDoctordefinesFetching } = useGetDoctordefinesQuery({ isActive: 1 })
     const { data: locations, isFetching: isLocationsFetching } = useGetLocationsQuery({ isActive: 1 })
     const { data: paymenttypes, isFetching: isPaymenttypesFetching } = useGetPaymenttypesQuery({ isActive: 1 })
+    const { data: users, isFetching: isUsersFetching } = useGetUsersListQuery({ isActive: 1, Isworker: 1 })
 
     const submit = () => {
         trigger().then((valid) => {
@@ -94,13 +96,23 @@ const VisitCreate: React.FC = () => {
         })
     }, [doctordefines])
 
+    const userOption: DropdownItemProps[] = useMemo(() => {
+        return (users || []).map(item => {
+            const userName = `${item.Name} ${item.Surname}`
+            return {
+                value: item.Uuid,
+                text: userName
+            }
+        })
+    }, [users])
+
     useEffect(() => {
         if (meta) {
-            setValue('UserID', meta.Uuid)
+            setValue('WorkerUserID', meta.Uuid)
         }
     }, [meta, setValue])
 
-    return <Pagewrapper isLoading={isLoading || isDoctordefinesFetching || isLocationsFetching || isPaymenttypesFetching || isMetaFetching} direction='vertical' alignTop gap={4}>
+    return <Pagewrapper isLoading={isLoading || isDoctordefinesFetching || isLocationsFetching || isPaymenttypesFetching || isMetaFetching || isUsersFetching} direction='vertical' alignTop gap={4}>
         <Title
             PageName={t('Pages.Visits.Page.Header')}
             AdditionalName={t('Pages.Visits.Page.CreateHeader')}
@@ -120,6 +132,9 @@ const VisitCreate: React.FC = () => {
                     <Form.Group widths={'equal'}>
                         <VisitAppForm.Select name='PaymenttypeID' label={t('Pages.Visits.Columns.PaymenttypeID')} options={paymenttypeOpiton} />
                         <VisitAppForm.Input name='Scheduledpayment' label={t('Pages.Visits.Columns.Scheduledpayment')} type='number' inputProps={{ min: 0 }} showPriceIcon />
+                    </Form.Group>
+                    <Form.Group widths={'equal'}>
+                        <VisitAppForm.Select name='ResponsibleUserID' label={t('Pages.Visits.Columns.ResponsibleUserID')} options={userOption} required={t('Pages.Visits.Messages.ResponsibleUserIDRequired')} />
                     </Form.Group>
                 </Form>
             </Contentwrapper>

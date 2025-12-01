@@ -152,16 +152,16 @@ async function UserSaleReport(req, res, next) {
     try {
         const query = `
           SELECT
-          s.UserID,
+          s.ResponsibleUserID,
           COUNT(s.Uuid) AS VisitCount,
           SUM(pp.Totalamount) AS TotalPayment,
           AVG(pp.Totalamount) AS AvgPaymentPerVisit
           FROM visits s
           LEFT JOIN paymentplans pp ON pp.VisitID = s.Uuid
-          LEFT JOIN users u ON u.Uuid = s.UserID
+          LEFT JOIN users u ON u.Uuid = s.ResponsibleUserID
           WHERE s.Visitdate BETWEEN :Startdate AND :Enddate
           AND s.Status IN (2,4)
-          GROUP BY s.UserID
+          GROUP BY s.ResponsibleUserID
         `;
 
         const results = await db.sequelize.query(query, {

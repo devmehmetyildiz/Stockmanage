@@ -62,7 +62,7 @@ const OrganizationMonthlyBalanceChart: React.FC<OrganizationMonthlyBalanceChartP
       title: {
         text: t('Pages.Organisation.MonthlySales.Value'),
       },
-    
+
     },
     legend: {
       position: 'top',

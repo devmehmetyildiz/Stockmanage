@@ -54,6 +54,12 @@ const Warehouse: React.FC = () => {
                         Pagecreatelink: Paths.WarehousesCreate,
                         role: privileges.warehouseadd
                     }}
+                    additionalButtons={[
+                        {
+                            name: t('Pages.Stocks.Page.CreateHeader'),
+                            onClick: () => { navigate(`${Paths.StocksCreate}?returnUrl=${Paths.Warehouses}`) },
+                        }
+                    ]}
                 />
 
                 {warehouses.length > 0 ? (

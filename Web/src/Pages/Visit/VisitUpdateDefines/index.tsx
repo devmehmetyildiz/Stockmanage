@@ -1,6 +1,7 @@
 import { useGetDoctordefinesQuery } from '@Api/Doctordefine'
 import { useGetLocationsQuery } from '@Api/Location'
 import { useGetPaymenttypesQuery } from '@Api/Paymenttype'
+import { useGetUsersListQuery } from '@Api/User'
 import { useEditVisitDefinesMutation, useLazyGetVisitQuery } from '@Api/Visit'
 import { VisitUpdateDefinesRequest } from '@Api/Visit/type'
 import Contentwrapper from '@Components/Common/Contentwrapper'
@@ -35,6 +36,7 @@ const VisitUpdateDefines: React.FC = () => {
     const { data: doctordefines, isFetching: isDoctordefinesFetching } = useGetDoctordefinesQuery({ isActive: 1 })
     const { data: locations, isFetching: isLocationsFetching } = useGetLocationsQuery({ isActive: 1 })
     const { data: paymenttypes, isFetching: isPaymenttypesFetching } = useGetPaymenttypesQuery({ isActive: 1 })
+    const { data: users, isFetching: isUsersFetching } = useGetUsersListQuery({ isActive: 1, Isworker: 1 })
 
     const locationOpiton: DropdownItemProps[] = useMemo(() => {
         return (locations || []).map(item => {
@@ -63,6 +65,16 @@ const VisitUpdateDefines: React.FC = () => {
             }
         })
     }, [doctordefines])
+
+    const userOption: DropdownItemProps[] = useMemo(() => {
+        return (users || []).map(item => {
+            const userName = `${item.Name} ${item.Surname}`
+            return {
+                value: item.Uuid,
+                text: userName
+            }
+        })
+    }, [users])
 
     const methods = useForm<VisitUpdateDefinesRequest>({
         mode: 'onChange',
@@ -107,7 +119,8 @@ const VisitUpdateDefines: React.FC = () => {
                         DoctorID: data.DoctorID,
                         LocationID: data.LocationID,
                         Notes: data.Notes,
-                        UserID: data.UserID,
+                        ResponsibleUserID: data.ResponsibleUserID,
+                        WorkerUserID: data.WorkerUserID,
                         Visitcode: data.Visitcode,
                         Visitdate: SuppressDate(data.Visitdate),
                         VisitID: data.Uuid,
@@ -125,7 +138,7 @@ const VisitUpdateDefines: React.FC = () => {
         }
     }, [Id, GetVisit, navigate, reset, t])
 
-    return <Pagewrapper isLoading={isFetching || isLoading || isDoctordefinesFetching || isLocationsFetching || isPaymenttypesFetching} direction='vertical' alignTop gap={4}>
+    return <Pagewrapper isLoading={isFetching || isLoading || isDoctordefinesFetching || isLocationsFetching || isPaymenttypesFetching || isUsersFetching} direction='vertical' alignTop gap={4}>
         <Title
             PageName={t('Pages.Visits.Page.EditDefinesHeader')}
             AdditionalName={Visitcode}
@@ -145,6 +158,10 @@ const VisitUpdateDefines: React.FC = () => {
                     <Form.Group widths={'equal'}>
                         <VisitAppForm.Select name='PaymenttypeID' label={t('Pages.Visits.Columns.PaymenttypeID')} options={paymenttypeOpiton} />
                         <VisitAppForm.Input name='Scheduledpayment' label={t('Pages.Visits.Columns.Scheduledpayment')} type='number' inputProps={{ min: 0 }} showPriceIcon />
+                    </Form.Group>
+                    <Form.Group widths={'equal'}>
+                        <VisitAppForm.Select name='ResponsibleUserID' label={t('Pages.Visits.Columns.ResponsibleUserID')} options={userOption} required={t('Pages.Visits.Messages.ResponsibleUserIDRequired')} />
+                        <VisitAppForm.Select name='WorkerUserID' label={t('Pages.Visits.Columns.WorkerUserID')} options={userOption} required={t('Pages.Visits.Messages.WorkerUserIDRequired')} />
                     </Form.Group>
                 </Form>
             </Contentwrapper>

@@ -21,7 +21,7 @@ export interface ReportVisitProductItem {
 }
 
 export interface ReportSaleByUserItem {
-    UserID: string
+    ResponsibleUserID: string
     VisitCount: number
     TotalPayment: number
     AvgPaymentPerVisit: number

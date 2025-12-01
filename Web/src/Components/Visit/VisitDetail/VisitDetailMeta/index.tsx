@@ -50,9 +50,13 @@ const VisitDetailMeta: React.FC<VisitDetailMetaProps> = (props) => {
         });
     }, [data?.Visitcode, t]);
 
-    const user = useMemo(() => {
-        return (users || []).find((u) => u.Uuid === data?.UserID)
-    }, [users, data?.UserID]);
+    const responsibleUserID = useMemo(() => {
+        return (users || []).find((u) => u.Uuid === data?.ResponsibleUserID)
+    }, [users, data?.ResponsibleUserID]);
+
+    const workerUserID = useMemo(() => {
+        return (users || []).find((u) => u.Uuid === data?.WorkerUserID)
+    }, [users, data?.WorkerUserID]);
 
 
     const visitStatus = useMemo(
@@ -149,8 +153,13 @@ const VisitDetailMeta: React.FC<VisitDetailMetaProps> = (props) => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6 text-sm text-gray-700">
                     <VisitDetailLabel
                         icon="user"
-                        label={t('Pages.Visits.Columns.UserID')}
-                        value={user ? `${user.Name} ${user.Surname}` : t('Common.NoDataFound')}
+                        label={t('Pages.Visits.Columns.ResponsibleUserID')}
+                        value={responsibleUserID ? `${responsibleUserID.Name} ${responsibleUserID.Surname}` : t('Common.NoDataFound')}
+                    />
+                    <VisitDetailLabel
+                        icon="user"
+                        label={t('Pages.Visits.Columns.WorkerUserID')}
+                        value={workerUserID ? `${workerUserID.Name} ${workerUserID.Surname}` : t('Common.NoDataFound')}
                     />
                     <VisitDetailLabel
                         icon="user md"
