@@ -8,7 +8,7 @@ import FormatTableMeta from '@Utils/FormatTableMeta'
 import { ExcelProvider } from '@Context/ExcelContext'
 import { VisitListItem } from '@Api/Visit/type'
 import { useGetVisitsQuery } from '@Api/Visit'
-import { VISIT_STATU_CLOSED } from '@Constant/index'
+import { VISIT_STATU_CLOSED, VISIT_TYPE_SALEVISIT } from '@Constant/index'
 import { useGetUsersListQuery } from '@Api/User'
 import { useGetDoctordefinesQuery } from '@Api/Doctordefine'
 import { useGetLocationsQuery } from '@Api/Location'
@@ -26,7 +26,7 @@ const VisitClosed: React.FC = () => {
     const { t } = useTranslation()
     const { isHasPrivilege, isMetaLoading, isSuccess, UserID } = useHasPrivileges(privileges.visitmanageall)
 
-    const { data, isFetching } = useGetVisitsQuery({ Status: VISIT_STATU_CLOSED, UserID: isHasPrivilege ? UserID : undefined, isActive: 1 }, { skip: !isSuccess })
+    const { data, isFetching } = useGetVisitsQuery({ Visittype: VISIT_TYPE_SALEVISIT, Status: VISIT_STATU_CLOSED, UserID: isHasPrivilege ? UserID : undefined, isActive: 1 }, { skip: !isSuccess })
 
     const { data: users, isFetching: isUsersFetching } = useGetUsersListQuery({ isActive: 1 })
     const { data: doctordefines, isFetching: isDoctordefinesFetching } = useGetDoctordefinesQuery({ isActive: 1 })

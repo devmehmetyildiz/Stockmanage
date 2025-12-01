@@ -77,6 +77,10 @@ import WarehouseDetail from "@Pages/Warehouse/WarehouseDetail";
 import StockdefineMultiCreate from "@Pages/Stockdefine/StockdefineMultiCreate";
 import PaymentplanDetail from "@Pages/Paymentplan/PaymentplanDetail";
 import Organization from "@Pages/Organization/Organization";
+import FreeVisit from "@Pages/FreeVisit/FreeVisit";
+import FreeVisitCreate from "@Pages/FreeVisit/FreeVisitCreate";
+import FreeVisitUpdateDefines from "@Pages/FreeVisit/FreeVisitUpdateDefines";
+import FreeVisitDetail from "@Pages/FreeVisit/FreeVisitDetail";
 
 interface RouteItemType {
     path: string
@@ -127,6 +131,10 @@ const AppRouter = () => {
         { path: Paths.Stocks, element: <Stock />, requiredRole: [privileges.stockview] },
         { path: Paths.StocksCreate, element: <StockCreate />, requiredRole: [privileges.stockview, privileges.stockadd] },
         { path: Paths.StocksMovement, element: <StockMovement />, requiredRole: [privileges.stockview, privileges.stockview] },
+        { path: Paths.FreeVisits, element: <FreeVisit />, requiredRole: [privileges.visitview] },
+        { path: Paths.FreeVisitsCreate, element: <FreeVisitCreate />, requiredRole: [privileges.visitview, privileges.visitadd] },
+        { path: Paths.FreeVisitsUpdateDefines, element: <FreeVisitUpdateDefines />, requiredRole: [privileges.visitview, privileges.visitupdate] },
+        { path: Paths.FreeVisitsDetail, element: <FreeVisitDetail />, requiredRole: [privileges.visitview] },
         { path: Paths.Visits, element: <Visit />, requiredRole: [privileges.visitview] },
         { path: Paths.VisitsCreate, element: <VisitCreate />, requiredRole: [privileges.visitview, privileges.visitadd] },
         { path: Paths.VisitsDetail, element: <VisitDetail />, requiredRole: [privileges.visitview] },

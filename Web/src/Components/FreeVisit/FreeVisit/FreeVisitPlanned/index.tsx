@@ -8,36 +8,34 @@ import FormatTableMeta from '@Utils/FormatTableMeta'
 import { ExcelProvider } from '@Context/ExcelContext'
 import { VisitListItem } from '@Api/Visit/type'
 import { useGetVisitsQuery } from '@Api/Visit'
-import { VISIT_STATU_PLANNED, VISIT_TYPE_SALEVISIT } from '@Constant/index'
+import { VISIT_STATU_PLANNED, VISIT_TYPE_FREEVISIT } from '@Constant/index'
 import { useGetUsersListQuery } from '@Api/User'
 import { useGetDoctordefinesQuery } from '@Api/Doctordefine'
 import { useGetLocationsQuery } from '@Api/Location'
-import { useGetPaymenttypesQuery } from '@Api/Paymenttype'
 import { loaderCellhandler } from '@Utils/CellHandler'
 import privileges from '@Constant/privileges'
 import { DeleteCellHandler, DetailCellHandler, EditCellHandler, WorkCellhandler } from '@Components/Common/CellHandler'
 import { CellContext } from '@tanstack/react-table'
 import RouteKeys from '@Constant/routeKeys'
 import VisitDeleteModal from '@Components/Visit/VisitDeleteModal'
-import VisitSendApproveModal from '@Components/Visit/VisitSendApproveModal'
 import useHasPrivileges from '@Hooks/useHasPrivileges'
+import FreeVisitWorkModal from '@Components/FreeVisit/FreeVisitWorkModal'
 
-const VisitPlanned: React.FC = () => {
+const FreeVisitPlanned: React.FC = () => {
 
     const { t } = useTranslation()
 
+    const [workOpen, setWorkOpen] = useState(false)
     const [deleteOpen, setDeleteOpen] = useState(false)
-    const [sendApproveOpen, setSendApproveOpen] = useState(false)
     const [record, setRecord] = useState<VisitListItem | null>(null)
 
     const { isHasPrivilege, isMetaLoading, isSuccess, UserID } = useHasPrivileges(privileges.visitmanageall)
 
-    const { data, isFetching } = useGetVisitsQuery({ Visittype: VISIT_TYPE_SALEVISIT, Status: VISIT_STATU_PLANNED, UserID: isHasPrivilege ? UserID : undefined, isActive: 1 }, { skip: !isSuccess })
+    const { data, isFetching } = useGetVisitsQuery({ Visittype: VISIT_TYPE_FREEVISIT, Status: VISIT_STATU_PLANNED, UserID: isHasPrivilege ? UserID : undefined, isActive: 1 }, { skip: !isSuccess })
 
     const { data: users, isFetching: isUsersFetching } = useGetUsersListQuery({ isActive: 1 })
     const { data: doctordefines, isFetching: isDoctordefinesFetching } = useGetDoctordefinesQuery({ isActive: 1 })
     const { data: locations, isFetching: isLocationsFetching } = useGetLocationsQuery({ isActive: 1 })
-    const { data: paymenttypes, isFetching: isPaymenttypesFetching } = useGetPaymenttypesQuery({ isActive: 1 })
 
     const TableQuery = useGetTableMetaQuery({ Key: 'visitplanned' })
 
@@ -62,50 +60,24 @@ const VisitPlanned: React.FC = () => {
         return location?.Name ?? t('Common.NoDataFound')
     }
 
-    const paymenttypeCellhandler = (value: string) => {
-        const paymenttype = (paymenttypes || []).find(u => u.Uuid === value)
-        return paymenttype?.Name ?? t('Common.NoDataFound')
-    }
-
     const detailCellhandler = (wrapper: CellContext<any, unknown>) => {
         const data = wrapper.row.original as VisitListItem
 
-        return <DetailCellHandler url={`/${RouteKeys.Visits}/${data.Uuid}/Detail`} />
-    }
-
-    const boolCellhandler = (value: boolean) => {
-        return value ? t('Pages.Visits.Messages.Rejected') : ''
-    }
-
-    const scheduledpaymentCellhanlder = (value: number) => {
-        if (value) {
-            return new Intl.NumberFormat('tr-TR', {
-                style: 'currency',
-                currency: 'TRY',
-            }).format(value || 0)
-        }
-        return t('Common.NoDataFound')
-    }
-
-
-    const editProductsCellhandler = (wrapper: CellContext<any, unknown>) => {
-        const data = wrapper.row.original as VisitListItem
-
-        return <EditCellHandler url={`/${RouteKeys.Visits}/${data.Uuid}/edit-products`} icon="boxes" />
+        return <DetailCellHandler url={`/${RouteKeys.FreeVisits}/${data.Uuid}/Detail`} />
     }
 
     const editDefinesCellhandler = (wrapper: CellContext<any, unknown>) => {
         const data = wrapper.row.original as VisitListItem
 
-        return <EditCellHandler url={`/${RouteKeys.Visits}/${data.Uuid}/edit-defines`} icon="pencil alternate" />
+        return <EditCellHandler url={`/${RouteKeys.FreeVisits}/${data.Uuid}/edit-defines`} icon="pencil alternate" />
     }
 
-    const sendApproveCellhandler = (wrapper: CellContext<any, unknown>) => {
+    const workCellhandler = (wrapper: CellContext<any, unknown>) => {
         const data = wrapper.row.original as VisitListItem
 
         return <WorkCellhandler onClick={() => {
             setRecord(data)
-            setSendApproveOpen(true)
+            setWorkOpen(true)
         }} />
     }
 
@@ -126,25 +98,19 @@ const VisitPlanned: React.FC = () => {
         { header: t('Pages.Visits.Columns.ResponsibleUserID'), accessorKey: 'ResponsibleUserID', accessorFn: row => userCellhandler(row.ResponsibleUserID), cell: wrapper => loaderCellhandler(wrapper, isUsersFetching) },
         { header: t('Pages.Visits.Columns.DoctorID'), accessorKey: 'DoctorID', accessorFn: row => doctordefineCellhandler(row.DoctorID), cell: wrapper => loaderCellhandler(wrapper, isDoctordefinesFetching), isMobile: true },
         { header: t('Pages.Visits.Columns.LocationID'), accessorKey: 'LocationID', accessorFn: row => locationCellhandler(row.LocationID), cell: wrapper => loaderCellhandler(wrapper, isLocationsFetching), },
-        { header: t('Pages.Visits.Columns.PaymenttypeID'), accessorKey: 'PaymenttypeID', accessorFn: row => paymenttypeCellhandler(row.PaymenttypeID), cell: wrapper => loaderCellhandler(wrapper, isPaymenttypesFetching), },
-        { header: t('Pages.Visits.Columns.Scheduledpayment'), accessorKey: 'Scheduledpayment', accessorFn: row => scheduledpaymentCellhanlder(row.Scheduledpayment) },
         { header: t("Pages.Visits.Columns.Visitdate"), accessorKey: 'Visitdate', accessorFn: row => dateCellhandler(row.Visitdate) },
         { header: t('Pages.Visits.Columns.Description'), accessorKey: 'Description', },
-        { header: t('Pages.Visits.Columns.Isrejected'), accessorKey: 'Isrejected', accessorFn: row => boolCellhandler(row.Isrejected) },
-        { header: t('Pages.Visits.Columns.RejectedUserID'), accessorKey: 'RejectedUserID', accessorFn: row => userCellhandler(row.RejectedUserID), cell: wrapper => loaderCellhandler(wrapper, isUsersFetching) },
-        { header: t('Pages.Visits.Columns.RejectDescription'), accessorKey: 'RejectDescription', },
         { header: t("Common.Columns.Createduser"), accessorKey: 'Createduser' },
         { header: t("Common.Columns.Createtime"), accessorKey: 'Createtime', accessorFn: row => dateCellhandler(row?.Createtime) },
         { header: t("Common.Columns.Updateduser"), accessorKey: 'Updateduser' },
         { header: t("Common.Columns.Updatetime"), accessorKey: 'Updatetime', accessorFn: row => dateCellhandler(row?.Updatetime) },
-        { header: t("Pages.Visits.Columns.EditProducts"), accessorKey: 'editProducts', isIcon: true, pinned: true, role: privileges.visitupdate, cell: (wrapper) => editProductsCellhandler(wrapper), size: 45 },
         { header: t("Pages.Visits.Columns.EditDefines"), accessorKey: 'editDefines', isIcon: true, pinned: true, role: privileges.visitupdate, cell: (wrapper) => editDefinesCellhandler(wrapper), size: 45 },
+        { header: t("Common.Columns.work"), accessorKey: 'work', isIcon: true, pinned: true, role: privileges.visitupdate, cell: (wrapper) => workCellhandler(wrapper), size: 45 },
         { header: t("Common.Columns.detail"), accessorKey: 'detail', isIcon: true, pinned: true, role: privileges.visitview, cell: (wrapper) => detailCellhandler(wrapper), size: 45 },
-        { header: t("Common.Columns.sendApprove"), accessorKey: 'work', isIcon: true, pinned: true, role: privileges.visitupdate, cell: (wrapper) => sendApproveCellhandler(wrapper), size: 45 },
         { header: t("Common.Columns.delete"), accessorKey: 'delete', isIcon: true, pinned: true, role: privileges.visitupdate, cell: (wrapper) => deleteCellhandler(wrapper), size: 45 },
     ]
 
-    const tableKey = `${isUsersFetching}-${isDoctordefinesFetching}-${isLocationsFetching}-${isPaymenttypesFetching}`
+    const tableKey = `${isUsersFetching}-${isDoctordefinesFetching}-${isLocationsFetching}`
 
     return (<Pagewrapper padding={0} isLoading={isFetching || isMetaLoading} direction='vertical' gap={4} alignTop>
         <ExcelProvider>
@@ -155,9 +121,9 @@ const VisitPlanned: React.FC = () => {
                 config={initialConfig}
             />
         </ExcelProvider>
-        <VisitSendApproveModal
-            open={sendApproveOpen}
-            setOpen={setSendApproveOpen}
+        <FreeVisitWorkModal
+            open={workOpen}
+            setOpen={setWorkOpen}
             data={record}
             setData={setRecord}
         />
@@ -171,4 +137,4 @@ const VisitPlanned: React.FC = () => {
     )
 }
 
-export default VisitPlanned
+export default FreeVisitPlanned

@@ -8,7 +8,7 @@ import FormatTableMeta from '@Utils/FormatTableMeta'
 import { ExcelProvider } from '@Context/ExcelContext'
 import { PaymentplanItem, PaymentplanListItem } from '@Api/Paymentplan/type'
 import { useGetPaymentplansQuery } from '@Api/Paymentplan'
-import { VISIT_PAYMENT_STATUS_FULL, } from '@Constant/index'
+import { VISIT_PAYMENT_STATUS_FULL, VISIT_TYPE_SALEVISIT, } from '@Constant/index'
 import { useGetPaymenttypesQuery } from '@Api/Paymenttype'
 import { loaderCellhandler } from '@Utils/CellHandler'
 import { useGetVisitsQuery } from '@Api/Visit'
@@ -23,7 +23,7 @@ const PaymentplanFull: React.FC = () => {
 
     const { data, isFetching } = useGetPaymentplansQuery({ isActive: 1, Status: VISIT_PAYMENT_STATUS_FULL })
 
-    const { data: visits, isFetching: isVisitsFetching } = useGetVisitsQuery({ isActive: 1 })
+    const { data: visits, isFetching: isVisitsFetching } = useGetVisitsQuery({ isActive: 1, Visittype: VISIT_TYPE_SALEVISIT })
     const { data: paymenttypes, isFetching: isPaymenttypesFetching } = useGetPaymenttypesQuery({ isActive: 1 })
 
     const TableQuery = useGetTableMetaQuery({ Key: 'paymentplanfull' })

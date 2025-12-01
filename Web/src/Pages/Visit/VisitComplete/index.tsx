@@ -8,6 +8,7 @@ import Pagewrapper from '@Components/Common/Pagewrapper';
 import Title from '@Components/Common/Title';
 import VisitCompleteStepPayment from '@Components/Visit/VisitComplete/VisitCompleteStepPayment';
 import VisitCompleteStepProduct from '@Components/Visit/VisitComplete/VisitCompleteStepProduct';
+import VisitCompleteUsedProducts from '@Components/Visit/VisitComplete/VisitCompleteUsedProducts';
 import VisitStepCompleteDetail from '@Components/Visit/VisitComplete/VisitStepCompleteDetail';
 import VisitStepPaymentDetail from '@Components/Visit/VisitComplete/VisitStepCompleteDetail';
 import VisitDetailMeta from '@Components/Visit/VisitDetail/VisitDetailMeta';
@@ -22,7 +23,7 @@ import { useTranslation } from 'react-i18next'
 import { useNavigate, useParams } from 'react-router-dom';
 import { Divider, Step } from 'semantic-ui-react';
 
-export type VisitCompleteStepType = 'product' | 'payment' | 'detail'
+export type VisitCompleteStepType = 'product' | 'usedproducts' | 'payment' | 'detail'
 
 const VisitComplete: React.FC = () => {
 
@@ -76,6 +77,8 @@ const VisitComplete: React.FC = () => {
 
     const onNextClick = () => {
         if (activeStep === 'product') {
+            setActiveStep('usedproducts')
+        } else if (activeStep === 'usedproducts') {
             setActiveStep('payment')
         } else if (activeStep === 'payment') {
             setActiveStep('detail')
@@ -87,8 +90,10 @@ const VisitComplete: React.FC = () => {
     const onBackClick = () => {
         if (activeStep === 'product') {
             navigate(-1)
-        } else if (activeStep === 'payment') {
+        } else if (activeStep === 'usedproducts') {
             setActiveStep('product')
+        } else if (activeStep === 'payment') {
+            setActiveStep('usedproducts')
         } else if (activeStep === 'detail') {
             setActiveStep('payment')
         }
@@ -101,6 +106,7 @@ const VisitComplete: React.FC = () => {
                 .then((data) => {
                     reset({
                         VisitID: data.Uuid,
+                        WarehouseID: data.WarehouseID,
                         Returnedproducts: (data.Products || []).map(item => {
                             return {
                                 Uuid: item.Uuid,
@@ -144,6 +150,12 @@ const VisitComplete: React.FC = () => {
                             <Step.Description>{t('Pages.Visits.Label.StepProductDesc')}</Step.Description>
                         </Step.Content>
                     </Step>
+                    <Step link completed={activeStep === 'payment'} disabled={activeStep !== 'usedproducts'} active={activeStep === 'usedproducts'}>
+                        <Step.Content>
+                            <Step.Title>{t('Pages.Visits.Label.StepUsedProduct')}</Step.Title>
+                            <Step.Description>{t('Pages.Visits.Label.StepUsedProductDesc')}</Step.Description>
+                        </Step.Content>
+                    </Step>
                     <Step link completed={activeStep === 'detail'} disabled={activeStep !== 'payment'} active={activeStep === 'payment'}>
                         <Step.Content>
                             <Step.Title>{t('Pages.Visits.Label.StepPayment')}</Step.Title>
@@ -161,6 +173,9 @@ const VisitComplete: React.FC = () => {
                     <VisitCompleteStepProduct
                         data={data}
                     />
+                    : null}
+                {activeStep === 'usedproducts' ?
+                    <VisitCompleteUsedProducts />
                     : null}
                 {activeStep === 'payment' ?
                     <VisitCompleteStepPayment

@@ -1,17 +1,15 @@
 import { useGetDoctordefinesQuery } from '@Api/Doctordefine'
 import { useGetLocationsQuery } from '@Api/Location'
-import { useGetPaymenttypesQuery } from '@Api/Paymenttype'
 import { useGetMetaQuery } from '@Api/Profile'
 import { useGetUsersListQuery } from '@Api/User'
-import { useCreateVisitMutation } from '@Api/Visit'
-import { VisitCreateRequest } from '@Api/Visit/type'
+import { useCreateFreeVisitMutation, } from '@Api/Visit'
+import { VisitCreateFreeVisitRequest } from '@Api/Visit/type'
 import Contentwrapper from '@Components/Common/Contentwrapper'
 import FormButton from '@Components/Common/FormButton'
 import FormFooter from '@Components/Common/FormFooter'
 import Pagewrapper from '@Components/Common/Pagewrapper'
 import Title from '@Components/Common/Title'
-import VisitCreateStockForm from '@Components/Visit/VisitCreate/VisitCreateStockForm'
-import { VISIT_TYPE_SALEVISIT } from '@Constant/index'
+import { VISIT_TYPE_FREEVISIT } from '@Constant/index'
 import Paths from '@Constant/path'
 import CheckForm from '@Utils/CheckForm'
 import { createAppForm } from '@Utils/CreateAppForm'
@@ -22,29 +20,28 @@ import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { DropdownItemProps, Form } from 'semantic-ui-react'
 
-const VisitAppForm = createAppForm<VisitCreateRequest>()
+const VisitAppForm = createAppForm<VisitCreateFreeVisitRequest>()
 
-const VisitCreate: React.FC = () => {
+const FreeVisitCreate: React.FC = () => {
 
     const { t } = useTranslation()
 
     const navigate = useNavigate()
 
-    const methods = useForm<VisitCreateRequest>({
+    const methods = useForm<VisitCreateFreeVisitRequest>({
         mode: 'onChange',
         defaultValues: {
-            Visittype: VISIT_TYPE_SALEVISIT
+            Visittype: VISIT_TYPE_FREEVISIT
         }
     })
 
     const { getValues, formState, trigger, setValue } = methods
 
-    const [CreateVisit, { isLoading }] = useCreateVisitMutation()
+    const [CreateVisit, { isLoading }] = useCreateFreeVisitMutation()
 
     const { data: meta, isFetching: isMetaFetching } = useGetMetaQuery()
     const { data: doctordefines, isFetching: isDoctordefinesFetching } = useGetDoctordefinesQuery({ isActive: 1 })
     const { data: locations, isFetching: isLocationsFetching } = useGetLocationsQuery({ isActive: 1 })
-    const { data: paymenttypes, isFetching: isPaymenttypesFetching } = useGetPaymenttypesQuery({ isActive: 1 })
     const { data: users, isFetching: isUsersFetching } = useGetUsersListQuery({ isActive: 1, Isworker: 1 })
 
     const submit = () => {
@@ -61,13 +58,13 @@ const VisitCreate: React.FC = () => {
                     .then(() => {
                         Pushnotification({
                             Type: 'Success',
-                            Subject: t('Pages.Visits.Page.Header'),
-                            Description: t('Pages.Visits.Messages.AddSuccess')
+                            Subject: t('Pages.FreeVisits.Page.Header'),
+                            Description: t('Pages.FreeVisits.Messages.AddSuccess')
                         })
-                        navigate(Paths.Visits)
+                        navigate(Paths.FreeVisits)
                     })
             } else {
-                CheckForm(formState, t('Pages.Visits.Page.Header'))
+                CheckForm(formState, t('Pages.FreeVisits.Page.Header'))
             }
         })
     }
@@ -80,15 +77,6 @@ const VisitCreate: React.FC = () => {
             }
         })
     }, [locations])
-
-    const paymenttypeOpiton: DropdownItemProps[] = useMemo(() => {
-        return (paymenttypes || []).map(item => {
-            return {
-                value: item.Uuid,
-                text: item.Name
-            }
-        })
-    }, [paymenttypes])
 
     const doctorOpiton: DropdownItemProps[] = useMemo(() => {
         return (doctordefines || []).map(item => {
@@ -116,13 +104,13 @@ const VisitCreate: React.FC = () => {
         }
     }, [meta, setValue])
 
-    return <Pagewrapper isLoading={isLoading || isDoctordefinesFetching || isLocationsFetching || isPaymenttypesFetching || isMetaFetching || isUsersFetching} direction='vertical' alignTop gap={4}>
+    return <Pagewrapper isLoading={isLoading || isDoctordefinesFetching || isLocationsFetching || isMetaFetching || isUsersFetching} direction='vertical' alignTop gap={4}>
         <Title
-            PageName={t('Pages.Visits.Page.Header')}
-            AdditionalName={t('Pages.Visits.Page.CreateHeader')}
+            PageName={t('Pages.FreeVisits.Page.Header')}
+            AdditionalName={t('Pages.FreeVisits.Page.CreateHeader')}
             PageUrl={Paths.Visits}
         />
-        <FormProvider<VisitCreateRequest> {...methods}>
+        <FormProvider<VisitCreateFreeVisitRequest> {...methods}>
             <Contentwrapper className='z-20'>
                 <Form>
                     <Form.Group widths={'equal'}>
@@ -134,17 +122,10 @@ const VisitCreate: React.FC = () => {
                         <VisitAppForm.Input name='Description' label={t('Pages.Visits.Columns.Description')} />
                     </Form.Group>
                     <Form.Group widths={'equal'}>
-                        <VisitAppForm.Select name='PaymenttypeID' label={t('Pages.Visits.Columns.PaymenttypeID')} options={paymenttypeOpiton} />
-                        <VisitAppForm.Input name='Scheduledpayment' label={t('Pages.Visits.Columns.Scheduledpayment')} type='number' inputProps={{ min: 0 }} showPriceIcon />
-                    </Form.Group>
-                    <Form.Group widths={'equal'}>
                         <VisitAppForm.Select name='WorkerUserID' label={t('Pages.Visits.Columns.WorkerUserID')} options={userOption} required={t('Pages.Visits.Messages.WorkerUserIDRequired')} />
                         <VisitAppForm.Select name='ResponsibleUserID' label={t('Pages.Visits.Columns.ResponsibleUserID')} options={userOption} required={t('Pages.Visits.Messages.ResponsibleUserIDRequired')} />
                     </Form.Group>
                 </Form>
-            </Contentwrapper>
-            <Contentwrapper className='z-10'>
-                <VisitCreateStockForm />
             </Contentwrapper>
         </FormProvider>
         <FormFooter>
@@ -161,4 +142,4 @@ const VisitCreate: React.FC = () => {
         </FormFooter>
     </Pagewrapper >
 }
-export default VisitCreate
+export default FreeVisitCreate

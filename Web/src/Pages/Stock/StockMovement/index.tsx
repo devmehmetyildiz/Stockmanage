@@ -16,6 +16,7 @@ import { useGetWarehouseQuery } from '@Api/Warehouse'
 import StockMovementItem from './StockMovementItem'
 import { motion } from 'framer-motion'
 import { useGetVisitsQuery } from '@Api/Visit'
+import { VISIT_TYPE_SALEVISIT } from '@Constant/index'
 
 
 const StockMovement: React.FC = () => {
@@ -30,7 +31,7 @@ const StockMovement: React.FC = () => {
 
     const stock = (stocks || []).find(u => u.Uuid === Id)
 
-    const { data: visits, isFetching: isVisitsFetching } = useGetVisitsQuery({ isActive: 1 })
+    const { data: visits, isFetching: isVisitsFetching } = useGetVisitsQuery({ isActive: 1, Visittype: VISIT_TYPE_SALEVISIT })
     const { data: users, isFetching: isUsersFetching } = useGetUsersListQuery()
     const { data: stockdefine, isFetching: isStockdefinesFetching } = useGetStockdefineQuery({ Uuid: stock?.StockdefineID ?? '' }, { skip: !validator.isUUID(stock?.StockdefineID) })
     const { data: warehouse, isFetching: isWarehouseFetching } = useGetWarehouseQuery({ Uuid: stock?.WarehouseID ?? '' }, { skip: !validator.isUUID(stock?.WarehouseID) })

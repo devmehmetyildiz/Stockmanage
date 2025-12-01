@@ -35,10 +35,12 @@ const VisitStepCompleteDetail: React.FC<VisitStepCompleteDetailProps> = (props) 
         Duedays,
         isFullPayment,
         Returnedproducts: rawReturnedProducts,
+        Usedproducts: rawUsedProducts,
         Startdate,
     } = values
 
     const ReturnedProducts = (rawReturnedProducts || []).filter(u => u.Amount)
+    const UsedProducts = (rawUsedProducts || []).filter(u => u.Amount)
 
     const formattedTotal = useMemo(() => new Intl.NumberFormat('tr-TR', {
         style: 'currency',
@@ -129,6 +131,42 @@ const VisitStepCompleteDetail: React.FC<VisitStepCompleteDetailProps> = (props) 
                             )}
                         </Table.Body>
                     </Table> : <NotfoundScreen text={t('Pages.Visits.Messages.NoReturnProductFound')} />
+                }
+                <Divider horizontal>
+                    {t('Pages.Visits.Label.UsedProducts')}
+                </Divider>
+                {UsedProducts.length > 0 ?
+                    <Table celled striped compact>
+                        <Table.Header>
+                            <Table.Row>
+                                <Table.HeaderCell>{t('Pages.Visits.Label.Productname')}</Table.HeaderCell>
+                                <Table.HeaderCell>{t('Pages.Visits.Columns.Amount')}</Table.HeaderCell>
+                                <Table.HeaderCell>{t('Pages.Visits.Columns.Description')}</Table.HeaderCell>
+                            </Table.Row>
+                        </Table.Header>
+                        <Table.Body>
+                            {UsedProducts && UsedProducts.length > 0 ? (
+                                UsedProducts.filter(u => u.Amount > 0).map((product, i) => {
+                                    const visitProduct = (data?.Products || []).find(item => item.Uuid === product.Uuid)
+                                    const stock = (stocks || []).find(item => item.Uuid === visitProduct?.StockID)
+                                    const stockdefine = (stockdefines || []).find(item => item.Uuid === stock?.StockdefineID)
+                                    const stockName = stockdefine?.Productname ?? product?.Uuid
+
+                                    return <Table.Row key={i}>
+                                        <Table.Cell>{stockName}</Table.Cell>
+                                        <Table.Cell>{product.Amount}</Table.Cell>
+                                        <Table.Cell>{product.Description || '-'}</Table.Cell>
+                                    </Table.Row>
+                                })
+                            ) : (
+                                <Table.Row>
+                                    <Table.Cell colSpan="3" textAlign="center">
+                                        {t('Common.NoDataFound')}
+                                    </Table.Cell>
+                                </Table.Row>
+                            )}
+                        </Table.Body>
+                    </Table> : <NotfoundScreen text={t('Pages.Visits.Messages.NoUsedProductsAdded')} />
                 }
 
             </div>

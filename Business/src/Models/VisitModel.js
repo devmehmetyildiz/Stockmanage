@@ -2,6 +2,9 @@ const { defaultTableColumns } = require("../Constants/DefaultColumns");
 
 module.exports = sequelize.define('visitModel', {
     ...defaultTableColumns,
+    Visittype: {
+        type: Sequelize.INTEGER
+    },
     Visitcode: {
         type: Sequelize.STRING
     },

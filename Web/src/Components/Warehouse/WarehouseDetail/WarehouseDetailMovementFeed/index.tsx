@@ -5,7 +5,7 @@ import { useGetVisitsQuery } from '@Api/Visit'
 import Contentwrapper from '@Components/Common/Contentwrapper'
 import LoadingWrapper from '@Components/Common/LoadingWrapper'
 import Title from '@Components/Common/Title'
-import { STOCK_SOURCETYPE_USER, STOCK_SOURCETYPE_VISIT } from '@Constant/index'
+import { STOCK_SOURCETYPE_USER, STOCK_SOURCETYPE_VISIT, VISIT_TYPE_SALEVISIT } from '@Constant/index'
 import { FormatFullDate } from '@Utils/FormatDate'
 import validator from '@Utils/Validator'
 import React from 'react'
@@ -23,7 +23,7 @@ const WarehouseDetailMovementFeed: React.FC<WarehouseDetailMovementFeedProps> = 
     const { data: movements, isFetching: isMovementsFetching } = useGetLastMovementStocksQuery({ WarehouseID: WarehouseID ?? '' }, { skip: !validator.isUUID(WarehouseID) })
 
     const { data: users, isFetching: isUsersFetching } = useGetUsersListQuery()
-    const { data: visits, isFetching: isVisitsFetching } = useGetVisitsQuery({ isActive: 1 })
+    const { data: visits, isFetching: isVisitsFetching } = useGetVisitsQuery({ Visittype: VISIT_TYPE_SALEVISIT, isActive: 1 })
     const { data: stocks, isFetching: isStocksFetching } = useGetStocksQuery({ isActive: 1, WarehouseID: WarehouseID }, { skip: !validator.isUUID(WarehouseID) })
     const { data: stockdefines, isFetching: isStockdefinesFetching } = useGetStockdefinesQuery({ isActive: 1 }, { skip: !validator.isUUID(WarehouseID) })
 

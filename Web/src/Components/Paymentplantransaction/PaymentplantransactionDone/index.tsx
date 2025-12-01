@@ -11,7 +11,7 @@ import { useGetPaymentplansQuery, useGetPaymentplantransactionsQuery } from '@Ap
 import { loaderCellhandler } from '@Utils/CellHandler'
 import { useGetVisitsQuery } from '@Api/Visit'
 import { useGetDoctordefinesQuery } from '@Api/Doctordefine'
-import { PAYMENT_TRANSACTION_TYPE_CLOSE_TRANSACTION, PAYMENT_TRANSACTION_TYPE_FULLPAYMENT, PAYMENT_TRANSACTION_TYPE_PREPAYMENT, PAYMENT_TRANSACTION_TYPE_TRANSACTION, PAYMENTTYPE_TYPE_BANKTRANSFER, PAYMENTTYPE_TYPE_CASH, PAYMENTTYPE_TYPE_CREDITCARD, PAYMENTTYPE_TYPE_INVOICE } from '@Constant/index'
+import { PAYMENT_TRANSACTION_TYPE_CLOSE_TRANSACTION, PAYMENT_TRANSACTION_TYPE_FULLPAYMENT, PAYMENT_TRANSACTION_TYPE_PREPAYMENT, PAYMENT_TRANSACTION_TYPE_TRANSACTION, PAYMENTTYPE_TYPE_BANKTRANSFER, PAYMENTTYPE_TYPE_CASH, PAYMENTTYPE_TYPE_CREDITCARD, PAYMENTTYPE_TYPE_INVOICE, VISIT_TYPE_SALEVISIT } from '@Constant/index'
 import { DetailCellHandler } from '@Components/Common/CellHandler'
 import RouteKeys from '@Constant/routeKeys'
 import { CellContext } from '@tanstack/react-table'
@@ -25,7 +25,7 @@ const PaymentplantransactionDone: React.FC = () => {
 
     const { data: paymentplans, isFetching: isPaymentplansFetching } = useGetPaymentplansQuery({ isActive: 1 })
     const { data: doctors, isFetching: isDoctorsFetching } = useGetDoctordefinesQuery({ isActive: 1 })
-    const { data: visits, isFetching: isVisitsFetching } = useGetVisitsQuery({ isActive: 1 })
+    const { data: visits, isFetching: isVisitsFetching } = useGetVisitsQuery({ isActive: 1, Visittype: VISIT_TYPE_SALEVISIT })
 
     const TableQuery = useGetTableMetaQuery({ Key: 'paymentplantransactiondone' })
 
@@ -34,7 +34,7 @@ const PaymentplantransactionDone: React.FC = () => {
     const dateCellhandler = (value: any) => {
         return FormatDate(value)
     }
- 
+
     const fulldateCellhandler = (value: any) => {
         return FormatFullDate(value)
     }

@@ -16,6 +16,10 @@ async function CreateVisit(req, res, next) {
     PermissionHandler(req, next, 'visitadd')
 }
 
+async function CreateFreeVisit(req, res, next) {
+    PermissionHandler(req, next, 'visitadd')
+}
+
 async function UpdateVisitStocks(req, res, next) {
     PermissionHandler(req, next, 'visitupdate')
 }
@@ -32,11 +36,19 @@ async function CompleteVisit(req, res, next) {
     PermissionHandler(req, next, 'visitupdate')
 }
 
+async function CompleteFreeVisit(req, res, next) {
+    PermissionHandler(req, next, 'visitupdate')
+}
+
 async function SendApproveVisit(req, res, next) {
     PermissionHandler(req, next, 'visitupdate')
 }
 
 async function WorkVisit(req, res, next) {
+    PermissionHandler(req, next, 'visitupdate')
+}
+
+async function WorkFreeVisit(req, res, next) {
     PermissionHandler(req, next, 'visitupdate')
 }
 
@@ -55,5 +67,8 @@ module.exports = {
     DeleteVisit,
     UpdateVisitPaymentDefines,
     CompleteVisit,
-    SendApproveVisit
+    SendApproveVisit,
+    CreateFreeVisit,
+    WorkFreeVisit,
+    CompleteFreeVisit
 }

@@ -1,6 +1,7 @@
 import { DefaultRequestType } from "@Constant/common";
 
 export interface VisitListRequest extends DefaultRequestType {
+    Visittype?: number;
     Status?: number;
     UserID?: string
 }
@@ -71,6 +72,7 @@ export interface VisitStockItem {
 }
 
 export interface VisitCreateRequest {
+    Visittype: number,
     Visitcode: string,
     WorkerUserID: string,
     ResponsibleUserID: string,
@@ -82,6 +84,19 @@ export interface VisitCreateRequest {
     Scheduledpayment: number,
     Notes: string,
     Stocks: VisitStockItem[]
+    Description: string
+}
+
+export interface VisitCreateFreeVisitRequest {
+    Visittype: number,
+    Visitcode: string,
+    WorkerUserID: string
+    ResponsibleUserID: string,
+    DoctorID: string,
+    WarehouseID: string,
+    LocationID: string,
+    Visitdate: Date,
+    Notes: string,
     Description: string
 }
 
@@ -119,6 +134,9 @@ export interface VisitDeleteRequest {
     Uuid: string
 }
 
+export interface VisitCompleteFreeVisitRequest {
+    VisitID: string,
+}
 export interface VisitCompleteApiRequest {
     VisitID: string,
     Totalamount: number,
@@ -129,11 +147,13 @@ export interface VisitCompleteApiRequest {
     Prepaymentamount: number,
     Prepaymenttype: number
     Returnedproducts: VisitStockItem[]
+    Usedproducts: VisitStockItem[]
 }
 
 export interface VisitCompleteRequest extends VisitCompleteApiRequest {
     isFullPayment: boolean
     isHavePrepayment: boolean
+    WarehouseID: string
 }
 
 export interface VisitSendApproveRequest {

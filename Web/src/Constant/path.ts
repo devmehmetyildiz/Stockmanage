@@ -71,6 +71,12 @@ const VisitsUpdateProducts = RouteKeys.Main + RouteKeys.Visits + "/:Id/edit-prod
 const VisitsUpdatePaymentdefines = RouteKeys.Main + RouteKeys.Visits + "/:Id/edit-payment-defines"
 const VisitComplete = RouteKeys.Main + RouteKeys.Visits + "/:Id/complete"
 
+const FreeVisits = RouteKeys.Main + RouteKeys.FreeVisits
+const FreeVisitsCreate = RouteKeys.Main + RouteKeys.FreeVisits + "/Create"
+const FreeVisitsDetail = RouteKeys.Main + RouteKeys.FreeVisits + "/:Id/Detail"
+const FreeVisitsUpdateDefines = RouteKeys.Main + RouteKeys.FreeVisits + "/:Id/edit-defines"
+const FreeVisitComplete = RouteKeys.Main + RouteKeys.FreeVisits + "/:Id/complete"
+
 const Paymentplans = RouteKeys.Main + RouteKeys.Paymentplans
 const PaymentplansDetail = RouteKeys.Main + RouteKeys.Paymentplans + "/:Id/Detail"
 
@@ -132,7 +138,12 @@ const Paths = {
     Paymentplantransactions,
     WarehousesDetail,
     PaymentplansDetail,
-    Organisation
+    Organisation,
+    FreeVisits,
+    FreeVisitsCreate,
+    FreeVisitsDetail,
+    FreeVisitsUpdateDefines,
+    FreeVisitComplete,
 }
 
 export default Paths

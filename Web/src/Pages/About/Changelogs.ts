@@ -60,6 +60,15 @@ const version1_0_0_0_beta: ChangeLogItem = {
 
 const version1_0_0_0_rc: ChangeLogItem = {
     version: "1.0.0.0-rc",
+    features: [
+        {
+            title: 'Ziyaretler',
+            commits: [
+                'Ziyaretler için ücretsiz ziyaret tipi eklendi',
+                'Normal Ziyaretler için satış ziyaretleri alanına taşındı',
+            ]
+        }
+    ],
     changes: [
         {
             title: 'Kurum Yönetimi',

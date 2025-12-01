@@ -23,7 +23,7 @@ import { DropdownItemProps, Form } from 'semantic-ui-react'
 
 const VisitAppForm = createAppForm<VisitUpdateDefinesRequest>()
 
-const VisitUpdateDefines: React.FC = () => {
+const FreeVisitUpdateDefines: React.FC = () => {
 
     const { t } = useTranslation()
 
@@ -35,7 +35,6 @@ const VisitUpdateDefines: React.FC = () => {
 
     const { data: doctordefines, isFetching: isDoctordefinesFetching } = useGetDoctordefinesQuery({ isActive: 1 })
     const { data: locations, isFetching: isLocationsFetching } = useGetLocationsQuery({ isActive: 1 })
-    const { data: paymenttypes, isFetching: isPaymenttypesFetching } = useGetPaymenttypesQuery({ isActive: 1 })
     const { data: users, isFetching: isUsersFetching } = useGetUsersListQuery({ isActive: 1, Isworker: 1 })
 
     const locationOpiton: DropdownItemProps[] = useMemo(() => {
@@ -46,15 +45,6 @@ const VisitUpdateDefines: React.FC = () => {
             }
         })
     }, [locations])
-
-    const paymenttypeOpiton: DropdownItemProps[] = useMemo(() => {
-        return (paymenttypes || []).map(item => {
-            return {
-                value: item.Uuid,
-                text: item.Name
-            }
-        })
-    }, [paymenttypes])
 
     const doctorOpiton: DropdownItemProps[] = useMemo(() => {
         return (doctordefines || []).map(item => {
@@ -98,13 +88,13 @@ const VisitUpdateDefines: React.FC = () => {
                     .then(() => {
                         Pushnotification({
                             Type: 'Success',
-                            Subject: t('Pages.Visits.Page.Header'),
-                            Description: t('Pages.Visits.Messages.UpdateSuccess')
+                            Subject: t('Pages.FreeVisits.Page.Header'),
+                            Description: t('Pages.FreeVisits.Messages.UpdateSuccess')
                         })
-                        navigate(Paths.Visits)
+                        navigate(Paths.FreeVisits)
                     })
             } else {
-                CheckForm(formState, t('Pages.Visits.Page.Header'))
+                CheckForm(formState, t('Pages.FreeVisits.Page.Header'))
             }
         })
     }
@@ -124,25 +114,23 @@ const VisitUpdateDefines: React.FC = () => {
                         Visitcode: data.Visitcode,
                         Visitdate: SuppressDate(data.Visitdate),
                         VisitID: data.Uuid,
-                        PaymenttypeID: data.PaymenttypeID,
-                        Scheduledpayment: data.Scheduledpayment
                     })
                 })
         } else {
             Pushnotification({
                 Type: 'Error',
-                Subject: t('Pages.Visits.Page.Header'),
-                Description: t('Pages.Visits.Messages.UndefinedVisit')
+                Subject: t('Pages.FreeVisits.Page.Header'),
+                Description: t('Pages.FreeVisits.Messages.UndefinedVisit')
             })
             navigate(Paths.Visits)
         }
     }, [Id, GetVisit, navigate, reset, t])
 
-    return <Pagewrapper isLoading={isFetching || isLoading || isDoctordefinesFetching || isLocationsFetching || isPaymenttypesFetching || isUsersFetching} direction='vertical' alignTop gap={4}>
+    return <Pagewrapper isLoading={isFetching || isLoading || isDoctordefinesFetching || isLocationsFetching || isUsersFetching} direction='vertical' alignTop gap={4}>
         <Title
-            PageName={t('Pages.Visits.Page.EditDefinesHeader')}
+            PageName={t('Pages.FreeVisits.Page.EditDefinesHeader')}
             AdditionalName={Visitcode}
-            PageUrl={Paths.Visits}
+            PageUrl={Paths.FreeVisits}
         />
         <FormProvider<VisitUpdateDefinesRequest> {...methods}>
             <Contentwrapper>
@@ -154,10 +142,6 @@ const VisitUpdateDefines: React.FC = () => {
                     <Form.Group widths={'equal'}>
                         <VisitAppForm.Input name='Visitdate' label={t('Pages.Visits.Columns.Visitdate')} type='date' required={t('Pages.Visits.Messages.VisitdateReqired')} />
                         <VisitAppForm.Input name='Description' label={t('Pages.Visits.Columns.Description')} />
-                    </Form.Group>
-                    <Form.Group widths={'equal'}>
-                        <VisitAppForm.Select name='PaymenttypeID' label={t('Pages.Visits.Columns.PaymenttypeID')} options={paymenttypeOpiton} />
-                        <VisitAppForm.Input name='Scheduledpayment' label={t('Pages.Visits.Columns.Scheduledpayment')} type='number' inputProps={{ min: 0 }} showPriceIcon />
                     </Form.Group>
                     <Form.Group widths={'equal'}>
                         <VisitAppForm.Select name='WorkerUserID' label={t('Pages.Visits.Columns.WorkerUserID')} options={userOption} required={t('Pages.Visits.Messages.WorkerUserIDRequired')} />
@@ -180,4 +164,4 @@ const VisitUpdateDefines: React.FC = () => {
         </FormFooter>
     </Pagewrapper >
 }
-export default VisitUpdateDefines
+export default FreeVisitUpdateDefines

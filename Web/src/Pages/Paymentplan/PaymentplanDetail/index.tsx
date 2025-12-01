@@ -15,6 +15,7 @@ import { useGetPaymenttypeQuery } from '@Api/Paymenttype'
 import FormButton from '@Components/Common/FormButton'
 import PaymentplantransactionApproveModal from '@Components/Paymentplantransaction/PaymentplantransactionApproveModal'
 import { PaymentplanTransactionItem } from '@Api/Paymentplan/type'
+import { VISIT_TYPE_SALEVISIT } from '@Constant/index'
 
 const PaymentplanDetail: React.FC = () => {
   const { t } = useTranslation()
@@ -25,7 +26,7 @@ const PaymentplanDetail: React.FC = () => {
 
   const { data: plan, isFetching: isPlanFetching } = useGetPaymentplanQuery({ Uuid: Id ?? '' }, { skip: !validator.isUUID(Id) })
   const { data: transactions, isFetching: isTransactionsFetching } = useGetPaymentplantransactionsQuery({ PaymentplanID: Id ?? '' }, { skip: !validator.isUUID(Id) })
-  const { data: visits } = useGetVisitsQuery({ isActive: 1 })
+  const { data: visits } = useGetVisitsQuery({ isActive: 1, Visittype: VISIT_TYPE_SALEVISIT })
   const { data: paymenttype } = useGetPaymenttypeQuery({ Uuid: plan?.PaymenttypeID ?? '' }, { skip: !validator.isUUID(plan?.PaymenttypeID) })
 
   const visit = useMemo(() => (visits || []).find(v => v.Uuid === plan?.VisitID), [visits, plan?.VisitID])

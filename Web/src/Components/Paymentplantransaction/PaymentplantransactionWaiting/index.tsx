@@ -16,6 +16,7 @@ import { CellContext } from '@tanstack/react-table'
 import { CompleteCellhandler, DetailCellHandler } from '@Components/Common/CellHandler'
 import PaymentplantransactionApproveModal from '../PaymentplantransactionApproveModal'
 import RouteKeys from '@Constant/routeKeys'
+import { VISIT_TYPE_SALEVISIT } from '@Constant/index'
 
 const PaymentplantransactionWaiting: React.FC = () => {
 
@@ -28,7 +29,7 @@ const PaymentplantransactionWaiting: React.FC = () => {
 
     const { data: paymentplans, isFetching: isPaymentplansFetching } = useGetPaymentplansQuery({ isActive: 1 })
     const { data: doctors, isFetching: isDoctorsFetching } = useGetDoctordefinesQuery({ isActive: 1 })
-    const { data: visits, isFetching: isVisitsFetching } = useGetVisitsQuery({ isActive: 1 })
+    const { data: visits, isFetching: isVisitsFetching } = useGetVisitsQuery({ isActive: 1, Visittype: VISIT_TYPE_SALEVISIT })
 
     const TableQuery = useGetTableMetaQuery({ Key: 'paymentplantransactionwaiting' })
 

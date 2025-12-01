@@ -7,7 +7,7 @@ import VisitCompleted from '@Components/Visit/Visit/VisitCompleted'
 import VisitOnapprove from '@Components/Visit/Visit/VisitOnapprove'
 import VisitPlanned from '@Components/Visit/Visit/VisitPlanned'
 import VisitWorking from '@Components/Visit/Visit/VisitWorking'
-import { VISIT_STATU_CLOSED, VISIT_STATU_COMPLETED, VISIT_STATU_ON_APPROVE, VISIT_STATU_PLANNED, VISIT_STATU_WORKING } from '@Constant/index'
+import { VISIT_STATU_CLOSED, VISIT_STATU_COMPLETED, VISIT_STATU_ON_APPROVE, VISIT_STATU_PLANNED, VISIT_STATU_WORKING, VISIT_TYPE_SALEVISIT } from '@Constant/index'
 import Paths from '@Constant/path'
 import privileges from '@Constant/privileges'
 import RouteKeys from '@Constant/routeKeys'
@@ -23,11 +23,11 @@ const Visit: React.FC = () => {
 
     const { isHasPrivilege, isMetaLoading, isSuccess, UserID } = useHasPrivileges(privileges.visitmanageall)
 
-    const { data: plannedCount, isFetching: isPlannedFetching } = useGetVisitsCountQuery({ Status: VISIT_STATU_PLANNED, UserID: isHasPrivilege ? UserID : undefined, isActive: 1 }, { skip: !isSuccess })
-    const { data: workingCount, isFetching: isWorkingFetching } = useGetVisitsCountQuery({ Status: VISIT_STATU_WORKING, UserID: isHasPrivilege ? UserID : undefined, isActive: 1 }, { skip: !isSuccess })
-    const { data: onapproveCount, isFetching: isOnapproveFetching } = useGetVisitsCountQuery({ Status: VISIT_STATU_ON_APPROVE, UserID: isHasPrivilege ? UserID : undefined, isActive: 1 }, { skip: !isSuccess })
-    const { data: completedCount, isFetching: isCompletedFetching } = useGetVisitsCountQuery({ Status: VISIT_STATU_COMPLETED, UserID: isHasPrivilege ? UserID : undefined, isActive: 1 }, { skip: !isSuccess })
-    const { data: closedCount, isFetching: isClosedCountFetching } = useGetVisitsCountQuery({ Status: VISIT_STATU_CLOSED, UserID: isHasPrivilege ? UserID : undefined, isActive: 1 }, { skip: !isSuccess })
+    const { data: plannedCount, isFetching: isPlannedFetching } = useGetVisitsCountQuery({ Visittype: VISIT_TYPE_SALEVISIT, Status: VISIT_STATU_PLANNED, UserID: isHasPrivilege ? UserID : undefined, isActive: 1 }, { skip: !isSuccess })
+    const { data: workingCount, isFetching: isWorkingFetching } = useGetVisitsCountQuery({ Visittype: VISIT_TYPE_SALEVISIT, Status: VISIT_STATU_WORKING, UserID: isHasPrivilege ? UserID : undefined, isActive: 1 }, { skip: !isSuccess })
+    const { data: onapproveCount, isFetching: isOnapproveFetching } = useGetVisitsCountQuery({ Visittype: VISIT_TYPE_SALEVISIT, Status: VISIT_STATU_ON_APPROVE, UserID: isHasPrivilege ? UserID : undefined, isActive: 1 }, { skip: !isSuccess })
+    const { data: completedCount, isFetching: isCompletedFetching } = useGetVisitsCountQuery({ Visittype: VISIT_TYPE_SALEVISIT, Status: VISIT_STATU_COMPLETED, UserID: isHasPrivilege ? UserID : undefined, isActive: 1 }, { skip: !isSuccess })
+    const { data: closedCount, isFetching: isClosedCountFetching } = useGetVisitsCountQuery({ Visittype: VISIT_TYPE_SALEVISIT, Status: VISIT_STATU_CLOSED, UserID: isHasPrivilege ? UserID : undefined, isActive: 1 }, { skip: !isSuccess })
 
     const { activeTab, setActiveTab } = useTabNavigation({
         mainRoute: RouteKeys.Visits,

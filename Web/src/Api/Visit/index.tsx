@@ -1,6 +1,6 @@
 import { gatewayApi } from "@Api/api";
-import { VISIT, METHOD_GET, METHOD_POST, METHOD_PUT, VISIT_TAG, VISIT_GETCOUNT, VISIT_UPDATE_STOCKS, VISIT_UPDATE_DEFINES, VISIT_WORK, METHOD_DELETE, VISIT_UPDATE_PAYMENTDEFINE, VISIT_COMPLETE, VISIT_SEND_APPROVE, PAYMENTPLAN_TAG, VISIT_COMPLETE_TAG } from "@Constant/api";
-import { VisitCompleteApiRequest, VisitCreateRequest, VisitDeleteRequest, VisitItem, VisitListItem, VisitListRequest, VisitRequest, VisitSendApproveRequest, VisitUpdateDefinesRequest, VisitUpdatePaymentdefineRequest, VisitUpdateStocksRequest, VisitWorkRequest } from "./type";
+import { VISIT, METHOD_GET, METHOD_POST, METHOD_PUT, VISIT_TAG, VISIT_GETCOUNT, VISIT_UPDATE_STOCKS, VISIT_UPDATE_DEFINES, VISIT_WORK, METHOD_DELETE, VISIT_UPDATE_PAYMENTDEFINE, VISIT_COMPLETE, VISIT_SEND_APPROVE, PAYMENTPLAN_TAG, VISIT_COMPLETE_TAG, VISIT_CREATE_FREEVISIT, VISIT_WORK_FREEVISIT, VISIT_COMPLETE_FREEVISIT } from "@Constant/api";
+import { VisitCompleteApiRequest, VisitCompleteFreeVisitRequest, VisitCreateFreeVisitRequest, VisitCreateRequest, VisitDeleteRequest, VisitItem, VisitListItem, VisitListRequest, VisitRequest, VisitSendApproveRequest, VisitUpdateDefinesRequest, VisitUpdatePaymentdefineRequest, VisitUpdateStocksRequest, VisitWorkRequest } from "./type";
 
 export const visitQuery = gatewayApi
     .enhanceEndpoints({ addTagTypes: [VISIT_TAG, VISIT_COMPLETE_TAG, PAYMENTPLAN_TAG] })
@@ -37,6 +37,14 @@ export const visitQuery = gatewayApi
                 }),
                 invalidatesTags: (result) => result ? [VISIT_TAG] : [],
             }),
+            createFreeVisit: builder.mutation<void, VisitCreateFreeVisitRequest>({
+                query: (body) => ({
+                    url: VISIT_CREATE_FREEVISIT,
+                    method: METHOD_POST,
+                    body,
+                }),
+                invalidatesTags: (result) => result ? [VISIT_TAG] : [],
+            }),
             editVisitStocks: builder.mutation<void, VisitUpdateStocksRequest>({
                 query: (body) => ({
                     url: VISIT_UPDATE_STOCKS,
@@ -56,6 +64,14 @@ export const visitQuery = gatewayApi
             workVisit: builder.mutation<void, VisitWorkRequest>({
                 query: (body) => ({
                     url: VISIT_WORK,
+                    method: METHOD_PUT,
+                    body,
+                }),
+                invalidatesTags: (result) => result ? [VISIT_TAG] : [],
+            }),
+            workFreeVisit: builder.mutation<void, VisitWorkRequest>({
+                query: (body) => ({
+                    url: VISIT_WORK_FREEVISIT,
                     method: METHOD_PUT,
                     body,
                 }),
@@ -85,6 +101,14 @@ export const visitQuery = gatewayApi
                 }),
                 invalidatesTags: (result) => result ? [VISIT_COMPLETE_TAG] : [],
             }),
+            completeFreeVisit: builder.mutation<void, VisitCompleteFreeVisitRequest>({
+                query: (body) => ({
+                    url: VISIT_COMPLETE_FREEVISIT,
+                    method: METHOD_PUT,
+                    body,
+                }),
+                invalidatesTags: (result) => result ? [VISIT_COMPLETE_TAG] : [],
+            }),
             deleteVisit: builder.mutation<void, VisitDeleteRequest>({
                 query: (param) => ({
                     url: `${VISIT}/${param.Uuid}`,
@@ -107,5 +131,8 @@ export const {
     useDeleteVisitMutation,
     useEditPaymentdefineVisitMutation,
     useCompleteVisitMutation,
-    useSendApproveVisitMutation
+    useSendApproveVisitMutation,
+    useCreateFreeVisitMutation,
+    useWorkFreeVisitMutation,
+    useCompleteFreeVisitMutation
 } = visitQuery;

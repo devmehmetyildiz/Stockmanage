@@ -40,6 +40,8 @@ const Stocks = "Stocks"
 
 const Visits = "Visits"
 
+const FreeVisits = "FreeVisits"
+
 const Paymentplans = "Paymentplans"
 
 const Paymentplantransactions = "Paymentplantransactions"
@@ -70,7 +72,8 @@ const RouteKeys = {
     Visits,
     Paymentplans,
     Paymentplantransactions,
-    Organisation
+    Organisation,
+    FreeVisits
 }
 
 export default RouteKeys

@@ -69,6 +69,7 @@ async function GetVisit(req, res, next) {
 async function CreateVisit(req, res, next) {
     let validationErrors = []
     const {
+        Visittype,
         WorkerUserID,
         ResponsibleUserID,
         DoctorID,
@@ -82,6 +83,9 @@ async function CreateVisit(req, res, next) {
         Description
     } = req.body
 
+    if (!validator.isNumber(Visittype)) {
+        validationErrors.push(req.t('Visits.Error.VisittypeRequired'))
+    }
     if (!validator.isUUID(WorkerUserID)) {
         validationErrors.push(req.t('Visits.Error.WorkerUserIDRequired'))
     }
@@ -154,6 +158,7 @@ async function CreateVisit(req, res, next) {
     try {
         await db.visitModel.create({
             Uuid: itemUuid,
+            Visittype,
             Visitcode: visitCode,
             WorkerUserID,
             ResponsibleUserID,
@@ -185,6 +190,117 @@ async function CreateVisit(req, res, next) {
                 Isactive: true,
             }, { transaction: t })
         }
+
+        await t.commit()
+
+        publishEvent("notificationCreate", 'User', 'Userrole', {
+            type: 'created',
+            service: req.t('Visits'),
+            role: 'visitnotification',
+            message: {
+                en: `${location?.Name} ${doctor?.Name} visit created by ${username}`,
+                tr: `${location?.Name} Bölgesindeki ${doctor?.Name} için ziyaret ${username} tarafından oluşturuldu`
+            }[req.language],
+            pushurl: '/Visits'
+        });
+
+        res.status(200).json({ message: req.t('General.SuccessfullyCreated'), entity: itemUuid })
+    } catch (error) {
+        await t.rollback()
+        next(sequelizeErrorCatcher(error))
+    }
+}
+
+async function CreateFreeVisit(req, res, next) {
+    let validationErrors = []
+    const {
+        Visittype,
+        WorkerUserID,
+        ResponsibleUserID,
+        DoctorID,
+        LocationID,
+        Visitdate,
+        Notes,
+        Description
+    } = req.body
+
+    if (!validator.isNumber(Visittype)) {
+        validationErrors.push(req.t('Visits.Error.VisittypeRequired'))
+    }
+    if (!validator.isUUID(WorkerUserID)) {
+        validationErrors.push(req.t('Visits.Error.WorkerUserIDRequired'))
+    }
+    if (!validator.isUUID(ResponsibleUserID)) {
+        validationErrors.push(req.t('Visits.Error.ResponsibleUserIDRequired'))
+    }
+    if (!validator.isUUID(DoctorID)) {
+        validationErrors.push(req.t('Visits.Error.DoctorIDRequired'))
+    }
+    if (!validator.isUUID(LocationID)) {
+        validationErrors.push(req.t('Visits.Error.LocationIDRequired'))
+    }
+    if (!validator.isISODate(Visitdate)) {
+        validationErrors.push(req.t('Visits.Error.VisitdateRequired'))
+    } else {
+        const current = new Date()
+        current.setHours(0, 0, 0, 0)
+        if (new Date(Visitdate).getTime() < current.getTime()) {
+            validationErrors.push(req.t('Visits.Error.VisitdateCantSmall'))
+        }
+    }
+
+    if (validationErrors.length > 0) {
+        return next(createValidationError(validationErrors, req.t('Visits'), req.language))
+    }
+
+    const doctor = await DoGet(config.services.Setting, 'Doctordefines/' + DoctorID)
+    const location = await DoGet(config.services.Setting, 'Locations/' + LocationID)
+
+    const t = await db.sequelize.transaction();
+    const username = req?.identity?.user?.Username || 'System'
+    const itemUuid = uuid()
+    let visitCode = null
+
+    const latestVisit = await db.visitModel.findOne({
+        attributes: ['Visitcode'],
+        where: { Isactive: true },
+        order: [
+            ['Createtime', 'DESC'],
+        ],
+        raw: true
+    });
+
+    if (latestVisit && latestVisit.Visitcode && (latestVisit.Visitcode ?? '').split('-').length >= 3) {
+        const parts = latestVisit.Visitcode.split('-');
+        const year = parts[0];
+        const month = parts[1];
+        const lastNumber = parseInt(parts[2], 10) || 0;
+        const nextNumber = String(lastNumber + 1).padStart(4, "0");
+        visitCode = `${year}-${month}-${nextNumber}`;
+    } else {
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, "0");
+        visitCode = `${year}-${month}-${String(1).padStart(4, "0")}`;
+    }
+
+    try {
+        await db.visitModel.create({
+            Uuid: itemUuid,
+            Visittype,
+            Visitcode: visitCode,
+            WorkerUserID,
+            ResponsibleUserID,
+            DoctorID,
+            LocationID,
+            Visitdate,
+            Status: 0,
+            Notes,
+            Description,
+            Createduser: username,
+            Createtime: new Date(),
+            Isactive: true,
+        }, { transaction: t })
 
         await t.commit()
 
@@ -410,7 +526,7 @@ async function SendApproveVisit(req, res, next) {
         const doctorName = doctor ? `${doctor.Name} ${doctor.Surname}` : req.t('General.NotFound')
         const locationName = location ? location.Name : req.t('General.NotFound')
         const userName = workerUser ? `${workerUser.Name} ${workerUser.Surname}` : req.t('General.NotFound')
-        
+
         publishEvent("approveRequest", 'System', 'Approval', {
             Service: 'Business',
             Table: 'Visit',
@@ -460,6 +576,7 @@ async function WorkVisit(req, res, next) {
     if (!visit.Isactive) {
         return next(createNotFoundError(req.t('Visits.Error.NotActive'), req.t('Visits'), req.language))
     }
+
     if (visit.Status !== VISIT_STATU_ON_APPROVE) {
         return next(createNotFoundError(req.t('Visits.Error.NotApproveStatu'), req.t('Visits'), req.language))
     }
@@ -499,6 +616,53 @@ async function WorkVisit(req, res, next) {
             Updateduser: username,
             Updatetime: new Date(),
         }, { transaction: t, where: { Isactive: true, VisitID } })
+
+        await t.commit()
+        res.status(200).json({ message: req.t('General.SuccessfullyUpdated'), entity: VisitID })
+
+    } catch (error) {
+        await t.rollback()
+        return next(sequelizeErrorCatcher(error))
+    }
+}
+
+async function WorkFreeVisit(req, res, next) {
+    let validationErrors = []
+    const {
+        VisitID,
+    } = req.body
+
+    if (!validator.isUUID(VisitID)) {
+        validationErrors.push(req.t('Visits.Error.VisitIDRequired'))
+    }
+
+    if (validationErrors.length > 0) {
+        return next(createValidationError(validationErrors, req.t('Visits'), req.language))
+    }
+
+    const t = await db.sequelize.transaction()
+    const username = req?.identity?.user?.Username || 'System'
+
+
+    const visit = await db.visitModel.findOne({ where: { Uuid: VisitID } })
+    if (!visit) {
+        return next(createNotFoundError(req.t('Visits.Error.NotFound'), req.t('Visits'), req.language))
+    }
+    if (!visit.Isactive) {
+        return next(createNotFoundError(req.t('Visits.Error.NotActive'), req.t('Visits'), req.language))
+    }
+
+    if (visit.Status !== VISIT_STATU_PLANNED) {
+        return next(createNotFoundError(req.t('Visits.Error.NotPlanned'), req.t('Visits'), req.language))
+    }
+
+    try {
+        await db.visitModel.update({
+            Visitstartdate: new Date(),
+            Status: VISIT_STATU_WORKING,
+            Updateduser: username,
+            Updatetime: new Date(),
+        }, { transaction: t, where: { Uuid: VisitID } })
 
         await t.commit()
         res.status(200).json({ message: req.t('General.SuccessfullyUpdated'), entity: VisitID })
@@ -574,6 +738,7 @@ async function CompleteVisit(req, res, next) {
         Prepaymentamount,
         Prepaymenttype,
         Returnedproducts,
+        Usedproducts
     } = req.body
 
     if (!validator.isNumber(Totalamount) || Totalamount <= 0) {
@@ -588,6 +753,14 @@ async function CompleteVisit(req, res, next) {
         }
     }
 
+    for (const stock of Usedproducts) {
+        if (!validator.isUUID(stock.Uuid)) {
+            validationErrors.push(req.t('Visits.Error.StockIDRequired'))
+        }
+        if (!validator.isNumber(stock.Amount) || stock.Amount <= 0) {
+            validationErrors.push(req.t('Visits.Error.AmountRequired'))
+        }
+    }
 
     const isFullPayment = Number(Prepaymentamount || 0) >= Number(Totalamount)
 
@@ -653,6 +826,25 @@ async function CompleteVisit(req, res, next) {
             }
         }
 
+        if (Usedproducts && Usedproducts.length > 0) {
+            let stockCheckRequestBody = (Usedproducts || []).map(item => {
+                return {
+                    StockID: item.Uuid,
+                    Amount: item.Amount,
+                    Sourcetype: STOCK_SOURCETYPE_VISIT,
+                    SourceID: VisitID
+                }
+            })
+
+            try {
+                await DoPut(config.services.Warehouse, 'Stocks/UseStockList', {
+                    StockList: stockCheckRequestBody
+                })
+            } catch (error) {
+                return next(requestErrorCatcher(error, 'Warehouse'))
+            }
+        }
+
         t = await db.sequelize.transaction()
 
         if (Returnedproducts && Returnedproducts.length > 0) {
@@ -665,6 +857,21 @@ async function CompleteVisit(req, res, next) {
                     Updatetime: new Date(),
                 }, { transaction: t, where: { Isactive: true, Uuid: returnedproduct.Uuid } })
             }
+        }
+
+        for (const stock of Usedproducts) {
+            await db.visitproductModel.create({
+                Uuid: uuid(),
+                VisitID: VisitID,
+                StockID: stock.Uuid,
+                Amount: stock.Amount,
+                Istaken: true,
+                IsReturned: false,
+                Description: stock.Description,
+                Createduser: username,
+                Createtime: new Date(),
+                Isactive: true,
+            }, { transaction: t })
         }
 
         const planUuid = uuid()
@@ -753,6 +960,54 @@ async function CompleteVisit(req, res, next) {
         await db.visitModel.update({
             Status: isFullPayment ? VISIT_STATU_CLOSED : VISIT_STATU_COMPLETED,
             Finalpayment: Totalamount,
+            Visitenddate: new Date(),
+            Updateduser: username,
+            Updatetime: new Date(),
+        }, { transaction: t, where: { Uuid: VisitID } })
+
+        await t.commit()
+        return res.status(200).json({ message: req.t('General.SuccessfullyUpdated'), entity: VisitID })
+
+    } catch (error) {
+        if (t) await t.rollback()
+        return next(sequelizeErrorCatcher(error))
+    }
+}
+
+async function CompleteFreeVisit(req, res, next) {
+    let validationErrors = []
+
+    const {
+        VisitID,
+    } = req.body
+
+    if (!validator.isUUID(VisitID)) {
+        validationErrors.push(req.t('Visits.Error.VisitIDRequired'))
+    }
+
+    if (validationErrors.length > 0) {
+        return next(createValidationError(validationErrors, req.t('Visits'), req.language))
+    }
+
+    let t = null
+    const username = req?.identity?.user?.Username || 'System'
+
+    try {
+        const visit = await db.visitModel.findOne({ where: { Uuid: VisitID } })
+        if (!visit) {
+            return next(createNotFoundError(req.t('Visits.Error.NotFound'), req.t('Visits'), req.language))
+        }
+        if (!visit.Isactive) {
+            return next(createNotFoundError(req.t('Visits.Error.NotActive'), req.t('Visits'), req.language))
+        }
+        if (visit.Status !== VISIT_STATU_WORKING) {
+            return next(createNotFoundError(req.t('Visits.Error.NotWorked'), req.t('Visits'), req.language))
+        }
+
+        t = await db.sequelize.transaction()
+
+        await db.visitModel.update({
+            Status: VISIT_STATU_COMPLETED,
             Visitenddate: new Date(),
             Updateduser: username,
             Updatetime: new Date(),
@@ -865,5 +1120,8 @@ module.exports = {
     UpdateVisitPaymentDefines,
     CompleteVisit,
     SendApproveVisit,
-    ConsumeVisitRequests
+    ConsumeVisitRequests,
+    CreateFreeVisit,
+    WorkFreeVisit,
+    CompleteFreeVisit
 }

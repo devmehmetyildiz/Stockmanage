@@ -47,8 +47,9 @@ export const getSidebarRoutes = (t: any, userPrivileges: string[]) => {
             icon: 'building',
             items: [
                 { id: 1, subtitle: t('Pages.Organisation.Page.Header'), url: Paths.Organisation, permission: checkAuth(privileges.paymentplanview) },
-                { id: 3, subtitle: t('Pages.Approvalrequests.Page.Header'), url: Paths.Approvalrequests, permission: checkAuth(privileges.approvalrequestcreen) },
-                { id: 2, subtitle: t('Pages.Visits.Page.Header'), url: Paths.Visits, permission: checkAuth(privileges.visitview) },
+                { id: 2, subtitle: t('Pages.Approvalrequests.Page.Header'), url: Paths.Approvalrequests, permission: checkAuth(privileges.approvalrequestcreen) },
+                { id: 3, subtitle: t('Pages.Visits.Page.Header'), url: Paths.Visits, permission: checkAuth(privileges.visitview) },
+                { id: 4, subtitle: t('Pages.FreeVisits.Page.Header'), url: Paths.FreeVisits, permission: checkAuth(privileges.visitview) },
             ]
         },
         {

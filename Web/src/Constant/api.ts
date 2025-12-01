@@ -136,17 +136,23 @@ export const STOCK_DELETE_MOVEMENT = 'Warehouse/Stocks/DeleteMovement'
 
 export const VISIT = 'Business/Visits'
 
+export const VISIT_CREATE_FREEVISIT = 'Business/Visits/CreateFreeVisit'
+
 export const VISIT_GETCOUNT = 'Business/Visits/Counts'
 
 export const VISIT_UPDATE_STOCKS = 'Business/Visits/UpdateVisitStocks'
 
 export const VISIT_UPDATE_DEFINES = 'Business/Visits/UpdateVisitDefines'
 
+export const VISIT_WORK_FREEVISIT = 'Business/Visits/WorkFreeVisit'
+
 export const VISIT_WORK = 'Business/Visits/Work'
 
 export const VISIT_UPDATE_PAYMENTDEFINE = 'Business/Visits/UpdateVisitPaymentDefines'
 
 export const VISIT_COMPLETE = 'Business/Visits/Complete'
+
+export const VISIT_COMPLETE_FREEVISIT = 'Business/Visits/CompleteFreeVisit'
 
 export const VISIT_SEND_APPROVE = 'Business/Visits/SendApprove'
 
@@ -160,7 +166,7 @@ export const PAYMENTPLAN_COUNT = 'Business/Paymentplans/Counts'
 
 export const PAYMENTPLAN_APPROVE_TRANSACTION = 'Business/Paymentplans/ApproveTransaction'
 
-export const REPORT_SALEBYDOCTOR  = 'Business/Reports/SaleReportByDoctor'
+export const REPORT_SALEBYDOCTOR = 'Business/Reports/SaleReportByDoctor'
 
 export const REPORT_SALEBYLOCATION = 'Business/Reports/SaleReportByLocation'
 
