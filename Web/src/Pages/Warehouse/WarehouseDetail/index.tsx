@@ -123,6 +123,18 @@ const WarehouseDetail: React.FC = () => {
                         <Icon name="edit" />
                         {t('Common.Button.Edit')}
                     </FormButton>
+                    <FormButton
+                        role={privileges.warehouseupdate}
+                        icon
+                        text=''
+                        showChildren
+                        labelPosition="left"
+                        color="blue"
+                        onClick={() => navigate(`${Paths.StocksCreate}?returnUrl=${Paths.Warehouses}/${Id}/Detail&WarehouseID=${Id}`)}
+                    >
+                        <Icon name="edit" />
+                        {t('Pages.Stocks.Page.CreateHeader')}
+                    </FormButton>
                 </div>
             </Card>
         </motion.div>

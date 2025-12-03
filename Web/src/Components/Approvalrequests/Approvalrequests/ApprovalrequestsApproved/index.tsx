@@ -2,9 +2,11 @@ import { useGetApprovalrequestsQuery } from '@Api/Approvalrequests'
 import { ApprovalrequestItem } from '@Api/Approvalrequests/type'
 import { useGetTableMetaQuery } from '@Api/Profile'
 import { useGetUsersListQuery } from '@Api/User'
+import { PatientDetailCellHandler } from '@Components/Common/CellHandler'
 import DataTable, { ColumnType } from '@Components/Common/DataTable'
 import DataTableWrapper from '@Components/Common/DataTable/DataTableWrapper'
 import LoadingWrapper from '@Components/Common/LoadingWrapper'
+import { CellContext } from '@tanstack/react-table'
 import { loaderCellhandler } from '@Utils/CellHandler'
 import { FormatFullDate } from '@Utils/FormatDate'
 import FormatTableMeta from '@Utils/FormatTableMeta'
@@ -15,7 +17,7 @@ const ApprovalrequestsApproved = () => {
     const { t } = useTranslation()
 
     const { data, isFetching } = useGetApprovalrequestsQuery({ isActive: 1, Isapproved: 1, Isrejected: 0 })
-    const { data: users, isFetching: isUsersFetching } = useGetUsersListQuery({ isActive: 1, Isworker: 1 })
+    const { data: users, isFetching: isUsersFetching } = useGetUsersListQuery({ isActive: 1 })
 
     const TableQuery = useGetTableMetaQuery({ Key: 'approvalrequestsapproved' })
 
@@ -30,6 +32,15 @@ const ApprovalrequestsApproved = () => {
         return user ? `${user.Name} ${user.Surname}` : t('Common.NoDataFound')
     }
 
+    const detailPageCellhandler = (wrapper: CellContext<any, unknown>) => {
+        const data = wrapper.row.original as ApprovalrequestItem
+
+        if (data.Detiallink) {
+            return <PatientDetailCellHandler url={data.Detiallink} />
+        }
+        return null
+    }
+
     const columns: ColumnType<ApprovalrequestItem>[] = [
         { header: t("Common.Columns.Id"), accessorKey: 'Id', isIcon: true },
         { header: t("Common.Columns.Uuid"), accessorKey: 'Uuid' },
@@ -38,6 +49,7 @@ const ApprovalrequestsApproved = () => {
         { header: t('Pages.Approvalrequests.Columns.RequestUserID'), accessorFn: row => userCellhandler(row?.RequestUserID), cell: wrapper => loaderCellhandler(wrapper, isUsersFetching), isMobile: true },
         { header: t('Pages.Approvalrequests.Columns.ApproveTime'), accessorFn: row => dateCellhandler(row?.ApproveTime) },
         { header: t('Pages.Approvalrequests.Columns.ApproveUserID'), accessorFn: row => userCellhandler(row?.ApproveUserID), cell: wrapper => loaderCellhandler(wrapper, isUsersFetching), isMobile: true },
+        { header: t("Common.Columns.detail"), accessorKey: 'detail', isIcon: true, pinned: true, cell: (wrapper) => detailPageCellhandler(wrapper), size: 50 },
     ]
 
     const tableKey = `${isFetching}-${isUsersFetching}`

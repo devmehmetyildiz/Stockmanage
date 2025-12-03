@@ -25,6 +25,7 @@
         "Navbar.Label.Changepassword": "Parola Değiştir",
         "Navbar.Label.Exit": "Çıkış Yap",
         "Navbar.Label.ExitWarning": "Çıkış yapmak istediğine emin misiniz?",
+        "Navbar.Label.ExitHeader": "Uygulamadan Çıkmak Üzeresiniz",
         "Navbar.Label.ExitTitle": "Uygulamadan çıkış yapmak üzeresiniz",
         "Components.Setting.Label.Option": "Seçenekler",
         "Components.Setting.Label.Close": "Kapat",

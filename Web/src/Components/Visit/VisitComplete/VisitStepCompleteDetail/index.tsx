@@ -104,7 +104,7 @@ const VisitStepCompleteDetail: React.FC<VisitStepCompleteDetailProps> = (props) 
                         <Table.Header>
                             <Table.Row>
                                 <Table.HeaderCell>{t('Pages.Visits.Label.Productname')}</Table.HeaderCell>
-                                <Table.HeaderCell>{t('Pages.Visits.Columns.Amount')}</Table.HeaderCell>
+                                <Table.HeaderCell>{t('Pages.Visits.Columns.Returnamount')}</Table.HeaderCell>
                                 <Table.HeaderCell>{t('Pages.Visits.Columns.Description')}</Table.HeaderCell>
                             </Table.Row>
                         </Table.Header>
@@ -147,8 +147,7 @@ const VisitStepCompleteDetail: React.FC<VisitStepCompleteDetailProps> = (props) 
                         <Table.Body>
                             {UsedProducts && UsedProducts.length > 0 ? (
                                 UsedProducts.filter(u => u.Amount > 0).map((product, i) => {
-                                    const visitProduct = (data?.Products || []).find(item => item.Uuid === product.Uuid)
-                                    const stock = (stocks || []).find(item => item.Uuid === visitProduct?.StockID)
+                                    const stock = (stocks || []).find(item => item.Uuid === product.Uuid)
                                     const stockdefine = (stockdefines || []).find(item => item.Uuid === stock?.StockdefineID)
                                     const stockName = stockdefine?.Productname ?? product?.Uuid
 

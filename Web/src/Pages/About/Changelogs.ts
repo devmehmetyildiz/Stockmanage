@@ -73,7 +73,8 @@ const version1_0_0_0_rc: ChangeLogItem = {
         {
             title: 'Kurum Yönetimi',
             commits: [
-                "Menü sıralama düzenlemesi"
+                "Menü sıralama düzenlemesi",
+                "Onay taleplerindeki kullanıcı isim görüntülemede değişiklik",
             ]
         },
         {
@@ -85,7 +86,8 @@ const version1_0_0_0_rc: ChangeLogItem = {
         {
             title: 'Depolar Ve Ürün Yönetimi',
             commits: [
-                "Depolar sayfasına ürün girişi butonu eklendi"
+                "Depolar sayfasına ürün girişi butonu eklendi",
+                "Depolar Detay sayfasına ürün girişi butonu eklendi",
             ]
         },
     ],

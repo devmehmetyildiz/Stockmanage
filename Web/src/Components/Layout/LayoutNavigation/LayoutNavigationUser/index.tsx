@@ -37,7 +37,7 @@ const LayoutNavigationUser: React.FC = () => {
         <Dropdown icon={null} trigger={trigger} basic loading={isLoading}>
             <Dropdown.Menu className='!right-[1%] !left-auto'>
                 <Dropdown.Item>
-                    <Link to={`${Paths.Users}/${Uuid}`} className='text-[#3d3d3d] hover:text-[#3d3d3d]'><Icon className='id card ' />{t('Navbar.Label.Profile')}</Link>
+                    <Link to={`${Paths.Users}/${Uuid}/edit`} className='text-[#3d3d3d] hover:text-[#3d3d3d]'><Icon className='id card ' />{t('Navbar.Label.Profile')}</Link>
                 </Dropdown.Item>
                 <Dropdown.Item>
                     <Link to={Paths.ChangePassword} className='text-[#3d3d3d] hover:text-[#3d3d3d]'> <Icon className='lock' />{t('Navbar.Label.Changepassword')}</Link>
@@ -49,7 +49,7 @@ const LayoutNavigationUser: React.FC = () => {
         </Dropdown>
         <Confirm
             open={open}
-            header='Uygulamadan Çıkmak Üzeresiniz'
+            header={t('Navbar.Label.ExitHeader')}
             content={t('Navbar.Label.ExitWarning')}
             onConfirm={() => {
                 Logout({

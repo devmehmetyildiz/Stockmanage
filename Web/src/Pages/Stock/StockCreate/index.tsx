@@ -82,15 +82,17 @@ const StockCreate: React.FC = () => {
 
     useEffect(() => {
         if (meta) {
+            const urlParams = new URLSearchParams(location.search);
+            const WarehouseID = urlParams.get('WarehouseID');
             reset({
                 Sourcetype: STOCK_SOURCETYPE_USER,
                 SourceID: meta.Uuid,
                 Amount: 0,
                 StockdefineID: '',
-                WarehouseID: ''
+                WarehouseID: WarehouseID || ''
             })
         }
-    }, [meta, reset])
+    }, [meta, location, reset])
 
     return <Pagewrapper isLoading={isLoading || isWarehousesFetching || isStockdefinesFetching || isMetaFetching} direction='vertical' alignTop gap={4}>
         <Title

@@ -24,18 +24,8 @@ const VisitCompleteUsedProducts: React.FC = () => {
 
     const [WarehouseID] = watch(['WarehouseID'])
 
-    const { data: warehouses, isFetching: isWarehousesFetching } = useGetWarehousesQuery({ isActive: 1 })
     const { data: stocks, isFetching: isStocksFetching } = useGetStocksQuery({ isActive: 1, WarehouseID }, { skip: !validator.isUUID(WarehouseID) })
     const { data: stockdefines, isFetching: isStocksdefinesFetching } = useGetStockdefinesQuery({ isActive: 1 })
-
-    const warehouseOpiton: DropdownItemProps[] = useMemo(() => {
-        return (warehouses || []).map(item => {
-            return {
-                value: item.Uuid,
-                text: item.Name
-            }
-        })
-    }, [warehouses])
 
     const stockOpiton: DropdownItemProps[] = useMemo(() => {
         return (stocks || []).map(item => {
@@ -66,7 +56,7 @@ const VisitCompleteUsedProducts: React.FC = () => {
                 disabled: !validator.isUUID(WarehouseID)
             }]}
         />
-        <Form loading={isStocksFetching || isWarehousesFetching || isStocksdefinesFetching}>
+        <Form loading={isStocksFetching || isStocksdefinesFetching}>
             {fields.length === 0 ? <NotfoundScreen text={t('Pages.Visits.Messages.NoUsedProductsFound')} /> : null}
             {fields.map((field, index) => {
                 return <Form.Group key={field.id} widths={'equal'} className='!my-0'>
