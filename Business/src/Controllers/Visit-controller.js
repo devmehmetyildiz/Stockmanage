@@ -113,11 +113,11 @@ async function CreateVisit(req, res, next) {
     if (!validator.isISODate(Visitdate)) {
         validationErrors.push(req.t('Visits.Error.VisitdateRequired'))
     } else {
-        const current = new Date()
+      /*   const current = new Date()
         current.setHours(0, 0, 0, 0)
         if (new Date(Visitdate).getTime() < current.getTime()) {
             validationErrors.push(req.t('Visits.Error.VisitdateCantSmall'))
-        }
+        } */
     }
 
     if (validationErrors.length > 0) {
