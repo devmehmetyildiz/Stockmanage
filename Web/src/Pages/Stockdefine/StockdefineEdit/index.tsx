@@ -98,8 +98,8 @@ const StockdefineEdit: React.FC = () => {
                     <Form.Group widths={'equal'}>
                         <StockdefineAppForm.Input name='Surfacetreatment' label={t('Pages.Stockdefines.Columns.Surfacetreatment')} required={t('Pages.Stockdefines.Messages.SurfacetreatmentRequired')} />
                         <StockdefineAppForm.Input name='Connectiontype' label={t('Pages.Stockdefines.Columns.Connectiontype')} required={t('Pages.Stockdefines.Messages.ConnectiontypeRequired')} />
-                        <StockdefineAppForm.Input name='Suppliername' label={t('Pages.Stockdefines.Columns.Suppliername')} required={t('Pages.Stockdefines.Messages.SuppliernameRequired')} />
-                        <StockdefineAppForm.Input name='Suppliercontact' label={t('Pages.Stockdefines.Columns.Suppliercontact')} required={t('Pages.Stockdefines.Messages.SuppliercontactRequired')} />
+                        <StockdefineAppForm.Input name='Suppliername' label={t('Pages.Stockdefines.Columns.Suppliername')} />
+                        <StockdefineAppForm.Input name='Suppliercontact' label={t('Pages.Stockdefines.Columns.Suppliercontact')} />
                     </Form.Group>
                     <Form.Group widths={'equal'}>
                         <StockdefineAppForm.Input name='Description' label={t('Pages.Stockdefines.Columns.Description')} />

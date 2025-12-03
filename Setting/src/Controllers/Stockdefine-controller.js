@@ -107,12 +107,6 @@ async function AddStockdefine(req, res, next) {
         if (!validator.isString(Connectiontype)) {
             validationErrors.push(req.t('Stockdefines.Error.ConnectiontypeRequired'))
         }
-        if (!validator.isString(Suppliername)) {
-            validationErrors.push(req.t('Stockdefines.Error.SuppliernameRequired'))
-        }
-        if (!validator.isString(Suppliercontact)) {
-            validationErrors.push(req.t('Stockdefines.Error.SuppliercontactRequired'))
-        }
 
         if (validationErrors.length > 0) {
             return next(createValidationError(validationErrors, req.t('Stockdefines'), req.language))
@@ -236,12 +230,6 @@ async function UpdateStockdefine(req, res, next) {
     }
     if (!validator.isString(Connectiontype)) {
         validationErrors.push(req.t('Stockdefines.Error.ConnectiontypeRequired'))
-    }
-    if (!validator.isString(Suppliername)) {
-        validationErrors.push(req.t('Stockdefines.Error.SuppliernameRequired'))
-    }
-    if (!validator.isString(Suppliercontact)) {
-        validationErrors.push(req.t('Stockdefines.Error.SuppliercontactRequired'))
     }
 
     if (validationErrors.length > 0) {
