@@ -67,6 +67,7 @@ const version1_0_0_0_rc: ChangeLogItem = {
                 'Ziyaretler için ücretsiz ziyaret tipi eklendi',
                 'Normal Ziyaretler için satış ziyaretleri alanına taşındı',
                 'Ödeme planı detayından ziyaretlere kısayol eklendi',
+                'Genel aramadan ziyaretlere gitme sağlandı',
             ]
         }
     ],
