@@ -145,6 +145,7 @@ const WarehouseDetail: React.FC = () => {
                     {stocks?.map(stock => (
                         <div key={stock.Uuid}>
                             <Card
+                                onClick={() => navigate(`${Paths.Stocks}/${stock.Uuid}/Movements`)}
                                 link
                                 fluid
                                 className="!rounded-xl !shadow-lg hover:!shadow-md !border border-gray-100 !bg-white transition-all duration-300"
