@@ -86,9 +86,6 @@ async function AddStockdefine(req, res, next) {
         if (!validator.isString(Brand)) {
             validationErrors.push(req.t('Stockdefines.Error.BrandRequired'))
         }
-        if (!validator.isString(Model)) {
-            validationErrors.push(req.t('Stockdefines.Error.ModelRequired'))
-        }
         if (!validator.isString(Category)) {
             validationErrors.push(req.t('Stockdefines.Error.CategoryRequired'))
         }
@@ -209,9 +206,6 @@ async function UpdateStockdefine(req, res, next) {
     }
     if (!validator.isString(Brand)) {
         validationErrors.push(req.t('Stockdefines.Error.BrandRequired'))
-    }
-    if (!validator.isString(Model)) {
-        validationErrors.push(req.t('Stockdefines.Error.ModelRequired'))
     }
     if (!validator.isString(Category)) {
         validationErrors.push(req.t('Stockdefines.Error.CategoryRequired'))

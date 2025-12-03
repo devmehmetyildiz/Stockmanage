@@ -69,7 +69,7 @@ const StockdefineCreate: React.FC = () => {
                         <StockdefineAppForm.Input name='Productname' label={t('Pages.Stockdefines.Columns.Productname')} required={t('Pages.Stockdefines.Messages.ProductnameRequired')} />
                         <StockdefineAppForm.Input name='Barcodeno' label={t('Pages.Stockdefines.Columns.Barcodeno')} required={t('Pages.Stockdefines.Messages.BarcodenoRequired')} />
                         <StockdefineAppForm.Input name='Brand' label={t('Pages.Stockdefines.Columns.Brand')} required={t('Pages.Stockdefines.Messages.BrandRequired')} />
-                        <StockdefineAppForm.Input name='Model' label={t('Pages.Stockdefines.Columns.Model')} required={t('Pages.Stockdefines.Messages.ModelRequired')} />
+                        <StockdefineAppForm.Input name='Model' label={t('Pages.Stockdefines.Columns.Model')} />
                     </Form.Group>
                     <Form.Group widths={'equal'}>
                         <StockdefineAppForm.Input name='Category' label={t('Pages.Stockdefines.Columns.Category')} required={t('Pages.Stockdefines.Messages.CategoryRequired')} />
