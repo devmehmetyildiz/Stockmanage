@@ -16,6 +16,7 @@ import FormButton from '@Components/Common/FormButton'
 import PaymentplantransactionApproveModal from '@Components/Paymentplantransaction/PaymentplantransactionApproveModal'
 import { PaymentplanTransactionItem } from '@Api/Paymentplan/type'
 import { VISIT_TYPE_SALEVISIT } from '@Constant/index'
+import Paths from '@Constant/path'
 
 const PaymentplanDetail: React.FC = () => {
   const { t } = useTranslation()
@@ -46,6 +47,14 @@ const PaymentplanDetail: React.FC = () => {
         PageName={t('Pages.Paymentplans.Page.Header')}
         PageUrl="/Paymentplans"
         AdditionalName={visit?.Visitcode}
+        additionalButtons={[
+          {
+            name: t('Pages.Paymentplans.Label.GoVisit'),
+            onClick: () => {
+              navigate(`${Paths.Visits}/${visit?.Uuid}/Detail`)
+            }
+          }
+        ]}
       />
 
       <LoadingWrapper loading={isPlanFetching}>

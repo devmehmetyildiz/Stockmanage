@@ -768,6 +768,7 @@
         "Pages.Paymentplans.Label.Details": "Plan Detayı",
         "Pages.Paymentplans.Label.Paid": "Ödenen Tutar",
         "Pages.Paymentplans.Label.Installments": "Taksitler",
+        "Pages.Paymentplans.Label.GoVisit": "Ziyarete Git",
         "Pages.Paymentplans.Messages.UndefinedPaymentplan": "Tanımsız Ödeme Planı",
         "Pages.Paymentplans.InstallmentcountRequired": "Taksit adeti gerekli",
         "Pages.Paymentplans.InstallmentintervalRequired": "Taksit döngüsü gerekli",

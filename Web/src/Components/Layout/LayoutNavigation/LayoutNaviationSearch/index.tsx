@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import { Search } from 'semantic-ui-react'
 import styles from './style.module.scss'
 import Paths from '@Constant/path'
+import { useGetVisitsQuery } from '@Api/Visit'
 
 const LayoutNaviationSearch: React.FC = () => {
 
@@ -14,6 +15,7 @@ const LayoutNaviationSearch: React.FC = () => {
     const [searchWord, setSearchWord] = useState('')
 
     const { data, isFetching } = useGetPrivilegesQuery()
+    const { data: visits, isFetching: isVisitsFetching } = useGetVisitsQuery()
 
     const userPrivileges = data || [] as string[]
 
@@ -25,7 +27,9 @@ const LayoutNaviationSearch: React.FC = () => {
 
     const baseSearchdata = sidebarRoutes.map(u => {
         return { title: u.subtitle, url: u.url, key: Math.random() }
-    })
+    }).concat((visits || []).map(visit => {
+        return { title: visit.Visitcode, url: `${Paths.Visits}/${visit.Uuid}/Detail`, key: Math.random() }
+    }))
 
     const searchdata = baseSearchdata.filter(u => {
         const decoratedSearchWord = searchWord.trim().toLocaleLowerCase('tr').replace(/\s+/g, '')
@@ -37,7 +41,7 @@ const LayoutNaviationSearch: React.FC = () => {
         input={{ icon: 'search', iconPosition: 'left' }}
         placeholder={t('Components.LayoutNaviationSearch.Placeholder')}
         className={styles.menusearch}
-        loading={isFetching}
+        loading={isFetching || isVisitsFetching}
         noResultsMessage={t('Components.LayoutNaviationSearch.NoResult')}
         onResultSelect={(_, data) => {
             setSearchWord('')

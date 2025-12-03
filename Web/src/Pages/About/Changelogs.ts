@@ -66,6 +66,7 @@ const version1_0_0_0_rc: ChangeLogItem = {
             commits: [
                 'Ziyaretler için ücretsiz ziyaret tipi eklendi',
                 'Normal Ziyaretler için satış ziyaretleri alanına taşındı',
+                'Ödeme planı detayından ziyaretlere kısayol eklendi',
             ]
         }
     ],
@@ -89,6 +90,7 @@ const version1_0_0_0_rc: ChangeLogItem = {
                 "Depolar sayfasına ürün girişi butonu eklendi",
                 "Depolar Detay sayfasına ürün girişi butonu eklendi",
                 "Ürün tanımlarındaki tedarikçi zorunlulukları kaldırıldı",
+                "Depo detayında ürüne tıklanarak harekete gidebilme sağlandı",
             ]
         },
     ],
