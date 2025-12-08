@@ -435,11 +435,11 @@ async function UpdateVisitDefines(req, res, next) {
     if (!validator.isISODate(Visitdate)) {
         validationErrors.push(req.t('Visits.Error.VisitdateRequired'))
     } else {
-        const current = new Date()
+      /*   const current = new Date()
         current.setHours(0, 0, 0, 0)
         if (new Date(Visitdate).getTime() < current.getTime()) {
             validationErrors.push(req.t('Visits.Error.VisitdateCantSmall'))
-        }
+        } */
     }
 
     if (validationErrors.length > 0) {
@@ -683,9 +683,6 @@ async function UpdateVisitPaymentDefines(req, res, next) {
 
     if (!validator.isUUID(VisitID)) {
         validationErrors.push(req.t('Visits.Error.VisitIDRequired'))
-    }
-    if (!validator.isUUID(PaymenttypeID)) {
-        validationErrors.push(req.t('Visits.Error.PaymenttypeIDRequired'))
     }
     if (!validator.isNumber(Scheduledpayment) || Scheduledpayment <= 0) {
         validationErrors.push(req.t('Visits.Error.ScheduledpaymentRequired'))

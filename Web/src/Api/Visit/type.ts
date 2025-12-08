@@ -3,7 +3,7 @@ import { DefaultRequestType } from "@Constant/common";
 export interface VisitListRequest extends DefaultRequestType {
     Visittype?: number;
     Status?: number;
-    UserID?: string
+    WorkerUserID?: string
 }
 
 export interface VisitRequest {

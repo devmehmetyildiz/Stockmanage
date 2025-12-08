@@ -104,8 +104,8 @@ const ApprovalrequestsWaitingApprove: React.FC<ApprovalrequestsWaitingApprovePro
         { header: t('Pages.Approvalrequests.Columns.RequestUserID'), accessorFn: row => userCellhandler(row?.RequestUserID), cell: wrapper => loaderCellhandler(wrapper, isUsersFetching), isMobile: true },
         { header: t('Pages.Approvalrequests.Columns.Comment'), accessorKey: 'Comment' },
         { header: t("Common.Columns.detail"), accessorKey: 'detail', isIcon: true, pinned: true, cell: (wrapper) => detailPageCellhandler(wrapper), size: 50 },
-        { header: t("Common.Columns.approve"), accessorKey: 'approve', isIcon: true, pinned: true, role: privileges.approvalrequestupdate, cell: (wrapper) => approveCellhandler(wrapper), size: 45, hidden: multiProcessOpen },
-        { header: t("Common.Button.Reject"), accessorKey: 'reject', isIcon: true, pinned: true, role: privileges.approvalrequestupdate, cell: (wrapper) => rejectCellhandler(wrapper), size: 45, hidden: multiProcessOpen },
+        { header: t("Common.Columns.approve"), accessorKey: 'approve', isIcon: true, pinned: true, role: privileges.approvalrequestupdate, cell: (wrapper) => approveCellhandler(wrapper), size: 55, hidden: multiProcessOpen },
+        { header: t("Common.Button.Reject"), accessorKey: 'reject', isIcon: true, pinned: true, role: privileges.approvalrequestupdate, cell: (wrapper) => rejectCellhandler(wrapper), size: 55, hidden: multiProcessOpen },
         { header: '', accessorKey: 'check', cell: wrapper => checkCellhandler(wrapper), isIcon: true, pinned: true, size: 10, hidden: !multiProcessOpen },
     ]
 

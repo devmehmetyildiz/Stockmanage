@@ -28,7 +28,7 @@ const VisitOnapprove: React.FC = () => {
     const [record, setRecord] = useState<VisitListItem | null>(null)
     const { isHasPrivilege, isMetaLoading, isSuccess, UserID } = useHasPrivileges(privileges.visitmanageall)
 
-    const { data, isFetching } = useGetVisitsQuery({ Visittype: VISIT_TYPE_SALEVISIT, Status: VISIT_STATU_ON_APPROVE, UserID: isHasPrivilege ? UserID : undefined, isActive: 1 }, { skip: !isSuccess })
+    const { data, isFetching } = useGetVisitsQuery({ Visittype: VISIT_TYPE_SALEVISIT, Status: VISIT_STATU_ON_APPROVE, WorkerUserID: isHasPrivilege ? UserID : undefined, isActive: 1 }, { skip: !isSuccess })
 
     const { data: users, isFetching: isUsersFetching } = useGetUsersListQuery({ isActive: 1 })
 
@@ -88,7 +88,7 @@ const VisitOnapprove: React.FC = () => {
         { header: t("Common.Columns.Updateduser"), accessorKey: 'Updateduser' },
         { header: t("Common.Columns.Updatetime"), accessorKey: 'Updatetime', accessorFn: row => dateCellhandler(row?.Updatetime) },
         { header: t("Common.Columns.detail"), accessorKey: 'detail', isIcon: true, pinned: true, role: privileges.visitview, cell: (wrapper) => detailCellhandler(wrapper), size: 45 },
-        { header: t("Common.Columns.work"), accessorKey: 'work', isIcon: true, pinned: true, role: privileges.visitupdate, cell: (wrapper) => workCellhandler(wrapper), size: 45 },
+        { header: t("Common.Columns.work"), accessorKey: 'work', isIcon: true, pinned: true, role: privileges.visitupdate, cell: (wrapper) => workCellhandler(wrapper), size: 55 },
         { header: t("Common.Columns.delete"), accessorKey: 'delete', isIcon: true, pinned: true, role: privileges.visitdelete, cell: (wrapper) => deleteCellhandler(wrapper), size: 45 },
     ]
 

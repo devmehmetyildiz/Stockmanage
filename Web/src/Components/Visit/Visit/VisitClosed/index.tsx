@@ -26,7 +26,7 @@ const VisitClosed: React.FC = () => {
     const { t } = useTranslation()
     const { isHasPrivilege, isMetaLoading, isSuccess, UserID } = useHasPrivileges(privileges.visitmanageall)
 
-    const { data, isFetching } = useGetVisitsQuery({ Visittype: VISIT_TYPE_SALEVISIT, Status: VISIT_STATU_CLOSED, UserID: isHasPrivilege ? UserID : undefined, isActive: 1 }, { skip: !isSuccess })
+    const { data, isFetching } = useGetVisitsQuery({ Visittype: VISIT_TYPE_SALEVISIT, Status: VISIT_STATU_CLOSED, WorkerUserID: isHasPrivilege ? UserID : undefined, isActive: 1 }, { skip: !isSuccess })
 
     const { data: users, isFetching: isUsersFetching } = useGetUsersListQuery({ isActive: 1 })
     const { data: doctordefines, isFetching: isDoctordefinesFetching } = useGetDoctordefinesQuery({ isActive: 1 })

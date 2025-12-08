@@ -26,7 +26,7 @@ const VisitWorking: React.FC = () => {
 
     const { isHasPrivilege, isMetaLoading, isSuccess, UserID } = useHasPrivileges(privileges.visitmanageall)
 
-    const { data, isFetching } = useGetVisitsQuery({ Visittype: VISIT_TYPE_SALEVISIT, Status: VISIT_STATU_WORKING, UserID: isHasPrivilege ? UserID : undefined, isActive: 1 }, { skip: !isSuccess })
+    const { data, isFetching } = useGetVisitsQuery({ Visittype: VISIT_TYPE_SALEVISIT, Status: VISIT_STATU_WORKING, WorkerUserID: isHasPrivilege ? UserID : undefined, isActive: 1 }, { skip: !isSuccess })
     const { data: users, isFetching: isUsersFetching } = useGetUsersListQuery({ isActive: 1 })
     const { data: doctordefines, isFetching: isDoctordefinesFetching } = useGetDoctordefinesQuery({ isActive: 1 })
     const { data: locations, isFetching: isLocationsFetching } = useGetLocationsQuery({ isActive: 1 })
@@ -107,8 +107,8 @@ const VisitWorking: React.FC = () => {
         { header: t("Common.Columns.Updateduser"), accessorKey: 'Updateduser' },
         { header: t("Common.Columns.Updatetime"), accessorKey: 'Updatetime', accessorFn: row => dateCellhandler(row?.Updatetime) },
         { header: t("Pages.Visits.Columns.EditPaymentDefines"), accessorKey: 'editPaymentDefines', isIcon: true, pinned: true, role: privileges.visitupdate, cell: (wrapper) => editDefinesCellhandler(wrapper), size: 45 },
-        { header: t("Common.Columns.complete"), accessorKey: 'complete', isIcon: true, pinned: true, role: privileges.visitupdate, cell: (wrapper) => completeCellhandler(wrapper), size: 45 },
-        { header: t("Common.Columns.detail"), accessorKey: 'detail', isIcon: true, pinned: true, role: privileges.visitview, cell: (wrapper) => detailCellhandler(wrapper), size: 45 },
+        { header: t("Common.Columns.complete"), accessorKey: 'complete', isIcon: true, pinned: true, role: privileges.visitupdate, cell: (wrapper) => completeCellhandler(wrapper), size: 70 },
+        { header: t("Common.Columns.detail"), accessorKey: 'detail', isIcon: true, pinned: true, role: privileges.visitview, cell: (wrapper) => detailCellhandler(wrapper), size: 50 },
     ]
 
     const tableKey = `${isUsersFetching}-${isDoctordefinesFetching}-${isLocationsFetching}-${isPaymenttypesFetching}`

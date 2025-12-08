@@ -24,13 +24,13 @@ const FreeVisitCompleted: React.FC = () => {
     const { t } = useTranslation()
     const { isHasPrivilege, isMetaLoading, isSuccess, UserID } = useHasPrivileges(privileges.visitmanageall)
 
-    const { data, isFetching } = useGetVisitsQuery({ Visittype: VISIT_TYPE_FREEVISIT, Status: VISIT_STATU_COMPLETED, UserID: isHasPrivilege ? UserID : undefined, isActive: 1 }, { skip: !isSuccess })
+    const { data, isFetching } = useGetVisitsQuery({ Visittype: VISIT_TYPE_FREEVISIT, Status: VISIT_STATU_COMPLETED, WorkerUserID: isHasPrivilege ? UserID : undefined, isActive: 1 }, { skip: !isSuccess })
 
     const { data: users, isFetching: isUsersFetching } = useGetUsersListQuery({ isActive: 1 })
     const { data: doctordefines, isFetching: isDoctordefinesFetching } = useGetDoctordefinesQuery({ isActive: 1 })
     const { data: locations, isFetching: isLocationsFetching } = useGetLocationsQuery({ isActive: 1 })
 
-    const TableQuery = useGetTableMetaQuery({ Key: 'visitcompleted' })
+    const TableQuery = useGetTableMetaQuery({ Key: 'freevisit' })
 
     const initialConfig = FormatTableMeta(TableQuery.data)
 

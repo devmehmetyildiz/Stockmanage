@@ -32,7 +32,7 @@ const VisitPlanned: React.FC = () => {
 
     const { isHasPrivilege, isMetaLoading, isSuccess, UserID } = useHasPrivileges(privileges.visitmanageall)
 
-    const { data, isFetching } = useGetVisitsQuery({ Visittype: VISIT_TYPE_SALEVISIT, Status: VISIT_STATU_PLANNED, UserID: isHasPrivilege ? UserID : undefined, isActive: 1 }, { skip: !isSuccess })
+    const { data, isFetching } = useGetVisitsQuery({ Visittype: VISIT_TYPE_SALEVISIT, Status: VISIT_STATU_PLANNED, WorkerUserID: isHasPrivilege ? UserID : undefined, isActive: 1 }, { skip: !isSuccess })
 
     const { data: users, isFetching: isUsersFetching } = useGetUsersListQuery({ isActive: 1 })
     const { data: doctordefines, isFetching: isDoctordefinesFetching } = useGetDoctordefinesQuery({ isActive: 1 })
@@ -137,10 +137,10 @@ const VisitPlanned: React.FC = () => {
         { header: t("Common.Columns.Createtime"), accessorKey: 'Createtime', accessorFn: row => dateCellhandler(row?.Createtime) },
         { header: t("Common.Columns.Updateduser"), accessorKey: 'Updateduser' },
         { header: t("Common.Columns.Updatetime"), accessorKey: 'Updatetime', accessorFn: row => dateCellhandler(row?.Updatetime) },
-        { header: t("Pages.Visits.Columns.EditProducts"), accessorKey: 'editProducts', isIcon: true, pinned: true, role: privileges.visitupdate, cell: (wrapper) => editProductsCellhandler(wrapper), size: 45 },
-        { header: t("Pages.Visits.Columns.EditDefines"), accessorKey: 'editDefines', isIcon: true, pinned: true, role: privileges.visitupdate, cell: (wrapper) => editDefinesCellhandler(wrapper), size: 45 },
-        { header: t("Common.Columns.detail"), accessorKey: 'detail', isIcon: true, pinned: true, role: privileges.visitview, cell: (wrapper) => detailCellhandler(wrapper), size: 45 },
-        { header: t("Common.Columns.sendApprove"), accessorKey: 'work', isIcon: true, pinned: true, role: privileges.visitupdate, cell: (wrapper) => sendApproveCellhandler(wrapper), size: 45 },
+        { header: t("Pages.Visits.Columns.EditProducts"), accessorKey: 'editProducts', isIcon: true, pinned: true, role: privileges.visitupdate, cell: (wrapper) => editProductsCellhandler(wrapper), size: 80 },
+        { header: t("Pages.Visits.Columns.EditDefines"), accessorKey: 'editDefines', isIcon: true, pinned: true, role: privileges.visitupdate, cell: (wrapper) => editDefinesCellhandler(wrapper), size: 130 },
+        { header: t("Common.Columns.detail"), accessorKey: 'detail', isIcon: true, pinned: true, role: privileges.visitview, cell: (wrapper) => detailCellhandler(wrapper), size: 50 },
+        { header: t("Common.Columns.sendApprove"), accessorKey: 'work', isIcon: true, pinned: true, role: privileges.visitupdate, cell: (wrapper) => sendApproveCellhandler(wrapper), size: 100 },
         { header: t("Common.Columns.delete"), accessorKey: 'delete', isIcon: true, pinned: true, role: privileges.visitupdate, cell: (wrapper) => deleteCellhandler(wrapper), size: 45 },
     ]
 
