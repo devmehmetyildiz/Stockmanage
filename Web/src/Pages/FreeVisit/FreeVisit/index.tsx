@@ -21,9 +21,9 @@ const FreeVisit: React.FC = () => {
 
     const { isHasPrivilege, isMetaLoading, isSuccess, UserID } = useHasPrivileges(privileges.visitmanageall)
 
-    const { data: plannedCount, isFetching: isPlannedFetching } = useGetVisitsCountQuery({ Visittype: VISIT_TYPE_FREEVISIT, Status: VISIT_STATU_PLANNED, UserID: isHasPrivilege ? UserID : undefined, isActive: 1 }, { skip: !isSuccess })
-    const { data: workingCount, isFetching: isWorkingFetching } = useGetVisitsCountQuery({ Visittype: VISIT_TYPE_FREEVISIT, Status: VISIT_STATU_WORKING, UserID: isHasPrivilege ? UserID : undefined, isActive: 1 }, { skip: !isSuccess })
-    const { data: completedCount, isFetching: isCompletedFetching } = useGetVisitsCountQuery({ Visittype: VISIT_TYPE_FREEVISIT, Status: VISIT_STATU_COMPLETED, UserID: isHasPrivilege ? UserID : undefined, isActive: 1 }, { skip: !isSuccess })
+    const { data: plannedCount, isFetching: isPlannedFetching } = useGetVisitsCountQuery({ Visittype: VISIT_TYPE_FREEVISIT, Status: VISIT_STATU_PLANNED, WorkerUserID: isHasPrivilege ? UserID : undefined, isActive: 1 }, { skip: !isSuccess })
+    const { data: workingCount, isFetching: isWorkingFetching } = useGetVisitsCountQuery({ Visittype: VISIT_TYPE_FREEVISIT, Status: VISIT_STATU_WORKING, WorkerUserID: isHasPrivilege ? UserID : undefined, isActive: 1 }, { skip: !isSuccess })
+    const { data: completedCount, isFetching: isCompletedFetching } = useGetVisitsCountQuery({ Visittype: VISIT_TYPE_FREEVISIT, Status: VISIT_STATU_COMPLETED, WorkerUserID: isHasPrivilege ? UserID : undefined, isActive: 1 }, { skip: !isSuccess })
 
     const { activeTab, setActiveTab } = useTabNavigation({
         mainRoute: RouteKeys.FreeVisits,
