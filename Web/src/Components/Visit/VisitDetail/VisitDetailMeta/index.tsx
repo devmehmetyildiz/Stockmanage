@@ -5,7 +5,6 @@ import VisitDetailLabel from '../VisitDetailLabel';
 import { FormatDate } from '@Utils/FormatDate';
 import { useTranslation } from 'react-i18next';
 import LoadingWrapper from '@Components/Common/LoadingWrapper';
-import { useGetWarehouseQuery } from '@Api/Warehouse';
 import { useGetDoctordefineQuery } from '@Api/Doctordefine';
 import { useGetLocationQuery } from '@Api/Location';
 import validator from '@Utils/Validator';
@@ -35,7 +34,6 @@ const VisitDetailMeta: React.FC<VisitDetailMetaProps> = (props) => {
     const navigate = useNavigate()
 
     const { data: users, isFetching: isUsersFetching } = useGetUsersListQuery({ isActive: 1 });
-    const { data: warehouse, isFetching: isWarehouseFetching } = useGetWarehouseQuery({ Uuid: data?.WarehouseID ?? '' }, { skip: !validator.isUUID(data?.WarehouseID) });
     const { data: doctordefine, isFetching: isDoctordefinesFetching } = useGetDoctordefineQuery({ Uuid: data?.DoctorID ?? '' }, { skip: !validator.isUUID(data?.DoctorID) });
     const { data: location, isFetching: isLocationsFetching } = useGetLocationQuery({ Uuid: data?.LocationID ?? '' }, { skip: !validator.isUUID(data?.LocationID) });
     const { data: paymenttype, isFetching: isPaymenttypesFetching } = useGetPaymenttypeQuery({ Uuid: data?.PaymenttypeID ?? '' }, { skip: !validator.isUUID(data?.PaymenttypeID) });
@@ -77,7 +75,7 @@ const VisitDetailMeta: React.FC<VisitDetailMetaProps> = (props) => {
     const scheduledPayment = data?.Scheduledpayment ?? 0;
 
 
-    return <LoadingWrapper loading={isWarehouseFetching || isDoctordefinesFetching || isLocationsFetching || isUsersFetching || isPaymenttypesFetching}>
+    return <LoadingWrapper loading={isDoctordefinesFetching || isLocationsFetching || isUsersFetching || isPaymenttypesFetching}>
         <motion.div
             initial={{ opacity: 0, y: 30, scale: 0.97 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -170,11 +168,6 @@ const VisitDetailMeta: React.FC<VisitDetailMetaProps> = (props) => {
                         icon="map marker alternate"
                         label={t('Pages.Visits.Columns.LocationID')}
                         value={location?.Name ?? t('Common.NoDataFound')}
-                    />
-                    <VisitDetailLabel
-                        icon="warehouse"
-                        label={t('Pages.Visits.Columns.WarehouseID')}
-                        value={warehouse?.Name ?? t('Common.NoDataFound')}
                     />
                     <VisitDetailLabel
                         icon="money bill alternate"
