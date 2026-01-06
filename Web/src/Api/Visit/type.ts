@@ -14,8 +14,10 @@ export interface VisitProductItem {
     Id: number;
     Uuid: string;
     VisitID: string
+    WarehouseID: string;
     StockID: string
     Amount: number
+    Returnedamount: number
     Istaken: boolean
     IsReturned: boolean
     Description: string
@@ -37,7 +39,6 @@ export interface VisitListItem {
     DoctorID: string;
     LocationID: string;
     PaymenttypeID: string;
-    WarehouseID: string;
     Visitdate: Date;
     Visitstartdate: Date | null;
     Visitenddate: Date | null;
@@ -67,6 +68,7 @@ export interface VisitItem extends VisitListItem {
 
 export interface VisitStockItem {
     Uuid: string
+    WarehouseID: string,
     Amount: number
     Description: string
 }
@@ -77,7 +79,6 @@ export interface VisitCreateRequest {
     WorkerUserID: string,
     ResponsibleUserID: string,
     DoctorID: string,
-    WarehouseID: string,
     LocationID: string,
     PaymenttypeID: string,
     Visitdate: Date,
@@ -102,7 +103,6 @@ export interface VisitCreateFreeVisitRequest {
 
 export interface VisitUpdateStocksRequest {
     VisitID: string,
-    WarehouseID: string,
     Stocks: VisitStockItem[]
 }
 

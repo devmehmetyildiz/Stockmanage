@@ -5,7 +5,7 @@ import { useGetWarehousesQuery } from '@Api/Warehouse'
 import Title from '@Components/Common/Title'
 import { createAppForm } from '@Utils/CreateAppForm'
 import validator from '@Utils/Validator'
-import React, { useEffect, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { useFieldArray, useFormContext } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { DropdownItemProps, Form, Icon } from 'semantic-ui-react'
@@ -18,12 +18,12 @@ const VisitCreateStockForm: React.FC = () => {
 
     const { watch, setValue } = useFormContext<VisitCreateRequest>()
 
+    const selectedStocks = watch('Stocks')
+
     const { fields, append, remove } = useFieldArray<VisitCreateRequest>({ name: 'Stocks' })
 
-    const [WarehouseID] = watch(['WarehouseID'])
-
     const { data: warehouses, isFetching: isWarehousesFetching } = useGetWarehousesQuery({ isActive: 1 })
-    const { data: stocks, isFetching: isStocksFetching } = useGetStocksQuery({ isActive: 1, WarehouseID }, { skip: !validator.isUUID(WarehouseID) })
+    const { data: stocks, isFetching: isStocksFetching } = useGetStocksQuery({ isActive: 1 })
     const { data: stockdefines, isFetching: isStocksdefinesFetching } = useGetStockdefinesQuery({ isActive: 1 })
 
     const warehouseOpiton: DropdownItemProps[] = useMemo(() => {
@@ -40,16 +40,11 @@ const VisitCreateStockForm: React.FC = () => {
             const define = (stockdefines || []).find(u => u.Uuid === item.StockdefineID)
             return {
                 value: item.Uuid,
-                text: `${define?.Productname} (${define?.Barcodeno}) Depoda ${item.TotalAmount} Adet`
+                text: `${define?.Brand} ${define?.Productname} (${define?.Barcodeno}) Depoda ${item.TotalAmount} Adet`,
+                warehouseID: item.WarehouseID
             }
         })
     }, [stocks, stockdefines])
-
-    useEffect(() => {
-        if (WarehouseID) {
-            setValue('Stocks', [])
-        }
-    }, [WarehouseID, setValue])
 
     return <>
         <Title
@@ -58,20 +53,40 @@ const VisitCreateStockForm: React.FC = () => {
                 name: t('Pages.Visits.Label.Addstock'),
                 onClick: () => append({
                     Amount: 0,
+                    WarehouseID: '',
                     Description: '',
                     Uuid: ''
                 }),
-                disabled: !validator.isUUID(WarehouseID)
             }]}
         />
         <Form loading={isStocksFetching || isWarehousesFetching || isStocksdefinesFetching}>
-            <Form.Group widths={'equal'}>
-                <VisitAppForm.Select name={`WarehouseID`} label={t('Pages.Visits.Columns.WarehouseID')} options={warehouseOpiton} />
-            </Form.Group>
             {fields.map((field, index) => {
+
+                const selectedStock = selectedStocks ? selectedStocks[index] : null
+
                 return <Form.Group key={field.id} widths={'equal'} className='!my-0'>
-                    <VisitAppForm.Select name={`Stocks.${index}.Uuid`} label={index === 0 ? t('Pages.Visits.Columns.StockProductName') : undefined} options={stockOpiton} required={t('Pages.Visits.Messages.StockProductNameReqired')} />
-                    <VisitAppForm.Input name={`Stocks.${index}.Amount`} label={index === 0 ? t('Pages.Visits.Columns.Amount') : undefined} type='number' inputProps={{ min: 0 }} required={t('Pages.Visits.Messages.AmountReqired')}
+                    <VisitAppForm.Select name={`Stocks.${index}.WarehouseID`}
+                        label={index === 0 ? t('Pages.Visits.Columns.WarehouseID') : undefined}
+                        options={warehouseOpiton}
+                        required={t('Pages.Visits.Messages.WarehouseRequired')}
+                        additionalOnchange={() => {
+                            setValue(`Stocks.${index}.Uuid`, '')
+                            setValue(`Stocks.${index}.Amount`, 0)
+                        }}
+                        searchable
+                    />
+                    <VisitAppForm.Select
+                        name={`Stocks.${index}.Uuid`} label={index === 0 ? t('Pages.Visits.Columns.StockProductName') : undefined}
+                        options={stockOpiton.filter(u => u.warehouseID === selectedStock?.WarehouseID)}
+                        required={t('Pages.Visits.Messages.StockProductNameReqired')}
+                        disabled={!validator.isUUID(selectedStock?.WarehouseID)}
+                        searchable
+                    />
+                    <VisitAppForm.Input
+                        name={`Stocks.${index}.Amount`} label={index === 0 ? t('Pages.Visits.Columns.Amount') : undefined}
+                        type='number'
+                        inputProps={{ min: 0 }}
+                        required={t('Pages.Visits.Messages.AmountReqired')}
                         rules={{
                             validate: (value: any) => {
                                 if (validator.isNumber(value) && value > 0) {

@@ -74,7 +74,7 @@ const FormInput = <T extends object>(props: FormInputProps<T>) => {
                         {divider === 'top' && <Divider />}
                         <div className='flex flex-row gap-2 justify-start items-center mb-2'>
                             {label && <label className='!text-[#000000DE]'>{label}</label>}
-                            {(label && (required || rules)) && <Popup
+                            {(label && (required || rules?.required)) && <Popup
                                 trigger={<div><Icon color='black' className='cursor-pointer' name='attention' /></div>}
                                 content={<Label color='red' ribbon>{t('Common.Attention')}</Label>}
                                 on='click'

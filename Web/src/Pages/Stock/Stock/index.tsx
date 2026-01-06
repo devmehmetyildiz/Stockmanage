@@ -38,11 +38,15 @@ const Stock: React.FC = () => {
         return stockdefine ? stockdefine.Productname : t('Common.NoDataFound')
     }
 
+    const stockdefineBrandCellhandler = (value: string) => {
+        const stockdefine = (stockdefines || []).find(u => u.Uuid === value)
+        return stockdefine ? stockdefine.Brand : t('Common.NoDataFound')
+    }
+
     const warehouseCellhandler = (value: string) => {
         const warehouse = (warehouses || []).find(u => u.Uuid === value)
         return warehouse ? warehouse.Name : t('Common.NoDataFound')
     }
-
 
     const movementCellhandler = (wrapper: CellContext<any, unknown>) => {
         const data = wrapper.row.original as StockItem
@@ -63,6 +67,7 @@ const Stock: React.FC = () => {
         { header: t("Common.Columns.Id"), accessorKey: 'Id', isIcon: true },
         { header: t("Common.Columns.Uuid"), accessorKey: 'Uuid' },
         { header: t('Pages.Stocks.Columns.WarehouseID'), accessorKey: 'WarehouseID', isMobile: true, accessorFn: row => warehouseCellhandler(row.WarehouseID), cell: wrapper => loaderCellhandler(wrapper, isWarehousesFetching) },
+        { header: t('Pages.Stocks.Columns.Brand'), accessorKey: 'Brand', accessorFn: row => stockdefineBrandCellhandler(row.StockdefineID), cell: wrapper => loaderCellhandler(wrapper, isStockdefinesFetching) },
         { header: t('Pages.Stocks.Columns.StockdefineID'), accessorKey: 'StockdefineID', isMobile: true, accessorFn: row => stockdefineCellhandler(row.StockdefineID), cell: wrapper => loaderCellhandler(wrapper, isStockdefinesFetching) },
         { header: t('Pages.Stocks.Columns.TotalAmount'), accessorKey: 'TotalAmount' },
         { header: t("Common.Columns.movement"), accessorKey: 'movement', isIcon: true, pinned: true, role: privileges.stockview, cell: (wrapper) => movementCellhandler(wrapper), size: 45 },

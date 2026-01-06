@@ -15,6 +15,7 @@ export interface FormSelectProps<T extends object> {
     additionalIcon?: React.ReactElement<any> | React.ReactElement<any>[]
     disabled?: boolean | undefined
     additionalOnchange?: () => void
+    searchable?: boolean
 }
 
 const FormSelect = <T extends object>(props: FormSelectProps<T>) => {
@@ -23,7 +24,7 @@ const FormSelect = <T extends object>(props: FormSelectProps<T>) => {
 
     const { t } = useTranslation()
 
-    const { label, name, divider, rules, required, multiple, options, loading, additionalIcon, disabled, additionalOnchange } = props
+    const { label, name, divider, rules, required, multiple, options, loading, additionalIcon, disabled, additionalOnchange, searchable } = props
 
     const getErrorFromErrors = (formErrors: any, formKey: string) => {
         if (formKey && formKey.length > 0 && formKey.includes('.')) {
@@ -79,6 +80,7 @@ const FormSelect = <T extends object>(props: FormSelectProps<T>) => {
                         {...field}
                         clearable
                         fluid
+                        search={searchable}
                         placeholder={label}
                         options={options}
                         multiple={multiple}

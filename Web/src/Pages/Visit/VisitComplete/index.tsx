@@ -106,12 +106,12 @@ const VisitComplete: React.FC = () => {
                 .then((data) => {
                     reset({
                         VisitID: data.Uuid,
-                        WarehouseID: data.WarehouseID,
                         Returnedproducts: (data.Products || []).map(item => {
                             return {
                                 Uuid: item.Uuid,
                                 Amount: 0,
-                                Description: ''
+                                Description: '',
+                                WarehouseID: item.WarehouseID
                             }
                         }),
                         Startdate: SuppressDate(new Date()),

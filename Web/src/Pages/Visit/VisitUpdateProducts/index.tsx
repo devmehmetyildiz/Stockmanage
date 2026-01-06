@@ -1,6 +1,5 @@
 import { useEditVisitStocksMutation, useLazyGetVisitQuery } from '@Api/Visit'
 import { VisitUpdateStocksRequest } from '@Api/Visit/type'
-import { useGetWarehousesQuery } from '@Api/Warehouse'
 import Contentwrapper from '@Components/Common/Contentwrapper'
 import FormButton from '@Components/Common/FormButton'
 import FormFooter from '@Components/Common/FormFooter'
@@ -9,16 +8,12 @@ import Title from '@Components/Common/Title'
 import VisitUpdateProductsForm from '@Components/Visit/VisitUpdateProduct/VisitUpdateProductsForm'
 import Paths from '@Constant/path'
 import CheckForm from '@Utils/CheckForm'
-import { createAppForm } from '@Utils/CreateAppForm'
 import Pushnotification from '@Utils/Pushnotification'
 import validator from '@Utils/Validator'
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { useNavigate, useParams } from 'react-router-dom'
-import { DropdownItemProps, Form } from 'semantic-ui-react'
-
-const VisitAppForm = createAppForm<VisitUpdateStocksRequest>()
 
 const VisitUpdateProducts: React.FC = () => {
 
@@ -30,23 +25,11 @@ const VisitUpdateProducts: React.FC = () => {
     const [GetVisit, { isFetching, data }] = useLazyGetVisitQuery()
     const [EditVisitStocks, { isLoading }] = useEditVisitStocksMutation()
 
-    const { data: warehouses, isFetching: isWarehousesFetching } = useGetWarehousesQuery({ isActive: 1 })
-
-    const warehouseOpiton: DropdownItemProps[] = useMemo(() => {
-        return (warehouses || []).map(item => {
-            return {
-                value: item.Uuid,
-                text: item.Name
-            }
-        })
-    }, [warehouses])
-
     const methods = useForm<VisitUpdateStocksRequest>({
         mode: 'onChange',
     })
 
-
-    const { getValues, formState, trigger, reset, setValue } = methods
+    const { getValues, formState, trigger, reset, } = methods
 
     const submit = () => {
         trigger().then((valid) => {
@@ -67,7 +50,6 @@ const VisitUpdateProducts: React.FC = () => {
         })
     }
 
-
     useEffect(() => {
         if (Id && validator.isUUID(Id)) {
             GetVisit({ Uuid: Id })
@@ -75,11 +57,11 @@ const VisitUpdateProducts: React.FC = () => {
                 .then((data) => {
                     reset({
                         VisitID: data.Uuid,
-                        WarehouseID: data.WarehouseID,
                         Stocks: (data.Products || []).map(item => {
                             return {
                                 Uuid: item.StockID,
                                 Amount: item.Amount,
+                                WarehouseID: item.WarehouseID,
                                 Description: item.Description
                             }
                         })
@@ -95,20 +77,13 @@ const VisitUpdateProducts: React.FC = () => {
         }
     }, [Id, GetVisit, navigate, reset, t])
 
-    return <Pagewrapper isLoading={isFetching || isLoading || isWarehousesFetching} direction='vertical' alignTop gap={4}>
+    return <Pagewrapper isLoading={isFetching || isLoading} direction='vertical' alignTop gap={4}>
         <Title
             PageName={t('Pages.Visits.Page.EditProductsHeader')}
             AdditionalName={data?.Visitcode}
             PageUrl={Paths.Visits}
         />
         <FormProvider<VisitUpdateStocksRequest> {...methods}>
-            <Contentwrapper>
-                <Form>
-                    <Form.Group widths={'equal'}>
-                        <VisitAppForm.Select name={`WarehouseID`} label={t('Pages.Visits.Columns.WarehouseID')} options={warehouseOpiton} additionalOnchange={() => setValue('Stocks', [])} />
-                    </Form.Group>
-                </Form>
-            </Contentwrapper>
             <Contentwrapper>
                 <VisitUpdateProductsForm />
             </Contentwrapper>

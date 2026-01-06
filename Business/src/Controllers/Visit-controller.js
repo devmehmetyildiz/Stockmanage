@@ -77,7 +77,6 @@ async function CreateVisit(req, res, next) {
         Visitdate,
         Notes,
         Stocks,
-        WarehouseID,
         PaymenttypeID,
         Scheduledpayment,
         Description
@@ -105,6 +104,9 @@ async function CreateVisit(req, res, next) {
             if (!validator.isUUID(stock.Uuid)) {
                 validationErrors.push(req.t('Visits.Error.StockIDRequired'))
             }
+            if (!validator.isUUID(stock.WarehouseID)) {
+                validationErrors.push(req.t('Visits.Error.WarehouseIDRequired'))
+            }
             if (!validator.isNumber(stock.Amount) || stock.Amount <= 0) {
                 validationErrors.push(req.t('Visits.Error.AmountRequired'))
             }
@@ -113,11 +115,11 @@ async function CreateVisit(req, res, next) {
     if (!validator.isISODate(Visitdate)) {
         validationErrors.push(req.t('Visits.Error.VisitdateRequired'))
     } else {
-      /*   const current = new Date()
-        current.setHours(0, 0, 0, 0)
-        if (new Date(Visitdate).getTime() < current.getTime()) {
-            validationErrors.push(req.t('Visits.Error.VisitdateCantSmall'))
-        } */
+        /*   const current = new Date()
+          current.setHours(0, 0, 0, 0)
+          if (new Date(Visitdate).getTime() < current.getTime()) {
+              validationErrors.push(req.t('Visits.Error.VisitdateCantSmall'))
+          } */
     }
 
     if (validationErrors.length > 0) {
@@ -164,7 +166,6 @@ async function CreateVisit(req, res, next) {
             ResponsibleUserID,
             DoctorID,
             PaymenttypeID,
-            WarehouseID,
             LocationID,
             Visitdate,
             Scheduledpayment,
@@ -179,6 +180,7 @@ async function CreateVisit(req, res, next) {
         for (const stock of Stocks) {
             await db.visitproductModel.create({
                 Uuid: uuid(),
+                WarehouseID: stock.WarehouseID,
                 VisitID: itemUuid,
                 StockID: stock.Uuid,
                 Amount: stock.Amount,
@@ -242,11 +244,11 @@ async function CreateFreeVisit(req, res, next) {
     if (!validator.isISODate(Visitdate)) {
         validationErrors.push(req.t('Visits.Error.VisitdateRequired'))
     } else {
-      /*   const current = new Date()
-        current.setHours(0, 0, 0, 0)
-        if (new Date(Visitdate).getTime() < current.getTime()) {
-            validationErrors.push(req.t('Visits.Error.VisitdateCantSmall'))
-        } */
+        /*   const current = new Date()
+          current.setHours(0, 0, 0, 0)
+          if (new Date(Visitdate).getTime() < current.getTime()) {
+              validationErrors.push(req.t('Visits.Error.VisitdateCantSmall'))
+          } */
     }
 
     if (validationErrors.length > 0) {
@@ -328,14 +330,10 @@ async function UpdateVisitStocks(req, res, next) {
     const {
         VisitID,
         Stocks,
-        WarehouseID
     } = req.body
 
     if (!validator.isUUID(VisitID)) {
         validationErrors.push(req.t('Visits.Error.VisitIDRequired'))
-    }
-    if (!validator.isUUID(WarehouseID)) {
-        validationErrors.push(req.t('Visits.Error.WarehouseIDRequired'))
     }
     if (!validator.isArray(Stocks) || (Stocks || []).length <= 0) {
         validationErrors.push(req.t('Visits.Error.StocksRequired'))
@@ -343,6 +341,9 @@ async function UpdateVisitStocks(req, res, next) {
         for (const stock of Stocks) {
             if (!validator.isUUID(stock.Uuid)) {
                 validationErrors.push(req.t('Visits.Error.StockIDRequired'))
+            }
+            if (!validator.isUUID(stock.WarehouseID)) {
+                validationErrors.push(req.t('Visits.Error.WarehouseIDRequired'))
             }
             if (!validator.isNumber(stock.Amount) || stock.Amount <= 0) {
                 validationErrors.push(req.t('Visits.Error.AmountRequired'))
@@ -377,7 +378,6 @@ async function UpdateVisitStocks(req, res, next) {
             createdEntities.push(itemUuid)
 
             await db.visitModel.update({
-                WarehouseID,
                 Updateduser: username,
                 Updatetime: new Date(),
             }, { transaction: t, where: { Uuid: VisitID } })
@@ -385,6 +385,7 @@ async function UpdateVisitStocks(req, res, next) {
             await db.visitproductModel.create({
                 Uuid: itemUuid,
                 VisitID,
+                WarehouseID: stock.WarehouseID,
                 StockID: stock.Uuid,
                 Amount: stock.Amount,
                 Istaken: false,
@@ -395,8 +396,12 @@ async function UpdateVisitStocks(req, res, next) {
                 Isactive: true,
             }, { transaction: t })
         }
+        await t.commit()
+
         res.status(200).json({ message: req.t('General.SuccessfullyUpdated'), entities: createdEntities })
     } catch (error) {
+        await t.rollback()
+
         return next(sequelizeErrorCatcher(error))
     }
 }
@@ -435,11 +440,11 @@ async function UpdateVisitDefines(req, res, next) {
     if (!validator.isISODate(Visitdate)) {
         validationErrors.push(req.t('Visits.Error.VisitdateRequired'))
     } else {
-      /*   const current = new Date()
-        current.setHours(0, 0, 0, 0)
-        if (new Date(Visitdate).getTime() < current.getTime()) {
-            validationErrors.push(req.t('Visits.Error.VisitdateCantSmall'))
-        } */
+        /*   const current = new Date()
+          current.setHours(0, 0, 0, 0)
+          if (new Date(Visitdate).getTime() < current.getTime()) {
+              validationErrors.push(req.t('Visits.Error.VisitdateCantSmall'))
+          } */
     }
 
     if (validationErrors.length > 0) {
@@ -754,6 +759,9 @@ async function CompleteVisit(req, res, next) {
         if (!validator.isUUID(stock.Uuid)) {
             validationErrors.push(req.t('Visits.Error.StockIDRequired'))
         }
+        if (!validator.isUUID(stock.WarehouseID)) {
+            validationErrors.push(req.t('Visits.Error.WarehouseIDRequired'))
+        }
         if (!validator.isNumber(stock.Amount) || stock.Amount <= 0) {
             validationErrors.push(req.t('Visits.Error.AmountRequired'))
         }
@@ -860,6 +868,7 @@ async function CompleteVisit(req, res, next) {
             await db.visitproductModel.create({
                 Uuid: uuid(),
                 VisitID: VisitID,
+                WarehouseID: stock.WarehouseID,
                 StockID: stock.Uuid,
                 Amount: stock.Amount,
                 Istaken: true,

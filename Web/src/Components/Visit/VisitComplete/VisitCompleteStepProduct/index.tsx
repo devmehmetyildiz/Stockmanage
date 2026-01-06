@@ -1,6 +1,7 @@
 import { useGetStocksQuery } from '@Api/Stock'
 import { useGetStockdefinesQuery } from '@Api/Stockdefine'
 import { VisitCompleteRequest, VisitItem } from '@Api/Visit/type'
+import { useGetWarehousesQuery } from '@Api/Warehouse'
 import Contentwrapper from '@Components/Common/Contentwrapper'
 import Pagewrapper from '@Components/Common/Pagewrapper'
 import { createAppForm } from '@Utils/CreateAppForm'
@@ -24,20 +25,26 @@ const VisitCompleteStepProduct: React.FC<VisitCompleteStepProductProps> = (props
 
     const { fields } = useFieldArray<VisitCompleteRequest>({ name: 'Returnedproducts' })
 
-    const { data: stocks, isFetching: isStocksFetching } = useGetStocksQuery({ isActive: 1, WarehouseID: data?.WarehouseID }, { skip: !validator.isUUID(data?.WarehouseID) })
-    const { data: stockdefines, isFetching: isStockdefinessFetching } = useGetStockdefinesQuery({ isActive: 1 }, { skip: !validator.isUUID(data?.WarehouseID) })
+    const { data: warehouses, isFetching: isWarehousesFetching } = useGetWarehousesQuery({ isActive: 1 })
+    const { data: stocks, isFetching: isStocksFetching } = useGetStocksQuery({ isActive: 1 })
+    const { data: stockdefines, isFetching: isStockdefinessFetching } = useGetStockdefinesQuery({ isActive: 1 })
 
-    return <Pagewrapper dynamicHeight alignTop direction='vertical' gap={4} isLoading={isStocksFetching || isStockdefinessFetching}>
+    return <Pagewrapper dynamicHeight alignTop direction='vertical' gap={4} isLoading={isStocksFetching || isStockdefinessFetching || isWarehousesFetching}>
         <Contentwrapper className='!bg-transparent !outline-none !shadow-none'>
             <Form>
                 {fields.map((field, index) => {
                     const visitProduct = (data?.Products || []).find(item => item.Uuid === field.Uuid)
+                    const warehouse = (warehouses || []).find(item => item.Uuid === visitProduct?.WarehouseID)
                     const stock = (stocks || []).find(item => item.Uuid === visitProduct?.StockID)
                     const stockdefine = (stockdefines || []).find(item => item.Uuid === stock?.StockdefineID)
 
                     return <>
                         <Form.Group key={field.id} widths={'equal'} className='!my-0' >
                             <Form.Field className='!w-full !my-auto '>
+                                <div className='flex flex-row justify-start items-center gap-4 whitespace-nowrap'>
+                                    <div className='font-bold'>{`${t('Pages.Visits.Label.Warehouse')} :   `}</div>
+                                    <div>{warehouse?.Name}</div>
+                                </div>
                                 <div className='flex flex-row justify-start items-center gap-4 whitespace-nowrap'>
                                     <div className='font-bold'>{`${t('Pages.Visits.Label.Productname')} :   `}</div>
                                     <div>{stockdefine?.Productname}</div>
@@ -51,7 +58,7 @@ const VisitCompleteStepProduct: React.FC<VisitCompleteStepProductProps> = (props
                                     <div>{visitProduct?.Amount}</div>
                                 </div>
                             </Form.Field>
-                            <VisitAppForm.Input name={`Returnedproducts.${index}.Amount`} label={index === 0 ? t('Pages.Visits.Columns.Returnamount') : undefined} type='number' inputProps={{ min: 0, max: field.Amount }} required={t('Pages.Visits.Messages.AmountReqired')}
+                            <VisitAppForm.Input name={`Returnedproducts.${index}.Amount`} label={t('Pages.Visits.Columns.Returnamount')} type='number' inputProps={{ min: 0, max: field.Amount }} required={t('Pages.Visits.Messages.AmountReqired')}
                                 rules={{
                                     validate: (value: any) => {
                                         if (validator.isNumber(value)) {
@@ -64,9 +71,9 @@ const VisitCompleteStepProduct: React.FC<VisitCompleteStepProductProps> = (props
                                         }
                                     }
                                 }} />
-                            <VisitAppForm.Input name={`Returnedproducts.${index}.Description`} label={index === 0 ? t('Pages.Visits.Columns.Description') : undefined} />
+                            <VisitAppForm.Input name={`Returnedproducts.${index}.Description`} label={t('Pages.Visits.Columns.Description')} />
                         </Form.Group>
-                        <Divider key={field.id}/>
+                        <Divider key={field.id} />
                     </>
                 })}
             </Form>

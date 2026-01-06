@@ -5,6 +5,9 @@ module.exports = sequelize.define('visitproductModel', {
     VisitID: {
         type: Sequelize.STRING
     },
+    WarehouseID: {
+        type: Sequelize.STRING
+    },
     StockID: {
         type: Sequelize.STRING
     },

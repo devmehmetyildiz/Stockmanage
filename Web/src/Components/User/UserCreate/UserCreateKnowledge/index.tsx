@@ -8,7 +8,7 @@ import { DropdownItemProps, Form } from 'semantic-ui-react'
 
 const UserAppForm = createAppForm<UserAddRequest>()
 
-const UserCreateKnowledge: React.FC= () => {
+const UserCreateKnowledge: React.FC = () => {
 
     const { t } = useTranslation()
 
@@ -19,7 +19,7 @@ const UserCreateKnowledge: React.FC= () => {
 
     return <React.Fragment>
         <Form.Group widths={'equal'}>
-            <UserAppForm.Input name='CountryID' label={t('Pages.Users.Prepare.Label.CountryID')} rules={{ validate: (value) => countryIdValidation(value, t('Pages.Users.Messages.CountryIDRequired')) }} />
+            <UserAppForm.Input name='CountryID' label={t('Pages.Users.Prepare.Label.CountryID')} rules={{ required: t('Pages.Users.Messages.CountryIDRequired'), validate: (value) => countryIdValidation(value, t('Pages.Users.Messages.CountryIDRequired')) }} />
             <UserAppForm.Select name='Gender' label={t('Pages.Users.Prepare.Label.Gender')} options={Genderoptions} />
             <UserAppForm.Input name='Dateofbirth' label={t('Pages.Users.Prepare.Label.Dateofbirth')} type='date' />
             <UserAppForm.Input name='Phonenumber' label={t('Pages.Users.Prepare.Label.Phonenumber')} />

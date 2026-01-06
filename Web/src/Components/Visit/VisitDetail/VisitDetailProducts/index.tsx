@@ -86,6 +86,12 @@ const VisitDetailProducts: React.FC<VisitDetailProductsProps> = (props) => {
                                             {product.IsReturned ? (
                                                 <Label color="teal" size="mini" className="!text-white">
                                                     {t('Common.Yes')}
+                                                    <Label.Detail className='!font-extrabold  !text-white !text-center'>
+                                                        <div className='flex justify-center items-center'>
+                                                            {`${product.Returnedamount ?? 0}`}
+                                                            {` ${t('Pages.Visits.Label.Unit')}`}
+                                                        </div>
+                                                    </Label.Detail>
                                                 </Label>
                                             ) : (
                                                 <Label size="mini">{t('Common.No')}</Label>

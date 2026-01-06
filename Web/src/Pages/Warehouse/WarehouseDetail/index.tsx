@@ -1,10 +1,10 @@
 import Pagewrapper from '@Components/Common/Pagewrapper'
 import Title from '@Components/Common/Title'
 import Paths from '@Constant/path'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { motion } from 'framer-motion'
-import { Card, Icon } from 'semantic-ui-react'
+import { Card, Divider, Icon, Search } from 'semantic-ui-react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useLazyGetWarehouseQuery } from '@Api/Warehouse'
 import validator from '@Utils/Validator'
@@ -18,11 +18,13 @@ import WarehouseDetailMovementFeed from '@Components/Warehouse/WarehouseDetail/W
 import FormButton from '@Components/Common/FormButton'
 import RouteKeys from '@Constant/routeKeys'
 import privileges from '@Constant/privileges'
+import styles from './style.module.scss'
 
 const WarehouseDetail: React.FC = () => {
     const { t } = useTranslation()
     const { Id } = useParams();
     const navigate = useNavigate()
+    const [searchWord, setSearchWord] = useState('')
 
     const [GetWarehouse, { data: warehouse, isFetching }] = useLazyGetWarehouseQuery()
     const { data: stocks, isFetching: isStocksFetching } = useGetStocksQuery({ isActive: 1, WarehouseID: warehouse?.Uuid }, { skip: !validator.isUUID(warehouse?.Uuid) })
@@ -33,8 +35,18 @@ const WarehouseDetail: React.FC = () => {
 
     const getStockdefineName = (id: string) => {
         const sd = (stockdefines || []).find(d => d.Uuid === id)
-        return sd ? sd.Productname : '-'
+        return sd ? `${sd.Brand} ${sd.Productname}` : '-'
     }
+
+    const baseSearchdata = (stocks || []).map(u => {
+        return { title: getStockdefineName(u.StockdefineID), key: Math.random() }
+    })
+
+    const searchdata = baseSearchdata.filter(u => {
+        const decoratedSearchWord = searchWord.trim().toLocaleLowerCase('tr').replace(/\s+/g, '')
+        const decoratedTargetTitle = (u.title || '').trim().toLocaleLowerCase('tr').replace(/\s+/g, '')
+        return decoratedTargetTitle.includes(decoratedSearchWord)
+    })
 
     useEffect(() => {
         if (Id && validator.isUUID(Id)) {
@@ -140,32 +152,52 @@ const WarehouseDetail: React.FC = () => {
         </motion.div>
         <Contentwrapper>
             <Title PageName={t('Pages.Warehouses.Label.Stocks')} />
+            <Search
+                input={{ icon: 'search', iconPosition: 'left' }}
+                placeholder={t('Components.LayoutNaviationSearch.Placeholder')}
+                className={styles.menusearch}
+                showNoResults={false}
+                loading={isFetching}
+                onSearchChange={(_, data) => {
+                    setSearchWord(data.value ?? '')
+                }}
+                value={searchWord}
+            />
+            <Divider />
             {(stocks || []).length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {stocks?.map(stock => (
-                        <div key={stock.Uuid}>
-                            <Card
-                                onClick={() => navigate(`${Paths.Stocks}/${stock.Uuid}/Movements`)}
-                                link
-                                fluid
-                                className="!rounded-xl !shadow-lg hover:!shadow-md !border border-gray-100 !bg-white transition-all duration-300"
-                            >
-                                <Card.Content>
-                                    <div className="flex justify-between items-center">
-                                        <div className="flex flex-col gap-1">
-                                            <h3 className="text-lg font-semibold text-gray-800">
-                                                {getStockdefineName(stock.StockdefineID)}
-                                            </h3>
-                                            <p className="text-gray-500 text-sm">
-                                                {t('Pages.Stocks.Columns.TotalAmount')}: {stock.TotalAmount}
-                                            </p>
+                    {(stocks || [])
+                        .filter(stock => {
+                            if (!searchWord) return true
+                            const decoratedSearchWord = searchWord.trim().toLocaleLowerCase('tr').replace(/\s+/g, '')
+                            const stockdefineName = getStockdefineName(stock.StockdefineID)
+                            const decoratedTargetTitle = stockdefineName.trim().toLocaleLowerCase('tr').replace(/\s+/g, '')
+                            return decoratedTargetTitle.includes(decoratedSearchWord)
+                        })
+                        .map(stock => (
+                            <div key={stock.Uuid}>
+                                <Card
+                                    onClick={() => navigate(`${Paths.Stocks}/${stock.Uuid}/Movements`)}
+                                    link
+                                    fluid
+                                    className="!rounded-xl !shadow-lg hover:!shadow-md !border border-gray-100 !bg-white transition-all duration-300"
+                                >
+                                    <Card.Content>
+                                        <div className="flex justify-between items-center">
+                                            <div className="flex flex-col gap-1">
+                                                <h3 className="text-lg font-semibold text-gray-800">
+                                                    {getStockdefineName(stock.StockdefineID)}
+                                                </h3>
+                                                <p className="text-gray-500 text-sm">
+                                                    {t('Pages.Stocks.Columns.TotalAmount')}: {stock.TotalAmount}
+                                                </p>
+                                            </div>
+                                            <Icon name="box" size="large" className="text-primary opacity-70" />
                                         </div>
-                                        <Icon name="box" size="large" className="text-primary opacity-70" />
-                                    </div>
-                                </Card.Content>
-                            </Card>
-                        </div>
-                    ))}
+                                    </Card.Content>
+                                </Card>
+                            </div>
+                        ))}
                 </div>
             ) : (
                 <NotfoundScreen text={t('Pages.Warehouses.Label.NoStocks')} />

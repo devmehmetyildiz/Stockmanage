@@ -1,6 +1,7 @@
 import { useGetStocksQuery } from '@Api/Stock'
 import { useGetStockdefinesQuery } from '@Api/Stockdefine'
 import { VisitCompleteRequest, VisitItem } from '@Api/Visit/type'
+import { useGetWarehouseQuery, useGetWarehousesQuery } from '@Api/Warehouse'
 import Contentwrapper from '@Components/Common/Contentwrapper'
 import NotfoundScreen from '@Components/Common/NotfoundScreen'
 import Pagewrapper from '@Components/Common/Pagewrapper'
@@ -20,9 +21,9 @@ const VisitStepCompleteDetail: React.FC<VisitStepCompleteDetailProps> = (props) 
     const { data } = props
     const { t } = useTranslation()
 
-    const { data: stocks, isFetching: isStocksFetching } = useGetStocksQuery({ isActive: 1, WarehouseID: data?.WarehouseID }, { skip: !validator.isUUID(data?.WarehouseID) })
-    const { data: stockdefines, isFetching: isStockdefinessFetching } = useGetStockdefinesQuery({ isActive: 1 }, { skip: !validator.isUUID(data?.WarehouseID) })
-
+    const { data: warehouses, isFetching: isWarehousesFetching } = useGetWarehousesQuery({ isActive: 1 })
+    const { data: stocks, isFetching: isStocksFetching } = useGetStocksQuery({ isActive: 1 })
+    const { data: stockdefines, isFetching: isStockdefinessFetching } = useGetStockdefinesQuery({ isActive: 1 })
 
     const { getValues } = useFormContext<VisitCompleteRequest>()
     const values = getValues()
@@ -52,7 +53,7 @@ const VisitStepCompleteDetail: React.FC<VisitStepCompleteDetailProps> = (props) 
         currency: 'TRY',
     }).format(Prepaymentamount || 0), [Prepaymentamount])
 
-    return <Pagewrapper dynamicHeight alignTop direction="vertical" gap={4} isLoading={isStockdefinessFetching || isStocksFetching}>
+    return <Pagewrapper dynamicHeight alignTop direction="vertical" gap={4} isLoading={isStockdefinessFetching || isStocksFetching || isWarehousesFetching}>
         <Contentwrapper className='!bg-transparent !outline-none !shadow-none'>
             <div className="flex flex-col gap-4">
                 <h2 className="text-xl font-semibold text-gray-800 flex items-center gap-2">
@@ -103,6 +104,7 @@ const VisitStepCompleteDetail: React.FC<VisitStepCompleteDetailProps> = (props) 
                     <Table celled striped compact>
                         <Table.Header>
                             <Table.Row>
+                                <Table.HeaderCell>{t('Pages.Visits.Label.Warehouse')}</Table.HeaderCell>
                                 <Table.HeaderCell>{t('Pages.Visits.Label.Productname')}</Table.HeaderCell>
                                 <Table.HeaderCell>{t('Pages.Visits.Columns.Returnamount')}</Table.HeaderCell>
                                 <Table.HeaderCell>{t('Pages.Visits.Columns.Description')}</Table.HeaderCell>
@@ -112,11 +114,13 @@ const VisitStepCompleteDetail: React.FC<VisitStepCompleteDetailProps> = (props) 
                             {ReturnedProducts && ReturnedProducts.length > 0 ? (
                                 ReturnedProducts.filter(u => u.Amount > 0).map((product, i) => {
                                     const visitProduct = (data?.Products || []).find(item => item.Uuid === product.Uuid)
+                                    const warehouse = (warehouses || []).find(item => item.Uuid === visitProduct?.WarehouseID)
                                     const stock = (stocks || []).find(item => item.Uuid === visitProduct?.StockID)
                                     const stockdefine = (stockdefines || []).find(item => item.Uuid === stock?.StockdefineID)
-                                    const stockName = stockdefine?.Productname ?? product?.Uuid
+                                    const stockName = stockdefine?.Productname ? `${stockdefine.Brand} ${stockdefine?.Productname}` : product?.Uuid
 
                                     return <Table.Row key={i}>
+                                        <Table.Cell>{warehouse?.Name ?? ''}</Table.Cell>
                                         <Table.Cell>{stockName}</Table.Cell>
                                         <Table.Cell>{product.Amount}</Table.Cell>
                                         <Table.Cell>{product.Description || '-'}</Table.Cell>
@@ -139,6 +143,7 @@ const VisitStepCompleteDetail: React.FC<VisitStepCompleteDetailProps> = (props) 
                     <Table celled striped compact>
                         <Table.Header>
                             <Table.Row>
+                                <Table.HeaderCell>{t('Pages.Visits.Label.Warehouse')}</Table.HeaderCell>
                                 <Table.HeaderCell>{t('Pages.Visits.Label.Productname')}</Table.HeaderCell>
                                 <Table.HeaderCell>{t('Pages.Visits.Columns.Amount')}</Table.HeaderCell>
                                 <Table.HeaderCell>{t('Pages.Visits.Columns.Description')}</Table.HeaderCell>
@@ -147,11 +152,13 @@ const VisitStepCompleteDetail: React.FC<VisitStepCompleteDetailProps> = (props) 
                         <Table.Body>
                             {UsedProducts && UsedProducts.length > 0 ? (
                                 UsedProducts.filter(u => u.Amount > 0).map((product, i) => {
+                                    const warehouse = (warehouses || []).find(item => item.Uuid === product?.WarehouseID)
                                     const stock = (stocks || []).find(item => item.Uuid === product.Uuid)
                                     const stockdefine = (stockdefines || []).find(item => item.Uuid === stock?.StockdefineID)
-                                    const stockName = stockdefine?.Productname ?? product?.Uuid
+                                    const stockName = stockdefine?.Productname ? `${stockdefine.Brand} ${stockdefine?.Productname}` : product?.Uuid
 
                                     return <Table.Row key={i}>
+                                        <Table.Cell>{warehouse?.Name ?? ''}</Table.Cell>
                                         <Table.Cell>{stockName}</Table.Cell>
                                         <Table.Cell>{product.Amount}</Table.Cell>
                                         <Table.Cell>{product.Description || '-'}</Table.Cell>

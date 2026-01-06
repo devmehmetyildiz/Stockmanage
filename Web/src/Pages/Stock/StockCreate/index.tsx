@@ -54,7 +54,7 @@ const StockCreate: React.FC = () => {
         return (stockdefines || []).map(item => {
             return {
                 value: item.Uuid,
-                text: `${item.Productname} (${item.Barcodeno})`
+                text: `${item.Brand} ${item.Productname} (${item.Barcodeno})`
             }
         })
     }, [stockdefines])
@@ -104,8 +104,8 @@ const StockCreate: React.FC = () => {
             <Contentwrapper>
                 <Form>
                     <Form.Group widths={'equal'}>
-                        <StockAppForm.Select name='WarehouseID' label={t('Pages.Stocks.Columns.WarehouseID')} required={t('Pages.Stocks.Messages.WarehouseIDRequired')} options={warehouseOpiton} />
-                        <StockAppForm.Select name='StockdefineID' label={t('Pages.Stocks.Columns.StockdefineID')} required={t('Pages.Stocks.Messages.StockdefineIDRequired')} options={stockdefineOpiton} />
+                        <StockAppForm.Select name='WarehouseID' label={t('Pages.Stocks.Columns.WarehouseID')} required={t('Pages.Stocks.Messages.WarehouseIDRequired')} options={warehouseOpiton} searchable/>
+                        <StockAppForm.Select name='StockdefineID' label={t('Pages.Stocks.Columns.StockdefineID')} required={t('Pages.Stocks.Messages.StockdefineIDRequired')} options={stockdefineOpiton} searchable/>
                     </Form.Group>
                     <Form.Group widths={'equal'}>
                         <StockAppForm.Input name='Amount' label={t('Pages.Stocks.Columns.Amount')} required={t('Pages.Stocks.Messages.AmountRequired')} type='number' inputProps={{ min: 0 }}

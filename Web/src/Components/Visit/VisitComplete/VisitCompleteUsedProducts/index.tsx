@@ -20,28 +20,33 @@ const VisitCompleteUsedProducts: React.FC = () => {
 
     const { watch, setValue } = useFormContext<VisitCompleteRequest>()
 
+    const selectedStocks = watch('Usedproducts')
+
     const { fields, append, remove } = useFieldArray<VisitCompleteRequest>({ name: 'Usedproducts' })
 
-    const [WarehouseID] = watch(['WarehouseID'])
-
-    const { data: stocks, isFetching: isStocksFetching } = useGetStocksQuery({ isActive: 1, WarehouseID }, { skip: !validator.isUUID(WarehouseID) })
+    const { data: warehouses, isFetching: isWarehousesFetching } = useGetWarehousesQuery({ isActive: 1 })
+    const { data: stocks, isFetching: isStocksFetching } = useGetStocksQuery({ isActive: 1 })
     const { data: stockdefines, isFetching: isStocksdefinesFetching } = useGetStockdefinesQuery({ isActive: 1 })
+
+    const warehouseOpiton: DropdownItemProps[] = useMemo(() => {
+        return (warehouses || []).map(item => {
+            return {
+                value: item.Uuid,
+                text: item.Name,
+            }
+        })
+    }, [warehouses])
 
     const stockOpiton: DropdownItemProps[] = useMemo(() => {
         return (stocks || []).map(item => {
             const define = (stockdefines || []).find(u => u.Uuid === item.StockdefineID)
             return {
                 value: item.Uuid,
-                text: `${define?.Productname} (${define?.Barcodeno}) Depoda ${item.TotalAmount} Adet`
+                text: `${define?.Brand} ${define?.Productname} (${define?.Barcodeno}) Depoda ${item.TotalAmount} Adet`,
+                warehouseID: item.WarehouseID
             }
         })
     }, [stocks, stockdefines])
-
-    useEffect(() => {
-        if (WarehouseID) {
-            setValue('Usedproducts', [])
-        }
-    }, [WarehouseID, setValue])
 
     return <Contentwrapper className='!outline-none !border-none !shadow-none'>
         <Title
@@ -51,17 +56,41 @@ const VisitCompleteUsedProducts: React.FC = () => {
                 onClick: () => append({
                     Amount: 0,
                     Description: '',
+                    WarehouseID: '',
                     Uuid: ''
                 }),
-                disabled: !validator.isUUID(WarehouseID)
             }]}
         />
-        <Form loading={isStocksFetching || isStocksdefinesFetching}>
+        <Form loading={isStocksFetching || isStocksdefinesFetching || isWarehousesFetching}>
             {fields.length === 0 ? <NotfoundScreen text={t('Pages.Visits.Messages.NoUsedProductsFound')} /> : null}
             {fields.map((field, index) => {
+
+                   const selectedStock = selectedStocks ? selectedStocks[index] : null
+
                 return <Form.Group key={field.id} widths={'equal'} className='!my-0'>
-                    <VisitAppForm.Select name={`Usedproducts.${index}.Uuid`} label={index === 0 ? t('Pages.Visits.Columns.StockProductName') : undefined} options={stockOpiton} required={t('Pages.Visits.Messages.StockProductNameReqired')} />
-                    <VisitAppForm.Input name={`Usedproducts.${index}.Amount`} label={index === 0 ? t('Pages.Visits.Columns.Amount') : undefined} type='number' inputProps={{ min: 0 }} required={t('Pages.Visits.Messages.AmountReqired')}
+                    <VisitAppForm.Select name={`Usedproducts.${index}.WarehouseID`}
+                        label={index === 0 ? t('Pages.Visits.Columns.WarehouseID') : undefined}
+                        options={warehouseOpiton}
+                        required={t('Pages.Visits.Messages.WarehouseRequired')}
+                        additionalOnchange={() => {
+                            setValue(`Usedproducts.${index}.Uuid`, '')
+                            setValue(`Usedproducts.${index}.Amount`, 0)
+                        }}
+                        searchable
+                    />
+                    <VisitAppForm.Select
+                        name={`Usedproducts.${index}.Uuid`}
+                        label={index === 0 ? t('Pages.Visits.Columns.StockProductName') : undefined}
+                        options={stockOpiton} required={t('Pages.Visits.Messages.StockProductNameReqired')}
+                        disabled={!validator.isUUID(selectedStock?.WarehouseID)}
+                        searchable
+                    />
+                    <VisitAppForm.Input
+                        name={`Usedproducts.${index}.Amount`}
+                        label={index === 0 ? t('Pages.Visits.Columns.Amount') : undefined}
+                        type='number'
+                        inputProps={{ min: 0 }}
+                        required={t('Pages.Visits.Messages.AmountReqired')}
                         rules={{
                             validate: (value: any) => {
                                 if (validator.isNumber(value) && value > 0) {
@@ -70,7 +99,8 @@ const VisitCompleteUsedProducts: React.FC = () => {
                                     return t('Pages.Visits.Messages.AmountReqired')
                                 }
                             }
-                        }} />
+                        }}
+                    />
                     <VisitAppForm.Input name={`Usedproducts.${index}.Description`} label={index === 0 ? t('Pages.Visits.Columns.Description') : undefined} />
                     <Form.Field className='!w-auto'>
                         {index === 0 ? <label className='!text-[#000000DE]'>{t('Common.Columns.delete')}</label> : null}

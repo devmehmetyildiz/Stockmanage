@@ -105,8 +105,34 @@ const version1_0_0_0_rc: ChangeLogItem = {
     ]
 }
 
+const version1_0_0_0: ChangeLogItem = {
+    version: "1.0.0.0",
+    changes: [
+        {
+            title: 'Ziyaretler',
+            commits: [
+                'Ziyaret girişlerinde ürün seçiminde depo seçimi ürün bazına indirgendi',
+                'Ziyaret detay sayfasında iade edilen ürün miktarının gösterilmesi sağlandı',
+            ]
+        }
+    ],
+    features: [
+        {
+            title: 'Ürünler',
+            commits: [
+                'Ürün sayfasına marka kolonu eklendi',
+                'Ambar detay sayfasına ürün adına marka eklendi',
+                'Manuel ürün girişi sayfasına ürün adı yanına marka eklendi',
+                'Manuel ürün girişi sayfasında ürün ve depo için arama özelliği eklendi',
+                'Doktor tanımları sayfasına tc alanı zorunluluğu kaldırıldı.',
+            ]
+        }
+    ],
+}
+
 export default
     [
+        version1_0_0_0,
         version1_0_0_0_rc,
         version1_0_0_0_beta,
         version1_0_0_0_preAlpha,

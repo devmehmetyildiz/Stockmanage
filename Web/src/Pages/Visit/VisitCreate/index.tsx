@@ -126,8 +126,8 @@ const VisitCreate: React.FC = () => {
             <Contentwrapper className='z-20'>
                 <Form>
                     <Form.Group widths={'equal'}>
-                        <VisitAppForm.Select name='LocationID' label={t('Pages.Visits.Columns.LocationID')} required={t('Pages.Visits.Messages.LocationIDRequired')} options={locationOpiton} />
-                        <VisitAppForm.Select name='DoctorID' label={t('Pages.Visits.Columns.DoctorID')} required={t('Pages.Visits.Messages.DoctorIDRequired')} options={doctorOpiton} />
+                        <VisitAppForm.Select name='LocationID' label={t('Pages.Visits.Columns.LocationID')} required={t('Pages.Visits.Messages.LocationIDRequired')} options={locationOpiton} searchable/>
+                        <VisitAppForm.Select name='DoctorID' label={t('Pages.Visits.Columns.DoctorID')} required={t('Pages.Visits.Messages.DoctorIDRequired')} options={doctorOpiton} searchable/>
                     </Form.Group>
                     <Form.Group widths={'equal'}>
                         <VisitAppForm.Input name='Visitdate' label={t('Pages.Visits.Columns.Visitdate')} type='date' required={t('Pages.Visits.Messages.VisitdateReqired')} />
