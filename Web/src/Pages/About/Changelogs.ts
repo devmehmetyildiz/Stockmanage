@@ -154,7 +154,7 @@ const version1_0_1_0: ChangeLogItem = {
             title: 'Muhasebe',
             commits: [
                 'Cari işlem hareketleri ve Cari işlem analizi sayfaları eklendi',
-                'Cari işlem hareketleri ziyaretlerden herhangi bir ödeme alınınca veya bir taksit ödemesi gerçekleşince otomatik olarak şekilde ayarlandı',
+                'Cari işlem hareketleri ziyaretlerden herhangi bir ödeme alınınca veya bir taksit ödemesi gerçekleşince otomatik olarak eklenecek şekilde ayarlandı',
                 'Cari işlem hareketleri sayfasının sağ üst köşesine Yeni Cari İşlem butonu eklendi, bu buton ile manuel olarak cari işlem girişi yapılabiliyor',
                 'Cari işlem analizi sayfasında cari işlemlere ait görsel grafikler eklendi',
                 'Analiz grafikleri gelir, gider ve net tutar bazında gösteriliyor',
