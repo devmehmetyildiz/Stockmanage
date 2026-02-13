@@ -167,7 +167,8 @@ const version1_0_1_0: ChangeLogItem = {
         {
             title: 'Sistem',
             commits: [
-                "Başarılı ve hata bildirimlerinin ekran pozisyonlarının kullanıcı ayarlarına göre gelmemesi sorunu giderildi, bildirimler artık kullanıcı ayarlarında seçilen pozisyonda gösteriliyor"
+                "Başarılı ve hata bildirimlerinin ekran pozisyonlarının kullanıcı ayarlarına göre gelmemesi sorunu giderildi, bildirimler artık kullanıcı ayarlarında seçilen pozisyonda gösteriliyor",
+                "Parola sıfırlama durumlarında silinen kullanıcalara mail gitmesi sorunu giderildi",
             ]
         }
     ]
