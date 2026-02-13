@@ -59,6 +59,8 @@ export const getSidebarRoutes = (t: any, userPrivileges: string[]) => {
             items: [
                 { id: 1, subtitle: t('Pages.Paymentplans.Page.Header'), url: Paths.Paymentplans, permission: checkAuth(privileges.paymentplanview) },
                 { id: 2, subtitle: t('Pages.Paymentplantransactions.Page.Header'), url: Paths.Paymentplantransactions, permission: checkAuth(privileges.paymentplanview) },
+                { id: 3, subtitle: t('Pages.Cashflows.Page.Header'), url: Paths.Cashflows, permission: checkAuth(privileges.cashflowview) },
+                { id: 4, subtitle: t('Pages.CashflowReport.Page.Header'), url: Paths.CashflowsReport, permission: checkAuth(privileges.cashflowview) },
             ]
         },
         {

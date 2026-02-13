@@ -177,6 +177,10 @@ export const REPORT_SALEBYUSER = 'Business/Reports/UserSaleReport'
 export const REPORT_DAILYSALES = 'Business/Reports/DailySalesReport'
 
 export const REPORT_MONTHLYSALES = 'Business/Reports/MonthlySalesReport'
+
+export const CASHFLOW = 'Business/Cashflows'
+
+export const CASHFLOW_GRAPH = 'Business/Cashflows/GetCashflowGraph'
 //Tags
 
 export const TABLE_CONFIG_TAG = 'TABLE_CONFIG_TAG'
@@ -214,5 +218,7 @@ export const VISIT_TAG = 'VISIT_TAG'
 export const VISIT_COMPLETE_TAG = 'VISIT_COMPLETE_TAG'
 
 export const PAYMENTPLAN_TAG = 'PAYMENTPLAN_TAG'
+
+export const CASHFLOW_TAG = 'CASHFLOW_TAG'
 
 

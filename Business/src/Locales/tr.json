@@ -48,5 +48,14 @@
     "Paymentplans.Error.TransactionCompleted": "Tahsilat tamamlanmış",
     "Reports": "Raporlar",
     "Reports.Error.StartdateRequired": "Başlangıc tarihi gerekli",
-    "Reports.Error.EnddateRequired": "Bitiş tarihi gerekli"
+    "Reports.Error.EnddateRequired": "Bitiş tarihi gerekli",
+    "Cashflows": "Cari Havuz İşlemleri",
+    "Cashflows.Error.IDRequired": "Cari Havuz İşlem ID değeri gerekli",
+    "Cashflows.Error.NotFound": "Cari Havuz İşlemi bulunamadı",
+    "Cashflows.Error.NotActive": "Cari Havuz İşlemi aktif değil",
+    "Cashflows.Error.TypeRequired": "Cari işlem türü gerekli",
+    "Cashflows.Error.PaymenttypeRequired": "Ödeme türü gerekli",
+    "Cashflows.Error.ProcessdateRequired": "İşlem tarihi gerekli",
+    "Cashflows.Error.KdvRequired": "Kdv gerekli",
+    "Cashflows.Error.AmountRequired": "Miktar gerekli"
 }

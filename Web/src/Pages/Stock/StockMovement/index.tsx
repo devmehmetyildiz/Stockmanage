@@ -152,9 +152,15 @@ const StockMovement: React.FC = () => {
             </Card>
         </motion.div>
         <Contentwrapper>
-            <Title
-                PageName={t('Pages.Stocks.Label.History')}
-            />
+            <div className="bg-gray-50/50 px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+                <h3 className="text-lg font-bold text-gray-800 flex items-center gap-2 m-0">
+                    <Icon name="history" className="!text-primary !outline-none !shadow-none" circular />
+                    {t('Pages.Stocks.Label.History')}
+                </h3>
+                <div className="text-xs text-gray-400 font-medium">
+                    Toplam {data?.length} İşlem Kaydı
+                </div>
+            </div>
             <StockMovementTimeline
                 data={data}
                 users={users}

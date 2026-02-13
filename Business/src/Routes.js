@@ -27,6 +27,10 @@ const Routes = [
     { method: 'post', path: '/Reports/UserSaleReport', controller: 'Report', action: 'UserSaleReport' },
     { method: 'post', path: '/Reports/DailySalesReport', controller: 'Report', action: 'DailySalesReport' },
     { method: 'post', path: '/Reports/MonthlySalesReport', controller: 'Report', action: 'MonthlySalesReport' },
+
+    { method: 'get', path: '/Cashflows/GetCashflowGraph', controller: 'Cashflow', action: 'GetCashflowGraph' },
+    { method: 'get', path: '/Cashflows', controller: 'Cashflow', action: 'GetCashflows' },
+    { method: 'post', path: '/Cashflows', controller: 'Cashflow', action: 'AddCashflow' },
 ]
 
 module.exports = Routes

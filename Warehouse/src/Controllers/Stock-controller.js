@@ -200,7 +200,10 @@ async function CreateStock(req, res, next) {
         const stockdefine = await DoGet(config.services.Setting, 'Stockdefines/' + StockdefineID)
 
         publishEvent("notificationCreate", 'User', 'Userrole', {
-            type: 'created',
+            type: {
+                en: "Created",
+                tr: "Oluşturuldu"
+            }[req.language],
             service: req.t('Stocks'),
             role: 'stocknotification',
             message: {
@@ -298,7 +301,10 @@ async function UseStock(req, res, next) {
         const stockdefine = await DoGet(config.services.Setting, 'Stockdefines/' + StockdefineID)
 
         publishEvent("notificationCreate", 'User', 'Userrole', {
-            type: 'created',
+            type: {
+                en: "Created",
+                tr: "Oluşturuldu"
+            }[req.language],
             service: req.t('Stocks'),
             role: 'stocknotification',
             message: {
@@ -492,7 +498,10 @@ async function InsertStock(req, res, next) {
         const stockdefine = await DoGet(config.services.Setting, 'Stockdefines/' + StockdefineID)
 
         publishEvent("notificationCreate", 'User', 'Userrole', {
-            type: 'created',
+            type: {
+                en: "Created",
+                tr: "Oluşturuldu"
+            }[req.language],
             service: req.t('Stocks'),
             role: 'stocknotification',
             message: {
@@ -619,7 +628,10 @@ async function DeleteStock(req, res, next) {
         const stockdefine = await DoGet(config.services.Setting, 'Stockdefines/' + StockdefineID)
 
         publishEvent("notificationCreate", 'User', 'Userrole', {
-            type: 'deleted',
+            type: {
+                en: "Deleted",
+                tr: "Silindi"
+            }[req.language],
             service: req.t('Stocks'),
             role: 'stocknotification',
             message: {
@@ -666,7 +678,10 @@ async function DeleteStockmovement(req, res, next) {
         const stockdefine = await DoGet(config.services.Setting, 'Stockdefines/' + stock.StockdefineID)
 
         publishEvent("notificationCreate", 'User', 'Userrole', {
-            type: 'deleted',
+            type: {
+                en: "Deleted",
+                tr: "Silindi"
+            }[req.language],
             service: req.t('Stocks'),
             role: 'stocknotification',
             message: {

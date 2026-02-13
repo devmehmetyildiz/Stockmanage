@@ -4,11 +4,13 @@ import { RateLimitMiddleware } from './Middleware/rate-limit.middleware';
 import { ProxyMiddleware } from './Middleware/proxy.middleware';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { RabbitmqService } from './Services/MessageService';
 
 @Module({
   imports: [],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [RabbitmqService, AppService],
+  exports: [RabbitmqService],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

@@ -84,6 +84,10 @@ const Paymentplantransactions = RouteKeys.Main + RouteKeys.Paymentplantransactio
 
 const Organisation = RouteKeys.Main + RouteKeys.Organisation
 
+const Cashflows = RouteKeys.Main + RouteKeys.Cashflows
+const CashflowsCreate = RouteKeys.Main + RouteKeys.Cashflows + "/Create"
+const CashflowsReport = RouteKeys.Main + RouteKeys.Cashflows + "/Report"
+
 const Paths = {
     Login,
     UserNotifications,
@@ -144,6 +148,9 @@ const Paths = {
     FreeVisitsDetail,
     FreeVisitsUpdateDefines,
     FreeVisitComplete,
+    Cashflows,
+    CashflowsCreate,
+    CashflowsReport,
 }
 
 export default Paths

@@ -156,7 +156,10 @@ async function AddStockdefine(req, res, next) {
         }
 
         publishEvent("notificationCreate", 'User', 'Userrole', {
-            type: 'created',
+            type: {
+                en: "Created",
+                tr: "Oluşturuldu"
+            }[req.language],
             service: req.t('Stockdefines'),
             role: 'stockdefinenotification',
             message: {
@@ -261,7 +264,10 @@ async function UpdateStockdefine(req, res, next) {
         }, { where: { Uuid }, transaction: t })
 
         publishEvent("notificationCreate", 'User', 'Userrole', {
-            type: 'updated',
+            type: {
+                en: "Updated",
+                tr: "Güncellendi"
+            }[req.language],
             service: req.t('Stockdefines'),
             role: 'stockdefinenotification',
             message: {
@@ -306,7 +312,10 @@ async function DeleteStockdefine(req, res, next) {
         }, { where: { Uuid }, transaction: t })
 
         publishEvent("notificationCreate", 'User', 'Userrole', {
-            type: 'deleted',
+            type: {
+                en: "Deleted",
+                tr: "Silindi"
+            }[req.language],
             service: req.t('Stockdefines'),
             role: 'stockdefinenotification',
             message: {

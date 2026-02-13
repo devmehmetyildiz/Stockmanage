@@ -17,10 +17,10 @@ const root = container && createRoot(container);
 
 if (root) {
   root.render(
-    <LayoutProvider>
-      <Provider store={store}>
+    <Provider store={store}>
+      <LayoutProvider>
         <App />
-      </Provider>
-    </LayoutProvider>
+      </LayoutProvider>
+    </Provider>
   )
 };

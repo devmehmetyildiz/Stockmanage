@@ -1,4 +1,4 @@
-const { PAYMENT_TRANSACTION_TYPE_CLOSE_TRANSACTION, VISIT_PAYMENT_STATUS_FULL, VISIT_PAYMENT_STATUS_SEMI, VISIT_STATU_CLOSED } = require("../Constants")
+const { PAYMENT_TRANSACTION_TYPE_CLOSE_TRANSACTION, VISIT_PAYMENT_STATUS_FULL, VISIT_PAYMENT_STATUS_SEMI, VISIT_STATU_CLOSED, FLOW_INCOME, FLOW_TYPE_VISIT } = require("../Constants")
 const { sequelizeErrorCatcher } = require("../Utilities/Error")
 const { createValidationError, createNotFoundError } = require("../Utilities/Error")
 const validator = require("../Utilities/Validator")
@@ -111,6 +111,8 @@ async function ApproveTransaction(req, res, next) {
         if (!plan.Isactive) {
             return next(createNotFoundError(req.t('Paymentplans.Error.NotActive'), req.t('Paymentplans'), req.language))
         }
+       
+        const visit = await db.visitModel.findOne({ where: { Uuid: plan.VisitID } })
 
         await db.paymenttransactionModel.update({
             Paydate,
@@ -121,6 +123,20 @@ async function ApproveTransaction(req, res, next) {
             Updatetime: new Date(),
             Isactive: true
         }, { transaction: t, where: { Uuid: TransactionID } })
+
+        await db.cashflowModel.create({
+            Uuid: uuid(),
+            Type: FLOW_INCOME,
+            Parenttype: FLOW_TYPE_VISIT,
+            ParentID: visit.Uuid,
+            TransactionID: TransactionID,
+            Paymenttype: transaction.Paymentmethod,
+            Processdate: new Date(),
+            Amount: transaction.Amount,
+            Createduser: username,
+            Createtime: new Date(),
+            Isactive: true,
+        }, { transaction: t })
 
         const allUnPaidTransactions = await db.paymenttransactionModel.findAll({ where: { PaymentplanID: plan.Uuid, Isactive: true, Status: false } })
 

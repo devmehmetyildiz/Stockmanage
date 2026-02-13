@@ -102,7 +102,10 @@ async function AddDoctordefine(req, res, next) {
         }, { transaction: t })
 
         publishEvent("notificationCreate", 'User', 'Userrole', {
-            type: 'created',
+            type: {
+                en: "Created",
+                tr: "Oluşturuldu"
+            }[req.language],
             service: req.t('Doctordefines'),
             role: 'doctordefinenotification',
             message: {
@@ -187,7 +190,10 @@ async function UpdateDoctordefine(req, res, next) {
         }, { where: { Uuid }, transaction: t })
 
         publishEvent("notificationCreate", 'User', 'Userrole', {
-            type: 'updated',
+            type: {
+                en: "Updated",
+                tr: "Güncellendi"
+            }[req.language],
             service: req.t('Doctordefines'),
             role: 'doctordefinenotification',
             message: {
@@ -231,7 +237,10 @@ async function DeleteDoctordefine(req, res, next) {
         }, { where: { Uuid }, transaction: t })
 
         publishEvent("notificationCreate", 'User', 'Userrole', {
-            type: 'deleted',
+            type: {
+                en: "Deleted",
+                tr: "Silindi"
+            }[req.language],
             service: req.t('Doctordefines'),
             role: 'doctordefinenotification',
             message: {

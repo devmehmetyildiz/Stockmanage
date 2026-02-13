@@ -81,6 +81,9 @@ import FreeVisit from "@Pages/FreeVisit/FreeVisit";
 import FreeVisitCreate from "@Pages/FreeVisit/FreeVisitCreate";
 import FreeVisitUpdateDefines from "@Pages/FreeVisit/FreeVisitUpdateDefines";
 import FreeVisitDetail from "@Pages/FreeVisit/FreeVisitDetail";
+import Cashflow from "@Pages/Cashflow/Cashflow";
+import CashflowCreate from "@Pages/Cashflow/CashflowCreate";
+import CashflowReport from "@Pages/Cashflow/CashflowReport";
 
 interface RouteItemType {
     path: string
@@ -146,6 +149,9 @@ const AppRouter = () => {
         { path: Paths.PaymentplansDetail, element: <PaymentplanDetail />, requiredRole: [privileges.paymentplanview] },
         { path: Paths.Paymentplantransactions, element: <Paymentplantransaction />, requiredRole: [privileges.paymentplanview] },
         { path: Paths.Organisation, element: <Organization />, requiredRole: [privileges.paymentplanview] },
+        { path: Paths.Cashflows, element: <Cashflow />, requiredRole: [privileges.cashflowview] },
+        { path: Paths.CashflowsCreate, element: <CashflowCreate />, requiredRole: [privileges.cashflowview, privileges.cashflowadd] },
+        { path: Paths.CashflowsReport, element: <CashflowReport />, requiredRole: [privileges.cashflowview] },
     ]
 
     const nonProtectedRoutes: RouteItemType[] = [

@@ -3,6 +3,7 @@ const createValidationError = require("../Utilities/Error").createValidationErro
 const createNotFoundError = require("../Utilities/Error").createNotFoundError
 const validator = require("../Utilities/Validator")
 const uuid = require('uuid').v4
+const { initApproveMessageService } = require("../Services/MessageService");
 
 async function GetUsernotifications(req, res, next) {
     try {
@@ -345,6 +346,65 @@ async function GetUnshowedNotificationCountByUser(req, res, next) {
     }
 }
 
+async function ConsumeNotifications() {
+    const { channel, q } = await initApproveMessageService('notificationCreate', 'User', 'Userrole');
+
+    console.log('RabbitMQ Service Notification consumer started...');
+
+    channel.consume(q.queue, async (msg) => {
+        if (!msg) return;
+
+        const payload = JSON.parse(msg.content.toString());
+        const { type, service, role: targetPrivilege, message, pushurl } = payload;
+
+        try {
+            const userQuery = `
+                SELECT DISTINCT u.Uuid 
+                FROM users u
+                INNER JOIN userroles ur ON u.Uuid = ur.UserID
+                INNER JOIN roleprivileges rp ON ur.RoleID = rp.RoleID
+                WHERE u.Isactive = 1 
+                  AND (rp.PrivilegeID = 'admin' OR rp.PrivilegeID = :targetPrivilege)
+            `;
+
+            const targetUsers = await db.sequelize.query(userQuery, {
+                replacements: { targetPrivilege },
+                type: db.sequelize.QueryTypes.SELECT
+            });
+
+            if (targetUsers.length === 0) {
+                console.log('Bildirim gönderilecek uygun kullanıcı bulunamadı.');
+                channel.ack(msg);
+                return;
+            }
+
+            const notificationsToCreate = targetUsers.map(user => ({
+                Notificationtype: 'Information',
+                Notificationtime: new Date(),
+                Subject: `${service} - ${type}`,
+                Message: message,
+                Pushurl: pushurl,
+                Isshowed: false,
+                Isreaded: false,
+                UserID: user.Uuid,
+                Uuid: uuid(),
+                Createduser: "System",
+                Createtime: new Date(),
+                Isactive: true
+            }));
+
+            await db.usernotificationModel.bulkCreate(notificationsToCreate);
+
+            channel.ack(msg);
+            console.log(`İşlem başarılı: ${notificationsToCreate.length} kullanıcıya bildirim oluşturuldu.`);
+
+        } catch (err) {
+            console.error('Hata oluştu:', err);
+            channel.nack(msg, false, false);
+        }
+    });
+}
+
 module.exports = {
     GetUsernotifications,
     DeleteUsernotification,
@@ -358,4 +418,5 @@ module.exports = {
     ShowAllNotificationByUser,
     GetUnreadNotificationCountByUser,
     GetUnshowedNotificationCountByUser,
+    ConsumeNotifications
 }

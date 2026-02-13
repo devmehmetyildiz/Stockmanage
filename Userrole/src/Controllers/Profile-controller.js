@@ -40,7 +40,7 @@ async function Getuserbyemail(req, res, next) {
         return next(createValidationError(validationErrors, req.t('Profile'), req.language))
     }
     try {
-        const user = await db.userModel.findOne({ where: { Email: req.params.email } })
+        const user = await db.userModel.findOne({ where: { Email: req.params.email, Isactive: true } })
         if (!user) {
             return next(createNotFoundError(req.t('Profile.Error.NotFoundByEmail'), req.t('Profile'), req.language))
         }
@@ -69,7 +69,7 @@ async function Getuserbyusername(req, res, next) {
         return next(createValidationError(validationErrors, req.t('Profile'), req.language))
     }
     try {
-        const user = await db.userModel.findOne({ where: { Username: req.params.username } })
+        const user = await db.userModel.findOne({ where: { Username: req.params.username, Isactive: true } })
         if (!user) {
             return next(createNotFoundError(req.t('Profile.Error.NotFound'), req.t('Profile'), req.language))
         }

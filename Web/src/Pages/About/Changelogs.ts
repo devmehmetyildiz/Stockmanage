@@ -130,8 +130,52 @@ const version1_0_0_0: ChangeLogItem = {
     ],
 }
 
+const version1_0_1_0: ChangeLogItem = {
+    version: "1.0.1.0",
+    changes: [
+        {
+            title: 'Sistem',
+            commits: [
+                'İşlem loglama performans geliştirmeleri yapıldı, sistemsel kesinye yol açması önlendi',
+                'Kullanıcı bildirimerinin doğru gelmesi sağlandı, sağ üst zil iconuna tıklandığında bildirimler düzgün şekilde listeleniyor',
+            ]
+        },
+        {
+            title: 'Depolar',
+            commits: [
+                'Depo detay sayfasında ürün hareketleri sekmesi için tasarım düzenlemeleri yapıldı',
+                'Depo detayıda listelenen ürünler için sayfalama eklendi',
+                'Ürün hareketlerindeki geçmiş hareketler ile alakalı tasarım düzenlemeleri yapıldı',
+            ]
+        },
+    ],
+    features: [
+        {
+            title: 'Muhasebe',
+            commits: [
+                'Cari işlem hareketleri ve Cari işlem analizi sayfaları eklendi',
+                'Cari işlem hareketleri ziyaretlerden herhangi bir ödeme alınınca veya bir taksit ödemesi gerçekleşince otomatik olarak şekilde ayarlandı',
+                'Cari işlem hareketleri sayfasının sağ üst köşesine Yeni Cari İşlem butonu eklendi, bu buton ile manuel olarak cari işlem girişi yapılabiliyor',
+                'Cari işlem analizi sayfasında cari işlemlere ait görsel grafikler eklendi',
+                'Analiz grafikleri gelir, gider ve net tutar bazında gösteriliyor',
+                'Giderler, manuel olarak eklenenen cari işlemlerden seçiliyor',
+                'Cari işlemler ile alakalı roller eklendi, istenirse bu iki sayfa gizlenebilir.',
+            ]
+        },
+    ],
+    bugs: [
+        {
+            title: 'Sistem',
+            commits: [
+                "Başarılı ve hata bildirimlerinin ekran pozisyonlarının kullanıcı ayarlarına göre gelmemesi sorunu giderildi, bildirimler artık kullanıcı ayarlarında seçilen pozisyonda gösteriliyor"
+            ]
+        }
+    ]
+}
+
 export default
     [
+        version1_0_1_0,
         version1_0_0_0,
         version1_0_0_0_rc,
         version1_0_0_0_beta,

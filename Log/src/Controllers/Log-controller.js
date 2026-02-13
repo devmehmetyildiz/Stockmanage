@@ -1,3 +1,4 @@
+const { initApproveMessageService } = require("../Services/MessageService");
 const { sequelizeErrorCatcher, createValidationError } = require("../Utilities/Error")
 const validator = require("../Utilities/Validator")
 
@@ -295,7 +296,48 @@ async function GetLogByUser(req, res, next) {
     }
 }
 
+async function ConsumeLogs() {
+    const { channel, q } = await initApproveMessageService('serviceLog', 'Log', 'Log');
+    let logBuffer = [];
+    const BULK_SIZE = 100;
+    const FLUSH_INTERVAL = 5000;
+
+    const flushLogs = async () => {
+        if (logBuffer.length === 0) return;
+        const currentBatch = [...logBuffer];
+        logBuffer = [];
+        try {
+            await db.logModel.bulkCreate(currentBatch.map(b => ({
+                ...b.payload,
+                Createduser: "System",
+                Createtime: new Date(),
+                Isactive: true
+            })));
+
+            console.log(`İşlem başarılı: ${currentBatch.length} log oluşturuldu.`);
+            currentBatch.forEach(b => channel.ack(b.msg));
+        } catch (error) {
+            console.error('Bulk log hatası:', error);
+            currentBatch.forEach(b => channel.nack(b.msg, false, true));
+        }
+    };
+
+    setInterval(flushLogs, FLUSH_INTERVAL);
+
+    channel.consume(q.queue, async (msg) => {
+        if (msg) {
+            const payload = JSON.parse(msg.content.toString());
+            logBuffer.push({ msg, payload });
+
+            if (logBuffer.length >= BULK_SIZE) {
+                await flushLogs();
+            }
+        }
+    });
+}
+
 module.exports = {
+    ConsumeLogs,
     GetLogsByQuerry,
     GetLogs,
     AddLog,

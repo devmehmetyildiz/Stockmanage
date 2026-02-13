@@ -22,6 +22,8 @@ const {
     PAYMENT_TRANSACTION_TYPE_TRANSACTION,
     PAYMENT_TRANSACTION_TYPE_CLOSE_TRANSACTION,
     VISIT_STATU_CLOSED,
+    FLOW_TYPE_VISIT,
+    FLOW_INCOME,
 } = require("../Constants")
 
 async function GetVisitCounts(req, res, next) {
@@ -196,7 +198,10 @@ async function CreateVisit(req, res, next) {
         await t.commit()
 
         publishEvent("notificationCreate", 'User', 'Userrole', {
-            type: 'created',
+            type: {
+                en: "Created",
+                tr: "Oluşturuldu"
+            }[req.language],
             service: req.t('Visits'),
             role: 'visitnotification',
             message: {
@@ -307,7 +312,10 @@ async function CreateFreeVisit(req, res, next) {
         await t.commit()
 
         publishEvent("notificationCreate", 'User', 'Userrole', {
-            type: 'created',
+            type: {
+                en: "Created",
+                tr: "Oluşturuldu"
+            }[req.language],
             service: req.t('Visits'),
             role: 'visitnotification',
             message: {
@@ -922,8 +930,9 @@ async function CompleteVisit(req, res, next) {
         }, { transaction: t })
 
         if (Prepaymentamount && Prepaymentamount > 0) {
+            const prepaymentUuid = uuid()
             await db.paymenttransactionModel.create({
-                Uuid: uuid(),
+                Uuid: prepaymentUuid,
                 PaymentplanID: planUuid,
                 Amount: Prepaymentamount,
                 Paymentdate: new Date(),
@@ -935,6 +944,20 @@ async function CompleteVisit(req, res, next) {
                 Createduser: username,
                 Createtime: new Date(),
                 Isactive: true
+            }, { transaction: t })
+
+            await db.cashflowModel.create({
+                Uuid: uuid(),
+                Type: FLOW_INCOME,
+                Parenttype: FLOW_TYPE_VISIT,
+                ParentID: visit.Uuid,
+                TransactionID: prepaymentUuid,
+                Paymenttype: Prepaymenttype,
+                Processdate: new Date(),
+                Amount: Prepaymentamount,
+                Createduser: username,
+                Createtime: new Date(),
+                Isactive: true,
             }, { transaction: t })
         }
 

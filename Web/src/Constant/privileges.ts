@@ -80,6 +80,9 @@ const paymentplanadd = 'paymentplanadd'
 const paymentplanupdate = 'paymentplanupdate'
 const paymentplandelete = 'paymentplandelete'
 const paymentplannotification = 'paymentplannotification'
+const cashflowscreen = 'cashflowscreen'
+const cashflowview = 'cashflowview'
+const cashflowadd = 'cashflowadd'
 
 const privileges = {
     admin,
@@ -162,6 +165,9 @@ const privileges = {
     paymentplanupdate,
     paymentplandelete,
     paymentplannotification,
+    cashflowscreen,
+    cashflowview,
+    cashflowadd,
 }
 
 export default privileges

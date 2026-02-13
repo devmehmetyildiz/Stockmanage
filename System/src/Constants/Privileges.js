@@ -79,6 +79,9 @@ const Priveleges = [
     { code: 'paymentplanupdate',       text: { en: 'Payment Plans Update',      tr: 'Ödeme Planları Güncelleme' },       group: { en: 'Payment Plans', tr: 'Ödeme Planaları' } },
     { code: 'paymentplandelete',       text: { en: 'Payment Plans Delete',      tr: 'Ödeme Planları Silme' },            group: { en: 'Payment Plans', tr: 'Ödeme Planaları' } },
     { code: 'paymentplannotification', text: { en: 'Payment Plans Notification',tr: 'Ödeme Planları Bildirim Alma' },    group: { en: 'Payment Plans', tr: 'Ödeme Planaları' } },
+    { code: 'cashflowscreen',       text: { en: 'Cash Flows Screen',      tr: 'Cari İşlem Hareketleri Veri' },             group: { en: 'Cash Flows', tr: 'Cari İşlem Hareketleri' } },
+    { code: 'cashflowview',         text: { en: 'Cash Flows View',        tr: 'Cari İşlem Hareketleri Görüntüleme' },      group: { en: 'Cash Flows', tr: 'Cari İşlem Hareketleri' } },
+    { code: 'cashflowadd',          text: { en: 'Cash Flows Add',         tr: 'Cari İşlem Hareketleri Oluşturma' },        group: { en: 'Cash Flows', tr: 'Cari İşlem Hareketleri' } },
     ]
     
     module.exports = Priveleges

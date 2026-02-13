@@ -92,7 +92,10 @@ async function AddPaymenttype(req, res, next) {
         }, { transaction: t })
 
         publishEvent("notificationCreate", 'User', 'Userrole', {
-            type: 'created',
+            type: {
+                en: "Created",
+                tr: "Oluşturuldu"
+            }[req.language],
             service: req.t('Paymenttypes'),
             role: 'paymenttypenotification',
             message: {
@@ -165,7 +168,10 @@ async function UpdatePaymenttype(req, res, next) {
         }, { where: { Uuid: Uuid }, transaction: t })
 
         publishEvent("notificationCreate", 'User', 'Userrole', {
-            type: 'updated',
+            type: {
+                en: "Updated",
+                tr: "Güncellendi"
+            }[req.language],
             service: req.t('Paymenttypes'),
             role: 'paymenttypenotification',
             message: {
@@ -210,7 +216,10 @@ async function DeletePaymenttype(req, res, next) {
         }, { where: { Uuid: Uuid }, transaction: t })
 
         publishEvent("notificationCreate", 'User', 'Userrole', {
-            type: 'deleted',
+            type: {
+                en: "Deleted",
+                tr: "Silindi"
+            }[req.language],
             service: req.t('Paymenttypes'),
             role: 'paymenttypenotification',
             message: {

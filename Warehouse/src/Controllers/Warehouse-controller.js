@@ -74,7 +74,10 @@ async function AddWarehouse(req, res, next) {
         }, { transaction: t })
 
         publishEvent("notificationCreate", 'User', 'Userrole', {
-            type: 'created',
+            type: {
+                en: "Created",
+                tr: "Oluşturuldu"
+            }[req.language],
             service: req.t('Warehouses'),
             role: 'warehousenotification',
             message: {
@@ -128,7 +131,10 @@ async function UpdateWarehouse(req, res, next) {
         }, { where: { Uuid }, transaction: t })
 
         publishEvent("notificationCreate", 'User', 'Userrole', {
-            type: 'updated',
+            type: {
+                en: "Updated",
+                tr: "Güncellendi"
+            }[req.language],
             service: req.t('Warehouses'),
             role: 'warehousenotification',
             message: {
@@ -179,7 +185,10 @@ async function DeleteWarehouse(req, res, next) {
         }, { where: { Uuid }, transaction: t })
 
         publishEvent("notificationCreate", 'User', 'Userrole', {
-            type: 'deleted',
+            type: {
+                en: "Deleted",
+                tr: "Silindi"
+            }[req.language],
             service: req.t('Warehouses'),
             role: 'warehousenotification',
             message: {

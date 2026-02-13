@@ -7,9 +7,15 @@ interface ConfigType {
     env: string
     port: string
     session: {
+        domain: string,
         name: string
         secret: string
     }
+    message: {
+        username: string,
+        password: string,
+        port: string,
+    },
     corsdomains: string[]
     services: {
         Auth: string
@@ -39,7 +45,13 @@ const config: ConfigType = {
         Log: process.env.LOG_URL ?? '',
         Web: process.env.WEB_URL ?? '',
     },
+    message: {
+        username: process.env.APP_MQ_USERNAME ?? '',
+        password: process.env.APP_MQ_PASSWORD ?? '',
+        port: process.env.APP_MQ_PORT ?? '',
+    },
     session: {
+        domain: process.env.APP_SESSION_DOMAIN ?? '',
         name: process.env.APP_SESSION_NAME ?? '',
         secret: process.env.APP_SESSION_SECRET ?? '',
     }

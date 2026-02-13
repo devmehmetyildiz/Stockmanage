@@ -1,4 +1,5 @@
 const config = require("../Config")
+const consumeService = require("../Services/ConsumeService");
 
 const crossDomainEnabler = (req, res, next) => {
   const domains = config.session.corsdomains;
@@ -58,6 +59,7 @@ const CreateApp = (app) => {
       if (config.env === 'development') {
         console.log(`${config.session.name} service is running at http://localhost:${httpServer.address().port} for public usage`)
       }
+      consumeService.startConsumeServices()
       db.applog_userroleModel.create({
         Event: "App opened at: " + new Date()
       }).catch(() => { })
@@ -66,5 +68,5 @@ const CreateApp = (app) => {
 }
 
 module.exports = {
-  crossDomainEnabler, getCorsOptions, getSessionOption,CreateApp
+  crossDomainEnabler, getCorsOptions, getSessionOption, CreateApp
 }

@@ -74,7 +74,10 @@ async function AddLocation(req, res, next) {
         }, { transaction: t })
 
         publishEvent("notificationCreate", 'User', 'Userrole', {
-            type: 'created',
+            type: {
+                en: "Created",
+                tr: "Oluşturuldu"
+            }[req.language],
             service: req.t('Locations'),
             role: 'locationnotification',
             message: {
@@ -128,7 +131,10 @@ async function UpdateLocation(req, res, next) {
         }, { where: { Uuid }, transaction: t })
 
         publishEvent("notificationCreate", 'User', 'Userrole', {
-            type: 'updated',
+            type: {
+                en: "Updated",
+                tr: "Güncellendi"
+            }[req.language],
             service: req.t('Locations'),
             role: 'locationnotification',
             message: {
@@ -179,7 +185,10 @@ async function DeleteLocation(req, res, next) {
         }, { where: { Uuid }, transaction: t })
 
         publishEvent("notificationCreate", 'User', 'Userrole', {
-            type: 'deleted',
+            type: {
+                en: "Deleted",
+                tr: "Silindi"
+            }[req.language],
             service: req.t('Locations'),
             role: 'locationnotification',
             message: {

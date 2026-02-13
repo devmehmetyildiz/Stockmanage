@@ -2,7 +2,7 @@ import { Injectable, NestMiddleware } from '@nestjs/common';
 import { createProxyMiddleware, Options } from 'http-proxy-middleware';
 import { NextFunction, Request, Response } from 'express';
 import config from 'src/config';
-import axios from 'axios';
+import { RabbitmqService } from 'src/Services/MessageService';
 
 @Injectable()
 export class ProxyMiddleware implements NestMiddleware {
@@ -18,7 +18,7 @@ export class ProxyMiddleware implements NestMiddleware {
 
     private readonly proxies: Record<string, any>;
 
-    constructor() {
+    constructor(private readonly rabbitmqService: RabbitmqService) {
         this.proxies = {};
         Object.entries(this.serviceMap).forEach(([prefix, target]) => {
             this.proxies[prefix] = createProxyMiddleware({
@@ -53,8 +53,6 @@ export class ProxyMiddleware implements NestMiddleware {
                     },
                     proxyRes: (proxyRes, httpReq, httpRes) => {
 
-
-
                         const contentType = proxyRes.headers['content-type'] || '';
 
                         const req = (httpReq as any)
@@ -80,12 +78,7 @@ export class ProxyMiddleware implements NestMiddleware {
                                 Responsedata: responseString,
                             };
                             if (prefix !== '/Log') {
-                                axios.post(`${process.env.LOG_URL}Logs`, logBody, {
-                                    headers: {
-                                        'Content-Type': 'application/json',
-                                        'session_key': process.env.APP_SESSION_SECRET,
-                                    },
-                                }).catch((err) => console.error('Logging failed:', err?.response?.data || err.message))
+                                this.rabbitmqService.publishEvent('serviceLog', 'Log', 'Log', logBody);
                             }
                         });
                     }
