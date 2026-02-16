@@ -10,12 +10,13 @@ import { DimmerDimmable, Segment, SidebarPushable, SidebarPusher } from 'semanti
 import LayoutNotification from './LayoutNotification'
 import PreviousUrlProvider from '@Context/PreviousContext'
 import useMobile from '@Hooks/useMobile'
+import LayoutNewVersiyonModal from './LayoutNewVersiyonModal'
 
 const Layout = () => {
 
     const [visible, setVisible] = useState(false)
     const { isTablet } = useMobile()
-    const { changeSidebar, changeNotificationSidebar } = useLayout()
+    const { changeSidebar, changeNotificationSidebar, isNewVersionShowed, setIsNewVersionShowed } = useLayout()
 
     const MetaQuery = useGetMetaQuery()
     const PrivilegeQuery = useGetPrivilegesQuery()
@@ -42,6 +43,10 @@ const Layout = () => {
     return isLoading || !MetaQuery.isSuccess || !PrivilegeQuery.isSuccess
         ? <LoadingScreen />
         : <div className={`w-screen h-screen ${styles.layoutBg} relative`}>
+            <LayoutNewVersiyonModal
+                open={isNewVersionShowed}
+                setOpen={setIsNewVersionShowed}
+            />
             <LayoutNavigation setVisible={setVisible} />
             <SidebarPushable className='!-m-0  !bg-transparent h-contentScreen overflow-hidden' as={Segment}>
                 <LayoutNotification />

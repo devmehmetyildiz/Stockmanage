@@ -73,7 +73,7 @@ const ForgetPassword: React.FC = () => {
                 <div className=' w-full flex flex-col justify-end items-end gap-4  px-4'>
                     <FormButton disabled={!formState.isValid} loading={isLoading} text={t('Pages.Passwordforget.Columns.Send')} onClick={() => handleSubmit()} />
                 </div>
-                <LoginFooter />
+                <LoginFooter isNewVersion={false} />
             </div>
         </div>
     </Pagewrapper>

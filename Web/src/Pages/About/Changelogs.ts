@@ -1,6 +1,7 @@
 
 export interface ChangeLogItem {
     version: string
+    date: string
     changes?: ChangeLogItemChangeItem[]
     bugs?: ChangeLogItemChangeItem[]
     features?: ChangeLogItemChangeItem[]
@@ -14,10 +15,12 @@ export interface ChangeLogItemChangeItem {
 
 const version1_0_0_0_preAlpha: ChangeLogItem = {
     version: "1.0.0.0-preAlpha",
+    date: "2025-10-08"
 }
 
 const version1_0_0_0_beta: ChangeLogItem = {
     version: "1.0.0.0-beta",
+    date: "2025-11-19",
     changes: [
         {
             title: 'Ziyaretler',
@@ -60,6 +63,7 @@ const version1_0_0_0_beta: ChangeLogItem = {
 
 const version1_0_0_0_rc: ChangeLogItem = {
     version: "1.0.0.0-rc",
+    date: "2025-12-04",
     features: [
         {
             title: 'Ziyaretler',
@@ -107,6 +111,7 @@ const version1_0_0_0_rc: ChangeLogItem = {
 
 const version1_0_0_0: ChangeLogItem = {
     version: "1.0.0.0",
+    date: "2026-01-06",
     changes: [
         {
             title: 'Ziyaretler',
@@ -132,6 +137,7 @@ const version1_0_0_0: ChangeLogItem = {
 
 const version1_0_1_0: ChangeLogItem = {
     version: "1.0.1.0",
+    date: "2026-02-13",
     changes: [
         {
             title: 'Sistem',

@@ -5,11 +5,14 @@ export interface LayoutContextProps {
     changeSidebar: (state: boolean) => void;
     isNotificationSidebarOpen: boolean;
     changeNotificationSidebar: (state: boolean) => void;
+    isNewVersionShowed: boolean;
+    setIsNewVersionShowed: (state: boolean) => void;
 }
 
 export const LayoutContext = createContext<LayoutContextProps | undefined>(undefined);
 
 export const LayoutProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+    const [isNewVersionShowed, setIsNewVersionShowed] = useState<boolean>(false);
     const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
     const [isNotificationOpen, setIsNotificationOpen] = useState<boolean>(false);
 
@@ -22,7 +25,7 @@ export const LayoutProvider: React.FC<{ children: ReactNode }> = ({ children }) 
     };
 
     return (
-        <LayoutContext.Provider value={{ isSidebarOpen, changeSidebar, isNotificationSidebarOpen: isNotificationOpen, changeNotificationSidebar }}>
+        <LayoutContext.Provider value={{ isSidebarOpen, changeSidebar, isNotificationSidebarOpen: isNotificationOpen, changeNotificationSidebar, isNewVersionShowed, setIsNewVersionShowed }}>
             {children}
         </LayoutContext.Provider>
     );
