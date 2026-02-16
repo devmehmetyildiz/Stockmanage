@@ -41,7 +41,7 @@ const About: React.FC = () => {
                                                         setActiveIndex([...activeIndex, item.version])
                                                 }}>
                                                 <div className='time-line-item-marker '>
-                                                    <div className={`time-line-item-marker-text `} >{`${t('Pages.About.Message.Version')} ${item.version}`}<Icon name={isOpened ? 'angle up' : 'angle down'} /></div>
+                                                    <div className={`time-line-item-marker-text `} >{`${t('Pages.About.Message.Version')} ${item.version} - ${new Date(item.date).toLocaleDateString('tr')}`}<Icon name={isOpened ? 'angle up' : 'angle down'} /></div>
                                                     <Divider />
                                                 </div>
                                             </Accordion.Title>
