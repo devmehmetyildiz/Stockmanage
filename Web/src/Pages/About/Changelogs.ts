@@ -180,8 +180,22 @@ const version1_0_1_0: ChangeLogItem = {
     ]
 }
 
+const version1_0_1_1: ChangeLogItem = {
+    version: "version1_0_1_1",
+    date: "2026-02-19",
+    bugs: [
+        {
+            title: 'Raporlar',
+            commits: [
+                "Sistemde tanımlı satış ziyareti yokken rapor sayfasının hataya düşme sorunu giderildi",
+            ]
+        }
+    ]
+}
+
 export default
     [
+        version1_0_1_1,
         version1_0_1_0,
         version1_0_0_0,
         version1_0_0_0_rc,
