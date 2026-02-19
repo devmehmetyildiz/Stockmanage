@@ -30,6 +30,7 @@ async function SaleReportByDoctor(req, res, next) {
            FROM visits s
            LEFT JOIN paymentplans pp ON pp.VisitID = s.Uuid
            WHERE s.Visitdate BETWEEN :Startdate AND :Enddate
+           AND s.Visittype = 0
            AND s.Status IN (2,4)
            GROUP BY s.DoctorID
         `;
@@ -74,6 +75,7 @@ async function SaleReportByLocation(req, res, next) {
            LEFT JOIN paymentplans pp ON pp.VisitID = s.Uuid
            LEFT JOIN locations l ON l.Uuid = s.LocationID
            WHERE s.Visitdate BETWEEN :Startdate AND :Enddate
+           AND s.Visittype = 0
            AND s.Status IN (2,4)
            GROUP BY s.LocationID
         `;
@@ -117,6 +119,7 @@ async function VisitProductReport(req, res, next) {
            WHERE   
                 s.Visitdate BETWEEN :Startdate AND :Enddate AND
                 s.Status = :Status
+           AND s.Visittype = 0
            AND s.Status IN (2,4)
            GROUP BY vp.StockID
            ORDER BY SoldAmount DESC
@@ -159,6 +162,7 @@ async function UserSaleReport(req, res, next) {
           FROM visits s
           LEFT JOIN paymentplans pp ON pp.VisitID = s.Uuid
           LEFT JOIN users u ON u.Uuid = s.ResponsibleUserID
+          AND s.Visittype = 0
           WHERE s.Visitdate BETWEEN :Startdate AND :Enddate
           AND s.Status IN (2,4)
           GROUP BY s.ResponsibleUserID
@@ -200,6 +204,7 @@ async function DailySalesReport(req, res, next) {
           FROM visits s
           LEFT JOIN paymentplans pp ON pp.VisitID = s.Uuid
           WHERE s.Visitdate BETWEEN :Startdate AND :Enddate
+          AND s.Visittype = 0
           AND s.Status IN (2,4)
           GROUP BY SalesDate
           ORDER BY SalesDate ASC
@@ -241,6 +246,7 @@ async function MonthlySalesReport(req, res, next) {
           FROM visits s
           LEFT JOIN paymentplans pp ON pp.VisitID = s.Uuid
           WHERE s.Visitdate BETWEEN :Startdate AND :Enddate
+          AND s.Visittype = 0
           AND s.Status IN (2,4)
           GROUP BY SalesMonth
           ORDER BY SalesMonth ASC
