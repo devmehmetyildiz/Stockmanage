@@ -181,7 +181,7 @@ const version1_0_1_0: ChangeLogItem = {
 }
 
 const version1_0_1_1: ChangeLogItem = {
-    version: "1_0_1_1",
+    version: "1.0.1.1",
     date: "2026-02-19",
     bugs: [
         {
