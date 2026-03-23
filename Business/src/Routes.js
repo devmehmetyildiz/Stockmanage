@@ -1,4 +1,7 @@
 const Routes = [
+    { method: 'get', path: '/Visits/GetFreeVisitCompletedCount', controller: 'Visit', action: 'GetFreeVisitCompletedCount' },
+    { method: 'get', path: '/Visits/GetVisitWaitingWork', controller: 'Visit', action: 'GetVisitWaitingWork' },
+    { method: 'get', path: '/Visits/GetVisitByStatusCount', controller: 'Visit', action: 'GetVisitByStatusCount' },
     { method: 'get', path: '/Visits/Counts', controller: 'Visit', action: 'GetVisitCounts' },
     { method: 'get', path: '/Visits/:ID', controller: 'Visit', action: 'GetVisit' },
     { method: 'get', path: '/Visits', controller: 'Visit', action: 'GetVisits' },

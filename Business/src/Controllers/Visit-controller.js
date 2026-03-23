@@ -35,12 +35,119 @@ async function GetVisitCounts(req, res, next) {
     }
 }
 
-async function GetVisits(req, res, next) {
+async function GetVisitByStatusCount(req, res, next) {
     try {
-        const visits = await db.visitModel.findAll({ where: req.query })
-        res.status(200).json(visits)
+        const query = `
+         SELECT 
+         Status,
+         Count(Status) as Count
+         FROM visits
+         WHERE
+         isActive = true
+         and Visittype = 0
+         and WorkerUserID = '${req?.identity?.user?.Uuid}'
+         GROUP BY Status 
+        `;
+
+        const results = await sequelize.query(query, {
+            type: sequelize.QueryTypes.SELECT
+        });
+
+        res.status(200).json(results);
+
     } catch (error) {
         return next(sequelizeErrorCatcher(error))
+    }
+}
+
+async function GetVisitWaitingWork(req, res, next) {
+    try {
+        const query = `
+         SELECT 
+         Count(*) as Count
+         FROM visits
+         WHERE
+         isActive = true
+         and Visittype = 0
+         and Status = 3
+         and Isapproved = true
+         and WorkerUserID = '${req?.identity?.user?.Uuid}'
+        `;
+
+        const results = await sequelize.query(query, {
+            type: sequelize.QueryTypes.SELECT
+        });
+
+        res.status(200).json(results);
+
+    } catch (error) {
+        return next(sequelizeErrorCatcher(error))
+    }
+}
+
+async function GetFreeVisitCompletedCount(req, res, next) {
+    try {
+        const date = new Date()
+        date.setDate(1)
+        date.getHours(0, 0, 0, 0)
+
+        const query = `
+         SELECT 
+         Count(*) as Count
+         FROM visits
+         WHERE
+         isActive = true
+         and Visittype = 1
+         and Status = 2
+         AND Visitdate >= :date
+         and WorkerUserID = '${req?.identity?.user?.Uuid}'
+        `;
+
+        const results = await sequelize.query(query, {
+            type: sequelize.QueryTypes.SELECT,
+            replacements: { date },
+        });
+
+        res.status(200).json(results);
+
+    } catch (error) {
+        return next(sequelizeErrorCatcher(error))
+    }
+}
+
+async function GetVisits(req, res, next) {
+    try {
+        const {
+            Visitstartdate,
+            Visitenddate,
+            Status,
+            Visittype,
+            Isactive,
+            WorkerUserID
+        } = req.query
+
+        const query = `
+                      SELECT 
+                      *
+                      FROM visits
+                      WHERE 
+                      ${!!Isactive ? ` Isactive = ${Isactive}` : ''}
+                      ${!!Visittype ? `AND Visittype = ${Visittype}` : ''}
+                      ${!!Status ? `AND Status = ${Status}` : ''}
+                      ${WorkerUserID ? `AND WorkerUserID = '${WorkerUserID}'` : ''}
+                      ${Visitstartdate ? `AND Visitdate >= '${Visitstartdate}'` : ''}
+                      ${Visitenddate ? `AND (Visitdate <= '${Visitenddate}' OR Visitdate IS NULL) ` : ''}
+                         ORDER BY Visitdate DESC
+                          `
+            ;
+
+        const results = await sequelize.query(query, {
+            type: sequelize.QueryTypes.SELECT
+        });
+
+        res.status(200).json(results);
+    } catch (error) {
+        next(sequelizeErrorCatcher(error))
     }
 }
 
@@ -1152,5 +1259,8 @@ module.exports = {
     ConsumeVisitRequests,
     CreateFreeVisit,
     WorkFreeVisit,
-    CompleteFreeVisit
+    CompleteFreeVisit,
+    GetVisitByStatusCount,
+    GetVisitWaitingWork,
+    GetFreeVisitCompletedCount
 }

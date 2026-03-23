@@ -193,8 +193,37 @@ const version1_0_1_1: ChangeLogItem = {
     ]
 }
 
+const version1_0_1_2: ChangeLogItem = {
+    version: "1.0.1.2",
+    date: "2026-03-23",
+    features: [
+        {
+            title: 'İşlerim Ekranı',
+            commits: [
+                "Sol menü en üst sekmeye işlerim ekranı eklendi, uygulama ilk açıldığında varsayılan olarak işlerim ekranı gelecektir. (Ayarlardan değiştirilebilir.)",
+                "İşlerim ekranına üst menüde yer alan kısayola tıklanarak ulaşılabilir",
+                "İşlerim ekranı en üstte satış ziyaretleri ile alakalı bilgileri vermektedir.",
+                "İşlerim ekranı alt kısımda bu ay içerisinde tamamladığınız ücretsiz ziyaretlerin sayısını verir ve yönetici tarafından onaylanan satış ziyaretlerizin bilgisini verir.",
+                "Onaylanmış olup işlemde olan kayıtlar ifadesi yöneticiniz tarafından onaylanmış olup çalışmaya başlayabileceğiniz işlerin sayısını ifade etmektedir."
+            ]
+        }
+    ],
+    changes: [
+        {
+            title: 'Ziyaretler',
+            commits: [
+                "Ziyaretler ilk olarak en güncel planlanan ziyaret tarihi alanına göre sıralanarak gelecek.",
+                "Ziyaretler ekranına ait tasarım büyük oranda değiştirildi",
+                "Ziyaretler alt tablara ayrılmalı gösterimi yerine hepsi tek grid olarak gelecektir.",
+                "Ziyaretler varsayılan olarak 1 ay içerisinde yaptığınız işleri gösterir, filtreyi geçmişe alarak bu durumu istediğiniz şekilde ayarlayabilirsiniz.",
+            ]
+        }
+    ],
+}
+
 export default
     [
+        version1_0_1_2,
         version1_0_1_1,
         version1_0_1_0,
         version1_0_0_0,

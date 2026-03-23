@@ -42,7 +42,7 @@ const VisitUpdateProducts: React.FC = () => {
                             Subject: t('Pages.Visits.Page.Header'),
                             Description: t('Pages.Visits.Messages.UpdateSuccess')
                         })
-                        navigate(Paths.Visits)
+                        navigate(-1)
                     })
             } else {
                 CheckForm(formState, t('Pages.Visits.Page.Header'))
@@ -73,7 +73,7 @@ const VisitUpdateProducts: React.FC = () => {
                 Subject: t('Pages.Visits.Page.Header'),
                 Description: t('Pages.Visits.Messages.UndefinedVisit')
             })
-            navigate(Paths.Visits)
+            navigate(-1)
         }
     }, [Id, GetVisit, navigate, reset, t])
 

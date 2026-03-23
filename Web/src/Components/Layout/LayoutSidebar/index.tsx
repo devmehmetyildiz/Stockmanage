@@ -26,7 +26,8 @@ export interface SidebarItem {
     id: number
     title: string
     icon: SemanticICONS
-    items: SidebarItemDetail[]
+    items?: SidebarItemDetail[]
+    url?: string
 }
 
 export const getSidebarRoutes = (t: any, userPrivileges: string[]) => {
@@ -41,6 +42,12 @@ export const getSidebarRoutes = (t: any, userPrivileges: string[]) => {
     }
 
     const pages: SidebarItem[] = [
+        {
+            id: 6,
+            title: t('Sidebar.Menu.Home'),
+            icon: 'home',
+            url: Paths.Main,
+        },
         {
             id: 1,
             title: t('Sidebar.Menu.Organisation'),
@@ -100,12 +107,14 @@ export const getSidebarRoutes = (t: any, userPrivileges: string[]) => {
     ]
 
     return pages.map(mainPane => {
-        const avilableItems = mainPane.items.filter(u => u.permission)
+        const avilableItems = (mainPane.items || []).filter(u => u.permission)
         if (avilableItems.length > 0) {
             return {
                 ...mainPane,
                 items: avilableItems
             }
+        } else if (mainPane.url) {
+            return mainPane
         } else {
             return null
         }
@@ -149,14 +158,20 @@ const LayoutSidebar: React.FC<LayoutSidebarProps> = ({ visible, setVisible }) =>
                                 title={page.title}
                                 key={page.id}
                                 open={openedID === page.id}
-                                onClick={() => setOpenedID(prev => prev === page.id ? null : page.id)}
+                                onClick={() => {
+                                    if (page.url) {
+                                        navigate(page.url)
+                                    } else {
+                                        setOpenedID(prev => prev === page.id ? null : page.id)
+                                    }
+                                }}
                                 icon={<div className='rounded-full flex justify-center items-center w-10 h-10 bg-softBg shadow-primary shadow-sm'>
                                     <div className='ml-1'>
                                         <Icon name={page.icon} className='text-primary' />
                                     </div>
                                 </div>}
                             >
-                                {page.items.map((item) => {
+                                {(page.items || []).map((item) => {
                                     return <MenuItem
                                         key={item.id}
                                         onClick={() => {

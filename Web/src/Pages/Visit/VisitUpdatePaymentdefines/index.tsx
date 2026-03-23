@@ -61,7 +61,7 @@ const VisitUpdatePaymentdefines: React.FC = () => {
                             Subject: t('Pages.Visits.Page.Header'),
                             Description: t('Pages.Visits.Messages.UpdateSuccess')
                         })
-                        navigate(`${Paths.Visits}?tab=working`)
+                        navigate(-1)
                     })
             } else {
                 CheckForm(formState, t('Pages.Visits.Page.Header'))
@@ -86,7 +86,7 @@ const VisitUpdatePaymentdefines: React.FC = () => {
                 Subject: t('Pages.Visits.Page.Header'),
                 Description: t('Pages.Visits.Messages.UndefinedVisit')
             })
-            navigate(`${Paths.Visits}?tab=working`)
+            navigate(-1)
         }
     }, [Id, GetVisit, navigate, reset, t])
 
@@ -94,7 +94,7 @@ const VisitUpdatePaymentdefines: React.FC = () => {
         <Title
             PageName={t('Pages.Visits.Page.EditDefinesHeader')}
             AdditionalName={data?.Visitcode}
-            PageUrl={`${Paths.Visits}?tab=working`}
+            PageUrl={Paths.Visits}
         />
         <FormProvider<VisitUpdateDefinesRequest> {...methods}>
             <Contentwrapper>

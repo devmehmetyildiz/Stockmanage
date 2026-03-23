@@ -22,7 +22,7 @@ const UserCreateApp: React.FC = () => {
     const pages = getSidebarRoutes(t, userPrivileges)
 
     const sidebarRoutes = pages.flatMap(section => {
-        return section.items.filter(u => u.permission)
+        return (section.items || []).filter(u => u.permission)
     })
 
     const PageOption: DropdownItemProps[] = sidebarRoutes.map(item => {

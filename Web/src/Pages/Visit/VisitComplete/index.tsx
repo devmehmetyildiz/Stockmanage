@@ -67,7 +67,7 @@ const VisitComplete: React.FC = () => {
                             Subject: t('Pages.Visits.Page.Header'),
                             Description: t('Pages.Visits.Messages.UpdateSuccess')
                         })
-                        navigate(Paths.Visits)
+                        navigate(-1)
                     })
             } else {
                 CheckForm(formState, t('Pages.Visits.Page.Header'))
@@ -119,7 +119,7 @@ const VisitComplete: React.FC = () => {
                     })
                 })
                 .catch(() => {
-                    navigate(`${Paths.Visits}?tab=working`);
+                    navigate(-1)
                 });
         } else {
             Pushnotification({
@@ -127,7 +127,7 @@ const VisitComplete: React.FC = () => {
                 Subject: t('Pages.Visits.Page.Header'),
                 Description: t('Pages.Visits.Messages.UndefinedVisit'),
             });
-            navigate(`${Paths.Visits}?tab=working`);
+            navigate(-1)
         }
     }, [Id, GetVisit, navigate, t, reset]);
 

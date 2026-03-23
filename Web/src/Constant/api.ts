@@ -140,6 +140,12 @@ export const VISIT_CREATE_FREEVISIT = 'Business/Visits/CreateFreeVisit'
 
 export const VISIT_GETCOUNT = 'Business/Visits/Counts'
 
+export const VISIT_GETCOUNT_BYSTATUS = 'Business/Visits/GetVisitByStatusCount'
+
+export const VISIT_GETCOUNT_BYWAITINGWORK = 'Business/Visits/GetVisitWaitingWork'
+
+export const VISIT_GETCOUNT_FREEVISITCOMPLETED = 'Business/Visits/GetFreeVisitCompletedCount'
+
 export const VISIT_UPDATE_STOCKS = 'Business/Visits/UpdateVisitStocks'
 
 export const VISIT_UPDATE_DEFINES = 'Business/Visits/UpdateVisitDefines'

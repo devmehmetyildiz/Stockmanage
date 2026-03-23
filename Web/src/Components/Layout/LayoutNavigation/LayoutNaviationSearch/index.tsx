@@ -15,14 +15,14 @@ const LayoutNaviationSearch: React.FC = () => {
     const [searchWord, setSearchWord] = useState('')
 
     const { data, isFetching } = useGetPrivilegesQuery()
-    const { data: visits, isFetching: isVisitsFetching } = useGetVisitsQuery()
+    const { data: visits, isFetching: isVisitsFetching } = useGetVisitsQuery({ Isactive: true })
 
     const userPrivileges = data || [] as string[]
 
     const pages = getSidebarRoutes(t, userPrivileges)
 
     const sidebarRoutes = pages.flatMap(section => {
-        return section.items.filter(u => u.permission)
+        return (section.items || []).filter(u => u.permission)
     })
 
     const baseSearchdata = sidebarRoutes.map(u => {

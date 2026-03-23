@@ -23,7 +23,7 @@ const PaymentplanFull: React.FC = () => {
 
     const { data, isFetching } = useGetPaymentplansQuery({ isActive: 1, Status: VISIT_PAYMENT_STATUS_FULL })
 
-    const { data: visits, isFetching: isVisitsFetching } = useGetVisitsQuery({ isActive: 1, Visittype: VISIT_TYPE_SALEVISIT })
+    const { data: visits, isFetching: isVisitsFetching } = useGetVisitsQuery({ Isactive: 1, Visittype: VISIT_TYPE_SALEVISIT })
     const { data: paymenttypes, isFetching: isPaymenttypesFetching } = useGetPaymenttypesQuery({ isActive: 1 })
 
     const TableQuery = useGetTableMetaQuery({ Key: 'paymentplanfull' })

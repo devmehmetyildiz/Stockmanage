@@ -1,9 +1,19 @@
-import { DefaultRequestType } from "@Constant/common";
-
-export interface VisitListRequest extends DefaultRequestType {
-    Visittype?: number;
-    Status?: number;
+export interface VisitListRequest {
+    Visitstartdate?: string
+    Visitenddate?: string
+    Status?: number
+    Visittype?: number
+    Isactive?: boolean | number
     WorkerUserID?: string
+}
+
+export interface VisitCountByStatusResponse {
+    Status: number
+    Count: number
+}
+
+export interface VisitCountByWaitingWork {
+    Count: number
 }
 
 export interface VisitRequest {

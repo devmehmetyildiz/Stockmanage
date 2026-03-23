@@ -1,5 +1,17 @@
 const PermissionHandler = require("../../Utilities/PermissionHandler")
 
+async function GetFreeVisitCompletedCount(req, res, next) {
+    PermissionHandler(req, next, 'visitscreen')
+}
+
+async function GetVisitWaitingWork(req, res, next) {
+    PermissionHandler(req, next, 'visitscreen')
+}
+
+async function GetVisitByStatusCount(req, res, next) {
+    PermissionHandler(req, next, 'visitscreen')
+}
+
 async function GetVisitCounts(req, res, next) {
     PermissionHandler(req, next, 'visitscreen')
 }
@@ -57,6 +69,7 @@ async function DeleteVisit(req, res, next) {
 }
 
 module.exports = {
+    GetVisitByStatusCount,
     GetVisitCounts,
     GetVisits,
     GetVisit,
@@ -70,5 +83,7 @@ module.exports = {
     SendApproveVisit,
     CreateFreeVisit,
     WorkFreeVisit,
-    CompleteFreeVisit
+    CompleteFreeVisit,
+    GetVisitWaitingWork,
+    GetFreeVisitCompletedCount
 }

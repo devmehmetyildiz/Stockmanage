@@ -31,7 +31,7 @@ const StockMovement: React.FC = () => {
 
     const stock = (stocks || []).find(u => u.Uuid === Id)
 
-    const { data: visits, isFetching: isVisitsFetching } = useGetVisitsQuery({ isActive: 1, Visittype: VISIT_TYPE_SALEVISIT })
+    const { data: visits, isFetching: isVisitsFetching } = useGetVisitsQuery({ Isactive: 1, Visittype: VISIT_TYPE_SALEVISIT })
     const { data: users, isFetching: isUsersFetching } = useGetUsersListQuery()
     const { data: stockdefine, isFetching: isStockdefinesFetching } = useGetStockdefineQuery({ Uuid: stock?.StockdefineID ?? '' }, { skip: !validator.isUUID(stock?.StockdefineID) })
     const { data: warehouse, isFetching: isWarehouseFetching } = useGetWarehouseQuery({ Uuid: stock?.WarehouseID ?? '' }, { skip: !validator.isUUID(stock?.WarehouseID) })

@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next'
 import { Card, Icon, Message, Progress } from 'semantic-ui-react'
 import Pagewrapper from '@Components/Common/Pagewrapper'
 import Title from '@Components/Common/Title'
-import Contentwrapper from '@Components/Common/Contentwrapper'
 import VisitDetailLabel from '@Components/Visit/VisitDetail/VisitDetailLabel'
 import LoadingWrapper from '@Components/Common/LoadingWrapper'
 import { FormatDate } from '@Utils/FormatDate'
@@ -27,7 +26,7 @@ const PaymentplanDetail: React.FC = () => {
 
   const { data: plan, isFetching: isPlanFetching } = useGetPaymentplanQuery({ Uuid: Id ?? '' }, { skip: !validator.isUUID(Id) })
   const { data: transactions, isFetching: isTransactionsFetching } = useGetPaymentplantransactionsQuery({ PaymentplanID: Id ?? '' }, { skip: !validator.isUUID(Id) })
-  const { data: visits } = useGetVisitsQuery({ isActive: 1, Visittype: VISIT_TYPE_SALEVISIT })
+  const { data: visits } = useGetVisitsQuery({ Isactive: 1, Visittype: VISIT_TYPE_SALEVISIT })
   const { data: paymenttype } = useGetPaymenttypeQuery({ Uuid: plan?.PaymenttypeID ?? '' }, { skip: !validator.isUUID(plan?.PaymenttypeID) })
 
   const visit = useMemo(() => (visits || []).find(v => v.Uuid === plan?.VisitID), [visits, plan?.VisitID])

@@ -1,11 +1,32 @@
 import { gatewayApi } from "@Api/api";
-import { VISIT, METHOD_GET, METHOD_POST, METHOD_PUT, VISIT_TAG, VISIT_GETCOUNT, VISIT_UPDATE_STOCKS, VISIT_UPDATE_DEFINES, VISIT_WORK, METHOD_DELETE, VISIT_UPDATE_PAYMENTDEFINE, VISIT_COMPLETE, VISIT_SEND_APPROVE, PAYMENTPLAN_TAG, VISIT_COMPLETE_TAG, VISIT_CREATE_FREEVISIT, VISIT_WORK_FREEVISIT, VISIT_COMPLETE_FREEVISIT } from "@Constant/api";
-import { VisitCompleteApiRequest, VisitCompleteFreeVisitRequest, VisitCreateFreeVisitRequest, VisitCreateRequest, VisitDeleteRequest, VisitItem, VisitListItem, VisitListRequest, VisitRequest, VisitSendApproveRequest, VisitUpdateDefinesRequest, VisitUpdatePaymentdefineRequest, VisitUpdateStocksRequest, VisitWorkRequest } from "./type";
+import { VISIT, METHOD_GET, METHOD_POST, METHOD_PUT, VISIT_TAG, VISIT_GETCOUNT, VISIT_UPDATE_STOCKS, VISIT_UPDATE_DEFINES, VISIT_WORK, METHOD_DELETE, VISIT_UPDATE_PAYMENTDEFINE, VISIT_COMPLETE, VISIT_SEND_APPROVE, PAYMENTPLAN_TAG, VISIT_COMPLETE_TAG, VISIT_CREATE_FREEVISIT, VISIT_WORK_FREEVISIT, VISIT_COMPLETE_FREEVISIT, VISIT_GETCOUNT_BYSTATUS, VISIT_GETCOUNT_BYWAITINGWORK, VISIT_GETCOUNT_FREEVISITCOMPLETED } from "@Constant/api";
+import { VisitCompleteApiRequest, VisitCompleteFreeVisitRequest, VisitCountByStatusResponse, VisitCountByWaitingWork, VisitCreateFreeVisitRequest, VisitCreateRequest, VisitDeleteRequest, VisitItem, VisitListItem, VisitListRequest, VisitRequest, VisitSendApproveRequest, VisitUpdateDefinesRequest, VisitUpdatePaymentdefineRequest, VisitUpdateStocksRequest, VisitWorkRequest } from "./type";
 
 export const visitQuery = gatewayApi
     .enhanceEndpoints({ addTagTypes: [VISIT_TAG, VISIT_COMPLETE_TAG, PAYMENTPLAN_TAG] })
     .injectEndpoints({
         endpoints: (builder) => ({
+            getVisitByStatus: builder.query<VisitCountByStatusResponse[], void>({
+                query: () => ({
+                    url: VISIT_GETCOUNT_BYSTATUS,
+                    method: METHOD_GET,
+                }),
+                providesTags: [VISIT_TAG, VISIT_COMPLETE_TAG, PAYMENTPLAN_TAG]
+            }),
+            getVisitCountByWaitingWork: builder.query<VisitCountByWaitingWork[], void>({
+                query: () => ({
+                    url: VISIT_GETCOUNT_BYWAITINGWORK,
+                    method: METHOD_GET,
+                }),
+                providesTags: [VISIT_TAG, VISIT_COMPLETE_TAG, PAYMENTPLAN_TAG]
+            }),
+            getVisitCountFreeVisitCompleted: builder.query<VisitCountByWaitingWork[], void>({
+                query: () => ({
+                    url: VISIT_GETCOUNT_FREEVISITCOMPLETED,
+                    method: METHOD_GET,
+                }),
+                providesTags: [VISIT_TAG, VISIT_COMPLETE_TAG, PAYMENTPLAN_TAG]
+            }),
             getVisits: builder.query<VisitListItem[], VisitListRequest | void>({
                 query: (params) => ({
                     url: VISIT,
@@ -120,6 +141,9 @@ export const visitQuery = gatewayApi
     });
 
 export const {
+    useGetVisitCountFreeVisitCompletedQuery,
+    useGetVisitCountByWaitingWorkQuery,
+    useGetVisitByStatusQuery,
     useLazyGetVisitQuery,
     useGetVisitsQuery,
     useGetVisitsCountQuery,
