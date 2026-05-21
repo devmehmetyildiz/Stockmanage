@@ -221,8 +221,22 @@ const version1_0_1_2: ChangeLogItem = {
     ],
 }
 
+const version1_0_1_3: ChangeLogItem = {
+    version: "1.0.1.3",
+    date: "2026-05-21",
+    changes: [
+        {
+            title: 'Ziyaretler',
+            commits: [
+                "Ziyaretlerde ürün zorunluluğu kaldırıldı.",
+            ]
+        }
+    ],
+}
+
 export default
     [
+        version1_0_1_3,
         version1_0_1_2,
         version1_0_1_1,
         version1_0_1_0,

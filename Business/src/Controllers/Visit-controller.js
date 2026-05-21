@@ -206,21 +206,19 @@ async function CreateVisit(req, res, next) {
     if (!validator.isUUID(LocationID)) {
         validationErrors.push(req.t('Visits.Error.LocationIDRequired'))
     }
-    if (!validator.isArray(Stocks) || (Stocks || []).length <= 0) {
-        validationErrors.push(req.t('Visits.Error.StocksRequired'))
-    } else {
-        for (const stock of Stocks) {
-            if (!validator.isUUID(stock.Uuid)) {
-                validationErrors.push(req.t('Visits.Error.StockIDRequired'))
-            }
-            if (!validator.isUUID(stock.WarehouseID)) {
-                validationErrors.push(req.t('Visits.Error.WarehouseIDRequired'))
-            }
-            if (!validator.isNumber(stock.Amount) || stock.Amount <= 0) {
-                validationErrors.push(req.t('Visits.Error.AmountRequired'))
-            }
+
+    for (const stock of (Stocks || [])) {
+        if (!validator.isUUID(stock.Uuid)) {
+            validationErrors.push(req.t('Visits.Error.StockIDRequired'))
+        }
+        if (!validator.isUUID(stock.WarehouseID)) {
+            validationErrors.push(req.t('Visits.Error.WarehouseIDRequired'))
+        }
+        if (!validator.isNumber(stock.Amount) || stock.Amount <= 0) {
+            validationErrors.push(req.t('Visits.Error.AmountRequired'))
         }
     }
+
     if (!validator.isISODate(Visitdate)) {
         validationErrors.push(req.t('Visits.Error.VisitdateRequired'))
     } else {
@@ -706,21 +704,23 @@ async function WorkVisit(req, res, next) {
 
     const visitStocks = await db.visitproductModel.findAll({ where: { Isactive: true, VisitID } })
 
-    let stockCheckRequestBody = (visitStocks || []).map(item => {
-        return {
-            StockID: item.StockID,
-            Amount: item.Amount,
-            Sourcetype: STOCK_SOURCETYPE_VISIT,
-            SourceID: VisitID
-        }
-    })
-
-    try {
-        await DoPut(config.services.Warehouse, 'Stocks/UseStockList', {
-            StockList: stockCheckRequestBody
+    if (visitStocks.length > 0) {
+        let stockCheckRequestBody = (visitStocks || []).map(item => {
+            return {
+                StockID: item.StockID,
+                Amount: item.Amount,
+                Sourcetype: STOCK_SOURCETYPE_VISIT,
+                SourceID: VisitID
+            }
         })
-    } catch (error) {
-        return next(requestErrorCatcher(error, 'Warehouse'))
+
+        try {
+            await DoPut(config.services.Warehouse, 'Stocks/UseStockList', {
+                StockList: stockCheckRequestBody
+            })
+        } catch (error) {
+            return next(requestErrorCatcher(error, 'Warehouse'))
+        }
     }
 
     try {
@@ -807,7 +807,6 @@ async function UpdateVisitPaymentDefines(req, res, next) {
     if (!validator.isNumber(Scheduledpayment) || Scheduledpayment <= 0) {
         validationErrors.push(req.t('Visits.Error.ScheduledpaymentRequired'))
     }
-
 
     if (validationErrors.length > 0) {
         return next(createValidationError(validationErrors, req.t('Visits'), req.language))
@@ -979,7 +978,7 @@ async function CompleteVisit(req, res, next) {
             }
         }
 
-        for (const stock of Usedproducts) {
+        for (const stock of (Usedproducts || [])) {
             await db.visitproductModel.create({
                 Uuid: uuid(),
                 VisitID: VisitID,
