@@ -260,8 +260,22 @@ const version1_0_2_0: ChangeLogItem = {
     ],
 }
 
+const version1_0_2_1: ChangeLogItem = {
+    version: "1.0.2.1",
+    date: "2026-06-03",
+    changes: [
+        {
+            title: 'Roller',
+            commits: [
+                "Raporlar için ayrı roller eklendi"
+            ]
+        },
+    ],
+}
+
 export default
     [
+        version1_0_2_1,
         version1_0_2_0,
         version1_0_1_3,
         version1_0_1_2,

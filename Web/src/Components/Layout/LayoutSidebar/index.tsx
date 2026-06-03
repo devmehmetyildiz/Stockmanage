@@ -48,8 +48,8 @@ export const getSidebarRoutes = (t: any, userPrivileges: string[]) => {
             icon: 'home',
             items: [
                 { id: 1, subtitle: t('Sidebar.Menu.Home'), url: Paths.Main, permission: checkAuth(privileges.basic) },
-                { id: 1, subtitle: t('Pages.Organisation.Page.Header'), url: Paths.Organisation, permission: checkAuth(privileges.paymentplanview) },
-                { id: 1, subtitle: t('Pages.DoctorReport.Page.Header'), url: Paths.DoctorReport, permission: checkAuth(privileges.paymentplanview) },
+                { id: 1, subtitle: t('Pages.Organisation.Page.Header'), url: Paths.Organisation, permission: checkAuth(privileges.reportorganization) },
+                { id: 1, subtitle: t('Pages.DoctorReport.Page.Header'), url: Paths.DoctorReport, permission: checkAuth(privileges.reportdoctor) },
             ]
         },
         {

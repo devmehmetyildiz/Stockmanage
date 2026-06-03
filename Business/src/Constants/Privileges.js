@@ -82,6 +82,8 @@ const Priveleges = [
     { code: 'cashflowscreen',       text: { en: 'Cash Flows Screen',      tr: 'Cari İşlem Hareketleri Veri' },             group: { en: 'Cash Flows', tr: 'Cari İşlem Hareketleri' } },
     { code: 'cashflowview',         text: { en: 'Cash Flows View',        tr: 'Cari İşlem Hareketleri Görüntüleme' },      group: { en: 'Cash Flows', tr: 'Cari İşlem Hareketleri' } },
     { code: 'cashflowadd',          text: { en: 'Cash Flows Add',         tr: 'Cari İşlem Hareketleri Oluşturma' },        group: { en: 'Cash Flows', tr: 'Cari İşlem Hareketleri' } },
+    { code: 'reportorganization',          text: { en: 'Organization Reports',         tr: 'Kurum Raporları' },        group: { en: 'Reports', tr: 'Raporlar' } },
+    { code: 'reportdoctor',          text: { en: 'Doctor Reports',         tr: 'Doktor Raporları' },        group: { en: 'Reports', tr: 'Raporlar' } },
     ]
     
     module.exports = Priveleges

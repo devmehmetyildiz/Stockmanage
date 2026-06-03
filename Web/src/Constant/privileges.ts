@@ -83,6 +83,8 @@ const paymentplannotification = 'paymentplannotification'
 const cashflowscreen = 'cashflowscreen'
 const cashflowview = 'cashflowview'
 const cashflowadd = 'cashflowadd'
+const reportorganization = 'reportorganization'
+const reportdoctor = 'reportdoctor'
 
 const privileges = {
     admin,
@@ -168,6 +170,8 @@ const privileges = {
     cashflowscreen,
     cashflowview,
     cashflowadd,
+    reportorganization,
+    reportdoctor
 }
 
 export default privileges
