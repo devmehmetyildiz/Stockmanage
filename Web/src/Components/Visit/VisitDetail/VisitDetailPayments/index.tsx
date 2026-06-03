@@ -91,11 +91,6 @@ const VisitDetailPayments: React.FC<VisitDetailPaymentsProps> = ({ data }) => {
                                 label={t('Pages.Visits.Columns.PaymenttypeID')}
                                 value={paymenttype?.Name ?? t('Common.NoDataFound')}
                             />
-                            <VisitDetailLabel
-                                icon="file alternate"
-                                label={t('Pages.Visits.Label.Notes')}
-                                value={data?.Notes ?? t('Common.NoDataFound')}
-                            />
                         </div>
 
                         <div className="mt-5">

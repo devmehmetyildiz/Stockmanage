@@ -123,6 +123,7 @@ async function GetVisits(req, res, next) {
             Status,
             Visittype,
             Isactive,
+            DoctorID,
             WorkerUserID
         } = req.query
 
@@ -135,6 +136,7 @@ async function GetVisits(req, res, next) {
                       ${!!Visittype ? `AND Visittype = ${Visittype}` : ''}
                       ${!!Status ? `AND Status = ${Status}` : ''}
                       ${WorkerUserID ? `AND WorkerUserID = '${WorkerUserID}'` : ''}
+                      ${DoctorID ? `AND DoctorID = '${DoctorID}'` : ''}
                       ${Visitstartdate ? `AND Visitdate >= '${Visitstartdate}'` : ''}
                       ${Visitenddate ? `AND (Visitdate <= '${Visitenddate}' OR Visitdate IS NULL) ` : ''}
                          ORDER BY Visitdate DESC
@@ -168,7 +170,10 @@ async function GetVisit(req, res, next) {
         }
 
         const visitproducts = await db.visitproductModel.findAll({ where: { Isactive: true, VisitID: visit.Uuid } })
+        const visitnotes = await db.visitnoteModel.findAll({ where: { Isactive: true, VisitID: visit.Uuid } })
+        console.log('visitnotes: ', visitnotes);
         visit.Products = visitproducts ?? []
+        visit.Notes = (visitnotes ?? []).map(note => note.Note)
         res.status(200).json(visit)
     } catch (error) {
         next(sequelizeErrorCatcher(error))
@@ -184,11 +189,11 @@ async function CreateVisit(req, res, next) {
         DoctorID,
         LocationID,
         Visitdate,
-        Notes,
         Stocks,
         PaymenttypeID,
         Scheduledpayment,
-        Description
+        Description,
+        Notes
     } = req.body
 
     if (!validator.isNumber(Visittype)) {
@@ -221,12 +226,6 @@ async function CreateVisit(req, res, next) {
 
     if (!validator.isISODate(Visitdate)) {
         validationErrors.push(req.t('Visits.Error.VisitdateRequired'))
-    } else {
-        /*   const current = new Date()
-          current.setHours(0, 0, 0, 0)
-          if (new Date(Visitdate).getTime() < current.getTime()) {
-              validationErrors.push(req.t('Visits.Error.VisitdateCantSmall'))
-          } */
     }
 
     if (validationErrors.length > 0) {
@@ -277,7 +276,6 @@ async function CreateVisit(req, res, next) {
             Visitdate,
             Scheduledpayment,
             Status: 0,
-            Notes,
             Description,
             Createduser: username,
             Createtime: new Date(),
@@ -294,6 +292,17 @@ async function CreateVisit(req, res, next) {
                 Istaken: false,
                 IsReturned: false,
                 Description: stock.Description,
+                Createduser: username,
+                Createtime: new Date(),
+                Isactive: true,
+            }, { transaction: t })
+        }
+
+        for (const note of Notes) {
+            await db.visitnoteModel.create({
+                Uuid: uuid(),
+                VisitID: itemUuid,
+                Note: note,
                 Createduser: username,
                 Createtime: new Date(),
                 Isactive: true,
@@ -332,8 +341,8 @@ async function CreateFreeVisit(req, res, next) {
         DoctorID,
         LocationID,
         Visitdate,
-        Notes,
-        Description
+        Description,
+        Notes
     } = req.body
 
     if (!validator.isNumber(Visittype)) {
@@ -353,12 +362,6 @@ async function CreateFreeVisit(req, res, next) {
     }
     if (!validator.isISODate(Visitdate)) {
         validationErrors.push(req.t('Visits.Error.VisitdateRequired'))
-    } else {
-        /*   const current = new Date()
-          current.setHours(0, 0, 0, 0)
-          if (new Date(Visitdate).getTime() < current.getTime()) {
-              validationErrors.push(req.t('Visits.Error.VisitdateCantSmall'))
-          } */
     }
 
     if (validationErrors.length > 0) {
@@ -407,12 +410,144 @@ async function CreateFreeVisit(req, res, next) {
             LocationID,
             Visitdate,
             Status: 0,
-            Notes,
             Description,
             Createduser: username,
             Createtime: new Date(),
             Isactive: true,
         }, { transaction: t })
+
+        for (const note of Notes) {
+            await db.visitnoteModel.create({
+                Uuid: uuid(),
+                VisitID: itemUuid,
+                Note: note,
+                Createduser: username,
+                Createtime: new Date(),
+                Isactive: true,
+            }, { transaction: t })
+        }
+
+        await t.commit()
+
+        publishEvent("notificationCreate", 'User', 'Userrole', {
+            type: {
+                en: "Created",
+                tr: "Oluşturuldu"
+            }[req.language],
+            service: req.t('Visits'),
+            role: 'visitnotification',
+            message: {
+                en: `${location?.Name} ${doctor?.Name} visit created by ${username}`,
+                tr: `${location?.Name} Bölgesindeki ${doctor?.Name} için ziyaret ${username} tarafından oluşturuldu`
+            }[req.language],
+            pushurl: '/Visits'
+        });
+
+        res.status(200).json({ message: req.t('General.SuccessfullyCreated'), entity: itemUuid })
+    } catch (error) {
+        await t.rollback()
+        next(sequelizeErrorCatcher(error))
+    }
+}
+
+async function CreatePastVisit(req, res, next) {
+    let validationErrors = []
+    const {
+        Visittype,
+        WorkerUserID,
+        ResponsibleUserID,
+        DoctorID,
+        LocationID,
+        Visitdate,
+        Description,
+        Notes,
+        Totalamount,
+    } = req.body
+
+    if (!validator.isNumber(Visittype)) {
+        validationErrors.push(req.t('Visits.Error.VisittypeRequired'))
+    }
+    if (!validator.isUUID(WorkerUserID)) {
+        validationErrors.push(req.t('Visits.Error.WorkerUserIDRequired'))
+    }
+    if (!validator.isUUID(ResponsibleUserID)) {
+        validationErrors.push(req.t('Visits.Error.ResponsibleUserIDRequired'))
+    }
+    if (!validator.isUUID(DoctorID)) {
+        validationErrors.push(req.t('Visits.Error.DoctorIDRequired'))
+    }
+    if (!validator.isUUID(LocationID)) {
+        validationErrors.push(req.t('Visits.Error.LocationIDRequired'))
+    }
+
+    if (!validator.isISODate(Visitdate)) {
+        validationErrors.push(req.t('Visits.Error.VisitdateRequired'))
+    }
+
+    if (validationErrors.length > 0) {
+        return next(createValidationError(validationErrors, req.t('Visits'), req.language))
+    }
+
+    const doctor = await DoGet(config.services.Setting, 'Doctordefines/' + DoctorID)
+    const location = await DoGet(config.services.Setting, 'Locations/' + LocationID)
+
+    const t = await db.sequelize.transaction();
+    const username = req?.identity?.user?.Username || 'System'
+    const itemUuid = uuid()
+    let visitCode = null
+
+    const latestVisit = await db.visitModel.findOne({
+        attributes: ['Visitcode'],
+        where: { Isactive: true },
+        order: [
+            ['Createtime', 'DESC'],
+        ],
+        raw: true
+    });
+
+    if (latestVisit && latestVisit.Visitcode && (latestVisit.Visitcode ?? '').split('-').length >= 3) {
+        const parts = latestVisit.Visitcode.split('-');
+        const year = parts[0];
+        const month = parts[1];
+        const lastNumber = parseInt(parts[2], 10) || 0;
+        const nextNumber = String(lastNumber + 1).padStart(4, "0");
+        visitCode = `${year}-${month}-${nextNumber}`;
+    } else {
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, "0");
+        visitCode = `${year}-${month}-${String(1).padStart(4, "0")}`;
+    }
+
+    try {
+        await db.visitModel.create({
+            Uuid: itemUuid,
+            Visittype,
+            Visitcode: visitCode,
+            WorkerUserID,
+            ResponsibleUserID,
+            DoctorID,
+            PaymenttypeID: null,
+            LocationID,
+            Visitdate,
+            Scheduledpayment: Totalamount,
+            Status: 0,
+            Description,
+            Createduser: username,
+            Createtime: new Date(),
+            Isactive: true,
+        }, { transaction: t })
+
+        for (const note of Notes) {
+            await db.visitnoteModel.create({
+                Uuid: uuid(),
+                VisitID: itemUuid,
+                Note: note,
+                Createduser: username,
+                Createtime: new Date(),
+                Isactive: true,
+            }, { transaction: t })
+        }
 
         await t.commit()
 
@@ -529,10 +664,10 @@ async function UpdateVisitDefines(req, res, next) {
         DoctorID,
         LocationID,
         Visitdate,
-        Notes,
         PaymenttypeID,
         Scheduledpayment,
-        Description
+        Description,
+        Notes
     } = req.body
 
     if (!validator.isUUID(VisitID)) {
@@ -552,12 +687,6 @@ async function UpdateVisitDefines(req, res, next) {
     }
     if (!validator.isISODate(Visitdate)) {
         validationErrors.push(req.t('Visits.Error.VisitdateRequired'))
-    } else {
-        /*   const current = new Date()
-          current.setHours(0, 0, 0, 0)
-          if (new Date(Visitdate).getTime() < current.getTime()) {
-              validationErrors.push(req.t('Visits.Error.VisitdateCantSmall'))
-          } */
     }
 
     if (validationErrors.length > 0) {
@@ -588,11 +717,24 @@ async function UpdateVisitDefines(req, res, next) {
             PaymenttypeID,
             Visitdate,
             Scheduledpayment,
-            Notes,
             Description,
             Updateduser: username,
             Updatetime: new Date(),
         }, { transaction: t, where: { Uuid: VisitID } })
+
+        await db.visitnoteModel.destroy({ where: { VisitID: VisitID }, transaction: t });
+
+        for (const note of Notes) {
+            await db.visitnoteModel.create({
+                Uuid: uuid(),
+                VisitID: VisitID,
+                Note: note,
+                Createduser: username,
+                Createtime: new Date(),
+                Isactive: true,
+            }, { transaction: t })
+        }
+
         await t.commit()
         res.status(200).json({ message: req.t('General.SuccessfullyUpdated'), entity: VisitID })
     } catch (error) {
@@ -1157,6 +1299,104 @@ async function CompleteFreeVisit(req, res, next) {
     }
 }
 
+async function CompletePastVisit(req, res, next) {
+    let validationErrors = []
+
+    const {
+        VisitID,
+    } = req.body
+
+    if (!validator.isUUID(VisitID)) {
+        validationErrors.push(req.t('Visits.Error.VisitIDRequired'))
+    }
+
+    if (validationErrors.length > 0) {
+        return next(createValidationError(validationErrors, req.t('Visits'), req.language))
+    }
+
+    let t = null
+    const username = req?.identity?.user?.Username || 'System'
+
+    try {
+        const visit = await db.visitModel.findOne({ where: { Uuid: VisitID } })
+        if (!visit) {
+            return next(createNotFoundError(req.t('Visits.Error.NotFound'), req.t('Visits'), req.language))
+        }
+        if (!visit.Isactive) {
+            return next(createNotFoundError(req.t('Visits.Error.NotActive'), req.t('Visits'), req.language))
+        }
+        if (visit.Status !== VISIT_STATU_PLANNED) {
+            return next(createNotFoundError(req.t('Visits.Error.NotPlanned'), req.t('Visits'), req.language))
+        }
+
+        t = await db.sequelize.transaction()
+
+        await db.visitModel.update({
+            Status: VISIT_STATU_COMPLETED,
+            Visitenddate: new Date(),
+            Updateduser: username,
+            Updatetime: new Date(),
+        }, { transaction: t, where: { Uuid: VisitID } })
+
+        const planUuid = uuid()
+        const transactionUuid = uuid()
+
+        await db.paymentplanModel.create({
+            Uuid: planUuid,
+            VisitID: VisitID,
+            PaymenttypeID: 4,
+            Totalamount: visit.Scheduledpayment,
+            Prepaymentamount: 0,
+            Remainingvalue: 0,
+            Duedays: 30,
+            Startdate: new Date(),
+            Installmentcount: 1,
+            Installmentinterval: 30,
+            Enddate: new Date(),
+            Status: VISIT_PAYMENT_STATUS_FULL,
+            Createduser: username,
+            Createtime: new Date(),
+            Isactive: true
+        }, { transaction: t })
+
+        await db.paymenttransactionModel.create({
+            Uuid: transactionUuid,
+            PaymentplanID: planUuid,
+            Amount: visit.Scheduledpayment,
+            Paymentdate: new Date(),
+            Paydate: new Date(),
+            Status: true,
+            Type: PAYMENT_TRANSACTION_TYPE_FULLPAYMENT,
+            Paymentmethod: 4,
+            Description: req.t('Visits.Messages.FullpaymentTransaction'),
+            Createduser: username,
+            Createtime: new Date(),
+            Isactive: true
+        }, { transaction: t })
+
+        await db.cashflowModel.create({
+            Uuid: uuid(),
+            Type: FLOW_INCOME,
+            Parenttype: FLOW_TYPE_VISIT,
+            ParentID: visit.Uuid,
+            TransactionID: transactionUuid,
+            Paymenttype: 4,
+            Processdate: new Date(),
+            Amount: visit.Scheduledpayment,
+            Createduser: username,
+            Createtime: new Date(),
+            Isactive: true,
+        }, { transaction: t })
+
+        await t.commit()
+        return res.status(200).json({ message: req.t('General.SuccessfullyUpdated'), entity: VisitID })
+
+    } catch (error) {
+        if (t) await t.rollback()
+        return next(sequelizeErrorCatcher(error))
+    }
+}
+
 async function DeleteVisit(req, res, next) {
     const Uuid = req.params.ID
 
@@ -1186,6 +1426,12 @@ async function DeleteVisit(req, res, next) {
         }, { transaction: t, where: { Uuid: Uuid } })
 
         await db.visitproductModel.update({
+            Deleteduser: username,
+            Deletetime: new Date(),
+            Isactive: false
+        }, { transaction: t, where: { Isactive: true, VisitID: Uuid } })
+
+        await db.visitnoteModel.update({
             Deleteduser: username,
             Deletetime: new Date(),
             Isactive: false
@@ -1259,7 +1505,9 @@ module.exports = {
     CreateFreeVisit,
     WorkFreeVisit,
     CompleteFreeVisit,
+    CompletePastVisit,
+    CreatePastVisit,
     GetVisitByStatusCount,
     GetVisitWaitingWork,
-    GetFreeVisitCompletedCount
+    GetFreeVisitCompletedCount,
 }

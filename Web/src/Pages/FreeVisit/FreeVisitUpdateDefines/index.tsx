@@ -9,6 +9,7 @@ import FormButton from '@Components/Common/FormButton'
 import FormFooter from '@Components/Common/FormFooter'
 import Pagewrapper from '@Components/Common/Pagewrapper'
 import Title from '@Components/Common/Title'
+import FreeVisitCreateNoteForm from '@Components/FreeVisit/FreeVisitCreate/FreeVisitCreateNoteForm'
 import Paths from '@Constant/path'
 import CheckForm from '@Utils/CheckForm'
 import { createAppForm } from '@Utils/CreateAppForm'
@@ -82,7 +83,8 @@ const FreeVisitUpdateDefines: React.FC = () => {
                 visitDate.setHours(0, 0, 0, 0)
                 EditVisitDefines({
                     ...data,
-                    Visitdate: visitDate
+                    Visitdate: visitDate,
+                    Notes: data.Notes.map(u => u.Note)
                 })
                     .unwrap()
                     .then(() => {
@@ -108,12 +110,16 @@ const FreeVisitUpdateDefines: React.FC = () => {
                     reset({
                         DoctorID: data.DoctorID,
                         LocationID: data.LocationID,
-                        Notes: data.Notes,
                         ResponsibleUserID: data.ResponsibleUserID,
                         WorkerUserID: data.WorkerUserID,
                         Visitcode: data.Visitcode,
                         Visitdate: SuppressDate(data.Visitdate),
                         VisitID: data.Uuid,
+                        Notes: (data.Notes || []).map(u => {
+                            return {
+                                Note: u
+                            }
+                        })
                     })
                 })
         } else {
@@ -122,7 +128,7 @@ const FreeVisitUpdateDefines: React.FC = () => {
                 Subject: t('Pages.FreeVisits.Page.Header'),
                 Description: t('Pages.FreeVisits.Messages.UndefinedVisit')
             })
-            navigate(Paths.Visits)
+            navigate(Paths.FreeVisits)
         }
     }, [Id, GetVisit, navigate, reset, t])
 
@@ -136,8 +142,8 @@ const FreeVisitUpdateDefines: React.FC = () => {
             <Contentwrapper>
                 <Form>
                     <Form.Group widths={'equal'}>
-                        <VisitAppForm.Select name='LocationID' label={t('Pages.Visits.Columns.LocationID')} required={t('Pages.Visits.Messages.LocationIDRequired')} options={locationOpiton} />
-                        <VisitAppForm.Select name='DoctorID' label={t('Pages.Visits.Columns.DoctorID')} required={t('Pages.Visits.Messages.DoctorIDRequired')} options={doctorOpiton} />
+                        <VisitAppForm.Select name='LocationID' label={t('Pages.Visits.Columns.LocationID')} required={t('Pages.Visits.Messages.LocationIDRequired')} options={locationOpiton} searchable/>
+                        <VisitAppForm.Select name='DoctorID' label={t('Pages.Visits.Columns.DoctorID')} required={t('Pages.Visits.Messages.DoctorIDRequired')} options={doctorOpiton} searchable/>
                     </Form.Group>
                     <Form.Group widths={'equal'}>
                         <VisitAppForm.Input name='Visitdate' label={t('Pages.Visits.Columns.Visitdate')} type='date' required={t('Pages.Visits.Messages.VisitdateReqired')} />
@@ -148,6 +154,9 @@ const FreeVisitUpdateDefines: React.FC = () => {
                         <VisitAppForm.Select name='ResponsibleUserID' label={t('Pages.Visits.Columns.ResponsibleUserID')} options={userOption} required={t('Pages.Visits.Messages.ResponsibleUserIDRequired')} />
                     </Form.Group>
                 </Form>
+            </Contentwrapper>
+            <Contentwrapper className='z-10'>
+                <FreeVisitCreateNoteForm />
             </Contentwrapper>
         </FormProvider>
         <FormFooter>

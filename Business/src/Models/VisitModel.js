@@ -38,9 +38,6 @@ module.exports = sequelize.define('visitModel', {
     Status: {
         type: Sequelize.INTEGER
     },
-    Notes: {
-        type: Sequelize.STRING
-    },
     Scheduledpayment: {
         type: Sequelize.FLOAT
     },

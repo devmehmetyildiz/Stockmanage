@@ -1,75 +1,42 @@
 import { useGetDoctordefinesQuery } from '@Api/Doctordefine'
 import { useGetLocationsQuery } from '@Api/Location'
-import { useGetMetaQuery } from '@Api/Profile'
+import { useGetPaymenttypesQuery } from '@Api/Paymenttype'
 import { useGetUsersListQuery } from '@Api/User'
-import { useCreateFreeVisitMutation, } from '@Api/Visit'
-import { VisitCreateFreeVisitRequest } from '@Api/Visit/type'
+import { useEditVisitDefinesMutation, useLazyGetVisitQuery } from '@Api/Visit'
+import { VisitUpdateDefinesRequest } from '@Api/Visit/type'
 import Contentwrapper from '@Components/Common/Contentwrapper'
 import FormButton from '@Components/Common/FormButton'
 import FormFooter from '@Components/Common/FormFooter'
 import Pagewrapper from '@Components/Common/Pagewrapper'
 import Title from '@Components/Common/Title'
 import FreeVisitCreateNoteForm from '@Components/FreeVisit/FreeVisitCreate/FreeVisitCreateNoteForm'
-import { VISIT_TYPE_FREEVISIT } from '@Constant/index'
 import Paths from '@Constant/path'
 import CheckForm from '@Utils/CheckForm'
 import { createAppForm } from '@Utils/CreateAppForm'
+import { SuppressDate } from '@Utils/FormatDate'
 import Pushnotification from '@Utils/Pushnotification'
+import validator from '@Utils/Validator'
 import React, { useEffect, useMemo } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { DropdownItemProps, Form } from 'semantic-ui-react'
 
-const VisitAppForm = createAppForm<VisitCreateFreeVisitRequest>()
+const VisitAppForm = createAppForm<VisitUpdateDefinesRequest>()
 
-const FreeVisitCreate: React.FC = () => {
+const PastVisitUpdateDefines: React.FC = () => {
 
     const { t } = useTranslation()
 
+    const { Id } = useParams()
     const navigate = useNavigate()
 
-    const methods = useForm<VisitCreateFreeVisitRequest>({
-        mode: 'onChange',
-        defaultValues: {
-            Visittype: VISIT_TYPE_FREEVISIT
-        }
-    })
+    const [GetVisit, { isFetching }] = useLazyGetVisitQuery()
+    const [EditVisitDefines, { isLoading }] = useEditVisitDefinesMutation()
 
-    const { getValues, formState, trigger, setValue } = methods
-
-    const [CreateVisit, { isLoading }] = useCreateFreeVisitMutation()
-
-    const { data: meta, isFetching: isMetaFetching } = useGetMetaQuery()
     const { data: doctordefines, isFetching: isDoctordefinesFetching } = useGetDoctordefinesQuery({ isActive: 1 })
     const { data: locations, isFetching: isLocationsFetching } = useGetLocationsQuery({ isActive: 1 })
     const { data: users, isFetching: isUsersFetching } = useGetUsersListQuery({ isActive: 1, Isworker: 1 })
-
-    const submit = () => {
-        trigger().then((valid) => {
-            if (valid) {
-                const data = getValues()
-                const visitDate = new Date(data.Visitdate)
-                visitDate.setHours(0, 0, 0, 0)
-                CreateVisit({
-                    ...data,
-                    Visitdate: visitDate,
-                    Notes: data.Notes.map(u => u.Note)
-                })
-                    .unwrap()
-                    .then(() => {
-                        Pushnotification({
-                            Type: 'Success',
-                            Subject: t('Pages.FreeVisits.Page.Header'),
-                            Description: t('Pages.FreeVisits.Messages.AddSuccess')
-                        })
-                        navigate(Paths.FreeVisits)
-                    })
-            } else {
-                CheckForm(formState, t('Pages.FreeVisits.Page.Header'))
-            }
-        })
-    }
 
     const locationOpiton: DropdownItemProps[] = useMemo(() => {
         return (locations || []).map(item => {
@@ -100,20 +67,80 @@ const FreeVisitCreate: React.FC = () => {
         })
     }, [users])
 
-    useEffect(() => {
-        if (meta) {
-            setValue('WorkerUserID', meta.Uuid)
-        }
-    }, [meta, setValue])
+    const methods = useForm<VisitUpdateDefinesRequest>({
+        mode: 'onChange',
+    })
 
-    return <Pagewrapper isLoading={isLoading || isDoctordefinesFetching || isLocationsFetching || isMetaFetching || isUsersFetching} direction='vertical' alignTop gap={4}>
+    const { getValues, formState, trigger, reset, watch } = methods
+
+    const [Visitcode] = watch(['Visitcode'])
+
+    const submit = () => {
+        trigger().then((valid) => {
+            if (valid) {
+                const data = getValues()
+                const visitDate = new Date(data.Visitdate)
+                visitDate.setHours(0, 0, 0, 0)
+                EditVisitDefines({
+                    ...data,
+                    Visitdate: visitDate,
+                    Notes: data.Notes.map(u => u.Note)
+                })
+                    .unwrap()
+                    .then(() => {
+                        Pushnotification({
+                            Type: 'Success',
+                            Subject: t('Pages.PastVisits.Page.Header'),
+                            Description: t('Pages.PastVisits.Messages.UpdateSuccess')
+                        })
+                        navigate(Paths.PastVisits)
+                    })
+            } else {
+                CheckForm(formState, t('Pages.PastVisits.Page.Header'))
+            }
+        })
+    }
+
+
+    useEffect(() => {
+        if (Id && validator.isUUID(Id)) {
+            GetVisit({ Uuid: Id })
+                .unwrap()
+                .then((data) => {
+                    reset({
+                        DoctorID: data.DoctorID,
+                        LocationID: data.LocationID,
+                        ResponsibleUserID: data.ResponsibleUserID,
+                        WorkerUserID: data.WorkerUserID,
+                        Visitcode: data.Visitcode,
+                        Visitdate: SuppressDate(data.Visitdate),
+                        VisitID: data.Uuid,
+                        Scheduledpayment: data.Scheduledpayment,
+                        Notes: (data.Notes || []).map(u => {
+                            return {
+                                Note: u
+                            }
+                        })
+                    })
+                })
+        } else {
+            Pushnotification({
+                Type: 'Error',
+                Subject: t('Pages.PastVisits.Page.Header'),
+                Description: t('Pages.PastVisits.Messages.UndefinedVisit')
+            })
+            navigate(Paths.PastVisits)
+        }
+    }, [Id, GetVisit, navigate, reset, t])
+
+    return <Pagewrapper isLoading={isFetching || isLoading || isDoctordefinesFetching || isLocationsFetching || isUsersFetching} direction='vertical' alignTop gap={4}>
         <Title
-            PageName={t('Pages.FreeVisits.Page.Header')}
-            AdditionalName={t('Pages.FreeVisits.Page.CreateHeader')}
-            PageUrl={Paths.Visits}
+            PageName={t('Pages.PastVisits.Page.EditDefinesHeader')}
+            AdditionalName={Visitcode}
+            PageUrl={Paths.PastVisits}
         />
-        <FormProvider<VisitCreateFreeVisitRequest> {...methods}>
-            <Contentwrapper className='z-20'>
+        <FormProvider<VisitUpdateDefinesRequest> {...methods}>
+            <Contentwrapper>
                 <Form>
                     <Form.Group widths={'equal'}>
                         <VisitAppForm.Select name='LocationID' label={t('Pages.Visits.Columns.LocationID')} required={t('Pages.Visits.Messages.LocationIDRequired')} options={locationOpiton} searchable />
@@ -126,6 +153,9 @@ const FreeVisitCreate: React.FC = () => {
                     <Form.Group widths={'equal'}>
                         <VisitAppForm.Select name='WorkerUserID' label={t('Pages.Visits.Columns.WorkerUserID')} options={userOption} required={t('Pages.Visits.Messages.WorkerUserIDRequired')} />
                         <VisitAppForm.Select name='ResponsibleUserID' label={t('Pages.Visits.Columns.ResponsibleUserID')} options={userOption} required={t('Pages.Visits.Messages.ResponsibleUserIDRequired')} />
+                    </Form.Group>
+                    <Form.Group widths={'equal'}>
+                        <VisitAppForm.Input name='Scheduledpayment' label={t('Pages.Visits.Label.Totalamount')} required={t('Pages.Visits.Messages.TotalamountReqired')} type='number' inputProps={{ min: 0 }} showPriceIcon />
                     </Form.Group>
                 </Form>
             </Contentwrapper>
@@ -141,10 +171,10 @@ const FreeVisitCreate: React.FC = () => {
             />
             <FormButton
                 loading={isLoading}
-                text={t('Common.Button.Create')}
+                text={t('Common.Button.Update')}
                 onClick={() => submit()}
             />
         </FormFooter>
     </Pagewrapper >
 }
-export default FreeVisitCreate
+export default PastVisitUpdateDefines

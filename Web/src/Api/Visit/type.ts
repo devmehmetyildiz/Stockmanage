@@ -5,6 +5,7 @@ export interface VisitListRequest {
     Visittype?: number
     Isactive?: boolean | number
     WorkerUserID?: string
+    DoctorID?: string
 }
 
 export interface VisitCountByStatusResponse {
@@ -43,6 +44,7 @@ export interface VisitProductItem {
 export interface VisitListItem {
     Id: number;
     Uuid: string;
+    Visittype: number,
     Visitcode: string;
     WorkerUserID: string;
     ResponsibleUserID: string;
@@ -54,7 +56,6 @@ export interface VisitListItem {
     Visitenddate: Date | null;
     Status: number;
     Description: string,
-    Notes: string;
     Scheduledpayment: number
     Finalpayment: number
     Isapproved: boolean
@@ -74,6 +75,7 @@ export interface VisitListItem {
 
 export interface VisitItem extends VisitListItem {
     Products: VisitProductItem[]
+    Notes: string[]
 }
 
 export interface VisitStockItem {
@@ -93,9 +95,15 @@ export interface VisitCreateRequest {
     PaymenttypeID: string,
     Visitdate: Date,
     Scheduledpayment: number,
-    Notes: string,
     Stocks: VisitStockItem[]
     Description: string
+    Notes: {
+        Note: string
+    }[]
+}
+
+export interface VisitCreateApiRequest extends Omit<VisitCreateRequest, 'Notes'> {
+    Notes: string[]
 }
 
 export interface VisitCreateFreeVisitRequest {
@@ -107,8 +115,32 @@ export interface VisitCreateFreeVisitRequest {
     WarehouseID: string,
     LocationID: string,
     Visitdate: Date,
-    Notes: string,
     Description: string
+    Notes: {
+        Note: string
+    }[]
+}
+
+export interface VisitCreateFreeVisitApiRequest extends Omit<VisitCreateFreeVisitRequest, 'Notes'> {
+    Notes: string[]
+}
+
+export interface VisitCreatePastVisitRequest {
+    Visittype: number,
+    WorkerUserID: string
+    ResponsibleUserID: string,
+    DoctorID: string,
+    LocationID: string,
+    Visitdate: Date,
+    Totalamount: number,
+    Description: string
+    Notes: {
+        Note: string
+    }[]
+}
+
+export interface VisitCreatePastVisitApiRequest extends Omit<VisitCreatePastVisitRequest, 'Notes'> {
+    Notes: string[]
 }
 
 export interface VisitUpdateStocksRequest {
@@ -130,10 +162,16 @@ export interface VisitUpdateDefinesRequest {
     DoctorID: string,
     LocationID: string,
     Visitdate: string | Date,
-    Notes: string,
     Scheduledpayment: number
     PaymenttypeID: string;
     Description: string
+    Notes: {
+        Note: string
+    }[]
+}
+
+export interface VisitUpdateDefinesApiRequest extends Omit<VisitUpdateDefinesRequest, 'Notes'> {
+    Notes: string[]
 }
 
 export interface VisitWorkRequest {

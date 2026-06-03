@@ -77,12 +77,18 @@ const FreeVisitsDetail = RouteKeys.Main + RouteKeys.FreeVisits + "/:Id/Detail"
 const FreeVisitsUpdateDefines = RouteKeys.Main + RouteKeys.FreeVisits + "/:Id/edit-defines"
 const FreeVisitComplete = RouteKeys.Main + RouteKeys.FreeVisits + "/:Id/complete"
 
+const PastVisits = RouteKeys.Main + RouteKeys.PastVisits
+const PastVisitsCreate = RouteKeys.Main + RouteKeys.PastVisits + "/Create"
+const PastVisitDetail = RouteKeys.Main + RouteKeys.PastVisits + "/:Id/Detail"
+const PastVisitsUpdateDefines = RouteKeys.Main + RouteKeys.PastVisits + "/:Id/edit-defines"
+
 const Paymentplans = RouteKeys.Main + RouteKeys.Paymentplans
 const PaymentplansDetail = RouteKeys.Main + RouteKeys.Paymentplans + "/:Id/Detail"
 
 const Paymentplantransactions = RouteKeys.Main + RouteKeys.Paymentplantransactions
 
 const Organisation = RouteKeys.Main + RouteKeys.Organisation
+const DoctorReport = RouteKeys.Main + RouteKeys.Report + "/DoctorReport"
 
 const Cashflows = RouteKeys.Main + RouteKeys.Cashflows
 const CashflowsCreate = RouteKeys.Main + RouteKeys.Cashflows + "/Create"
@@ -90,6 +96,7 @@ const CashflowsReport = RouteKeys.Main + RouteKeys.Cashflows + "/Report"
 
 const Paths = {
     Login,
+    DoctorReport,
     UserNotifications,
     Roles,
     RolesCreate,
@@ -151,6 +158,10 @@ const Paths = {
     Cashflows,
     CashflowsCreate,
     CashflowsReport,
+    PastVisits,
+    PastVisitDetail,
+    PastVisitsCreate,
+    PastVisitsUpdateDefines
 }
 
 export default Paths

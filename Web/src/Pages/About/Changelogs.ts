@@ -234,8 +234,35 @@ const version1_0_1_3: ChangeLogItem = {
     ],
 }
 
+const version1_0_2_0: ChangeLogItem = {
+    version: "1.0.2.0",
+    date: "2026-06-03",
+    features: [
+        {
+            title: 'Ziyaretler',
+            commits: [
+                "Ziyaretlere notlar alanı eklendi Ziyaret girişlerinde istenildiği kadar not girilebilecek.",
+                "Ziyaretlere girilen notlar detay ekranında listelenebilecek.",
+                "Geçmişte yapılan ziyaretler için Geçmiş ziyaretler alanı eklendi, bu alanda geçmiş ziyaretlere ait notlar ve ürünler listelenebilecek.",
+                "Geçmişte ziyaretler cari işlemlere bağlanacak, geçmiş ziyaretler depo ile bağımsız olacak.",
+                "Geçmişte ziyaretlerde ne kadar ürün kullanıldığı notlara yazılacak.",
+            ]
+        },
+        {
+            title: 'İşlerim',
+            commits: [
+                "Raporlar ve İşlerim sayfayı sol menüde ayrı bir yerde gösterilecek.",
+                "Doktor raporu sayfası eklendi.",
+                "Doktor raporunda doktora ait geçmiş tüm ziyaretler listelenebilecek.",
+                "Doktor raporunda doktora doktora ait tüm cari işlemler eklenebilecek.",
+            ]
+        },
+    ],
+}
+
 export default
     [
+        version1_0_2_0,
         version1_0_1_3,
         version1_0_1_2,
         version1_0_1_1,

@@ -1,6 +1,17 @@
 import { gatewayApi } from "@Api/api";
-import { VISIT, METHOD_GET, METHOD_POST, METHOD_PUT, VISIT_TAG, VISIT_GETCOUNT, VISIT_UPDATE_STOCKS, VISIT_UPDATE_DEFINES, VISIT_WORK, METHOD_DELETE, VISIT_UPDATE_PAYMENTDEFINE, VISIT_COMPLETE, VISIT_SEND_APPROVE, PAYMENTPLAN_TAG, VISIT_COMPLETE_TAG, VISIT_CREATE_FREEVISIT, VISIT_WORK_FREEVISIT, VISIT_COMPLETE_FREEVISIT, VISIT_GETCOUNT_BYSTATUS, VISIT_GETCOUNT_BYWAITINGWORK, VISIT_GETCOUNT_FREEVISITCOMPLETED } from "@Constant/api";
-import { VisitCompleteApiRequest, VisitCompleteFreeVisitRequest, VisitCountByStatusResponse, VisitCountByWaitingWork, VisitCreateFreeVisitRequest, VisitCreateRequest, VisitDeleteRequest, VisitItem, VisitListItem, VisitListRequest, VisitRequest, VisitSendApproveRequest, VisitUpdateDefinesRequest, VisitUpdatePaymentdefineRequest, VisitUpdateStocksRequest, VisitWorkRequest } from "./type";
+import {
+    VISIT, METHOD_GET, METHOD_POST, METHOD_PUT, VISIT_TAG, VISIT_GETCOUNT, VISIT_UPDATE_STOCKS,
+    VISIT_UPDATE_DEFINES, VISIT_WORK, METHOD_DELETE, VISIT_UPDATE_PAYMENTDEFINE, VISIT_COMPLETE, VISIT_SEND_APPROVE,
+    PAYMENTPLAN_TAG, VISIT_COMPLETE_TAG, VISIT_CREATE_FREEVISIT, VISIT_WORK_FREEVISIT, VISIT_COMPLETE_FREEVISIT,
+    VISIT_GETCOUNT_BYSTATUS, VISIT_GETCOUNT_BYWAITINGWORK, VISIT_GETCOUNT_FREEVISITCOMPLETED, VISIT_CREATE_PASTVISIT,
+    VISIT_COMPLETE_PASTVISIT
+} from "@Constant/api";
+import {
+    VisitCompleteApiRequest, VisitCompleteFreeVisitRequest, VisitCountByStatusResponse,
+    VisitCountByWaitingWork, VisitCreateApiRequest, VisitCreateFreeVisitApiRequest, VisitCreatePastVisitApiRequest, VisitDeleteRequest, VisitItem,
+    VisitListItem, VisitListRequest, VisitRequest, VisitSendApproveRequest, VisitUpdateDefinesApiRequest,
+    VisitUpdatePaymentdefineRequest, VisitUpdateStocksRequest, VisitWorkRequest
+} from "./type";
 
 export const visitQuery = gatewayApi
     .enhanceEndpoints({ addTagTypes: [VISIT_TAG, VISIT_COMPLETE_TAG, PAYMENTPLAN_TAG] })
@@ -50,7 +61,7 @@ export const visitQuery = gatewayApi
                 }),
                 providesTags: [VISIT_TAG, PAYMENTPLAN_TAG],
             }),
-            createVisit: builder.mutation<void, VisitCreateRequest>({
+            createVisit: builder.mutation<void, VisitCreateApiRequest>({
                 query: (body) => ({
                     url: VISIT,
                     method: METHOD_POST,
@@ -58,9 +69,17 @@ export const visitQuery = gatewayApi
                 }),
                 invalidatesTags: (result) => result ? [VISIT_TAG] : [],
             }),
-            createFreeVisit: builder.mutation<void, VisitCreateFreeVisitRequest>({
+            createFreeVisit: builder.mutation<void, VisitCreateFreeVisitApiRequest>({
                 query: (body) => ({
                     url: VISIT_CREATE_FREEVISIT,
+                    method: METHOD_POST,
+                    body,
+                }),
+                invalidatesTags: (result) => result ? [VISIT_TAG] : [],
+            }),
+            createPastVisit: builder.mutation<void, VisitCreatePastVisitApiRequest>({
+                query: (body) => ({
+                    url: VISIT_CREATE_PASTVISIT,
                     method: METHOD_POST,
                     body,
                 }),
@@ -74,7 +93,7 @@ export const visitQuery = gatewayApi
                 }),
                 invalidatesTags: (result) => result ? [VISIT_TAG] : [],
             }),
-            editVisitDefines: builder.mutation<void, VisitUpdateDefinesRequest>({
+            editVisitDefines: builder.mutation<void, VisitUpdateDefinesApiRequest>({
                 query: (body) => ({
                     url: VISIT_UPDATE_DEFINES,
                     method: METHOD_PUT,
@@ -130,6 +149,14 @@ export const visitQuery = gatewayApi
                 }),
                 invalidatesTags: (result) => result ? [VISIT_COMPLETE_TAG] : [],
             }),
+            completePastVisit: builder.mutation<void, VisitCompleteFreeVisitRequest>({
+                query: (body) => ({
+                    url: VISIT_COMPLETE_PASTVISIT,
+                    method: METHOD_PUT,
+                    body,
+                }),
+                invalidatesTags: (result) => result ? [VISIT_COMPLETE_TAG] : [],
+            }),
             deleteVisit: builder.mutation<void, VisitDeleteRequest>({
                 query: (param) => ({
                     url: `${VISIT}/${param.Uuid}`,
@@ -158,5 +185,7 @@ export const {
     useSendApproveVisitMutation,
     useCreateFreeVisitMutation,
     useWorkFreeVisitMutation,
-    useCompleteFreeVisitMutation
+    useCompleteFreeVisitMutation,
+    useCreatePastVisitMutation,
+    useCompletePastVisitMutation
 } = visitQuery;

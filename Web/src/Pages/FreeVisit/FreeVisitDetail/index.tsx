@@ -16,6 +16,7 @@ import privileges from '@Constant/privileges';
 import FreeVisitCompleteModal from '@Components/FreeVisit/FreeVisitCompleteModal';
 import FreeVisitWorkModal from '@Components/FreeVisit/FreeVisitWorkModal';
 import FreeVisitDetailMeta from '@Components/FreeVisit/FreeVisitDetail/FreeVisitDetailMeta';
+import FreeVisitDetailNote from '@Components/FreeVisit/FreeVisitDetail/FreeVisitDetailNote';
 
 const FreeVisitDetail: React.FC = () => {
     const { Id } = useParams();
@@ -98,6 +99,11 @@ const FreeVisitDetail: React.FC = () => {
             <FreeVisitDetailMeta
                 data={data}
             />
+            <div className="w-full flex flex-col lg:flex-row justify-center items-stretch gap-4 ">
+                <FreeVisitDetailNote
+                    data={data}
+                />
+            </div>
             {isError && (
                 <Message negative className="w-full mt-4">
                     <Message.Header>{t('Common.SomethingWentWrong')}</Message.Header>

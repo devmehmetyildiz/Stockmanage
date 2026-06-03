@@ -18,7 +18,6 @@ import {
 } from '@Constant/index';
 import { useGetUsersListQuery } from '@Api/User';
 import Pushnotification from '@Utils/Pushnotification';
-import { useGetPaymenttypeQuery } from '@Api/Paymenttype';
 import { useNavigate } from 'react-router-dom';
 import Paths from '@Constant/path';
 import VisitDetailLabel from '@Components/Visit/VisitDetail/VisitDetailLabel';
@@ -26,11 +25,12 @@ import VisitDetailLabel from '@Components/Visit/VisitDetail/VisitDetailLabel';
 interface FreeVisitDetailMetaProps {
     data: VisitItem | undefined
     disableButtons?: boolean
+    returnUrl?: string
 }
 
 const FreeVisitDetailMeta: React.FC<FreeVisitDetailMetaProps> = (props) => {
 
-    const { data, disableButtons } = props
+    const { data, disableButtons, returnUrl } = props
     const { t } = useTranslation()
     const navigate = useNavigate()
 
@@ -108,17 +108,11 @@ const FreeVisitDetailMeta: React.FC<FreeVisitDetailMetaProps> = (props) => {
                                 />
                             )}
                         </div>
-
-                        {data?.Notes ? (
-                            <div className="text-gray-800 mt-2">{data.Notes}</div>
-                        ) : (
-                            <div className="text-gray-400 mt-2">{t('Pages.Visits.Messages.NoNotesFound')}</div>
-                        )}
                     </div>
 
                     <div className='flex flex-col gap-4'>
                         {!disableButtons ?
-                            <div className='w-full  flex justify-end items-center cursor-pointer' title={t('Common.Button.Goback')} onClick={() => navigate(Paths.FreeVisits)}>
+                            <div className='w-full  flex justify-end items-center cursor-pointer' title={t('Common.Button.Goback')} onClick={() => navigate(returnUrl || Paths.FreeVisits)}>
                                 <Icon name='sign-out alternate' className='!text-primary' size='big' />
                             </div>
                             : null}

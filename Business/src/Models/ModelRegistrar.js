@@ -4,6 +4,7 @@ const paymenttransactionModel = require('./PaymenttransactionModel')
 const visitModel = require('./VisitModel')
 const visitproductModel = require('./VisitproductModel')
 const cashflowModel = require('./CashflowModel')
+const visitnoteModel = require('./VisitnoteModel')
 
 module.exports = {
     cashflowModel,
@@ -12,4 +13,5 @@ module.exports = {
     paymenttransactionModel,
     visitModel,
     visitproductModel,
+    visitnoteModel,
 }

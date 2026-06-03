@@ -111,12 +111,6 @@ const VisitDetailMeta: React.FC<VisitDetailMetaProps> = (props) => {
                                 />
                             )}
                         </div>
-
-                        {data?.Notes ? (
-                            <div className="text-gray-800 mt-2">{data.Notes}</div>
-                        ) : (
-                            <div className="text-gray-400 mt-2">{t('Pages.Visits.Messages.NoNotesFound')}</div>
-                        )}
                     </div>
 
                     <div className='flex flex-col gap-4'>

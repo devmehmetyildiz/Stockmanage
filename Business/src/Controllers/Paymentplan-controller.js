@@ -15,7 +15,19 @@ async function GetPaymentplansCount(req, res, next) {
 
 async function GetPaymentplans(req, res, next) {
     try {
-        const paymentplans = await db.paymentplanModel.findAll({ where: req.query })
+        const { DoctorID, ...rest } = req.query
+        let paymentplans = []
+        if (DoctorID && !rest.VisitID) {
+            const doctorVisits = await db.visitModel.findAll({ where: { Isactive: true, DoctorID } })
+            paymentplans = await db.paymentplanModel.findAll({
+                where: {
+                    ...rest,
+                    VisitID: doctorVisits.map(v => v.Uuid)
+                }
+            })
+        } else {
+            paymentplans = await db.paymentplanModel.findAll({ where: rest })
+        }
         res.status(200).json(paymentplans)
     } catch (error) {
         next(sequelizeErrorCatcher(error))
@@ -111,7 +123,7 @@ async function ApproveTransaction(req, res, next) {
         if (!plan.Isactive) {
             return next(createNotFoundError(req.t('Paymentplans.Error.NotActive'), req.t('Paymentplans'), req.language))
         }
-       
+
         const visit = await db.visitModel.findOne({ where: { Uuid: plan.VisitID } })
 
         await db.paymenttransactionModel.update({

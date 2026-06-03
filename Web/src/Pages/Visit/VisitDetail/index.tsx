@@ -18,6 +18,7 @@ import { VisitListItem } from '@Api/Visit/type';
 import RouteKeys from '@Constant/routeKeys';
 import privileges from '@Constant/privileges';
 import VisitSendApproveModal from '@Components/Visit/VisitSendApproveModal';
+import FreeVisitDetailNote from '@Components/FreeVisit/FreeVisitDetail/FreeVisitDetailNote';
 
 const VisitDetail: React.FC = () => {
     const { Id } = useParams();
@@ -132,6 +133,11 @@ const VisitDetail: React.FC = () => {
             <VisitDetailMeta
                 data={data}
             />
+            <div className="w-full flex flex-col lg:flex-row justify-center items-stretch gap-4 ">
+                <FreeVisitDetailNote
+                    data={data}
+                />
+            </div>
             <div className="w-full flex flex-col lg:flex-row justify-center items-stretch gap-4 ">
                 <VisitDetailProducts
                     data={data}

@@ -46,17 +46,21 @@ export const getSidebarRoutes = (t: any, userPrivileges: string[]) => {
             id: 6,
             title: t('Sidebar.Menu.Home'),
             icon: 'home',
-            url: Paths.Main,
+            items: [
+                { id: 1, subtitle: t('Sidebar.Menu.Home'), url: Paths.Main, permission: checkAuth(privileges.basic) },
+                { id: 1, subtitle: t('Pages.Organisation.Page.Header'), url: Paths.Organisation, permission: checkAuth(privileges.paymentplanview) },
+                { id: 1, subtitle: t('Pages.DoctorReport.Page.Header'), url: Paths.DoctorReport, permission: checkAuth(privileges.paymentplanview) },
+            ]
         },
         {
             id: 1,
             title: t('Sidebar.Menu.Organisation'),
             icon: 'building',
             items: [
-                { id: 1, subtitle: t('Pages.Organisation.Page.Header'), url: Paths.Organisation, permission: checkAuth(privileges.paymentplanview) },
                 { id: 2, subtitle: t('Pages.Approvalrequests.Page.Header'), url: Paths.Approvalrequests, permission: checkAuth(privileges.approvalrequestcreen) },
                 { id: 3, subtitle: t('Pages.Visits.Page.Header'), url: Paths.Visits, permission: checkAuth(privileges.visitview) },
                 { id: 4, subtitle: t('Pages.FreeVisits.Page.Header'), url: Paths.FreeVisits, permission: checkAuth(privileges.visitview) },
+                { id: 5, subtitle: t('Pages.PastVisits.Page.Header'), url: Paths.PastVisits, permission: checkAuth(privileges.visitview) },
             ]
         },
         {

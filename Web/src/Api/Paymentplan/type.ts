@@ -3,6 +3,7 @@ import { DefaultRequestType } from "@Constant/common";
 export interface PaymentplanListRequest extends DefaultRequestType {
     Status?: number
     VisitID?: string
+    DoctorID?: string
 }
 export interface PaymentplanTransactionListRequest extends DefaultRequestType {
     Status?: number

@@ -50,6 +50,10 @@ const Organisation = "Organisation"
 
 const Cashflows = "Cashflows"
 
+const PastVisits = "PastVisits"
+
+const Report = "Report"
+
 const RouteKeys = {
     Main,
     Login,
@@ -76,7 +80,9 @@ const RouteKeys = {
     Paymentplantransactions,
     Organisation,
     FreeVisits,
-    Cashflows
+    PastVisits,
+    Cashflows,
+    Report
 }
 
 export default RouteKeys

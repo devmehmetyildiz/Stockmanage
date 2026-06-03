@@ -8,11 +8,10 @@ import { DetailCellHandler } from '@Components/Common/CellHandler'
 import DataTable, { ColumnType } from '@Components/Common/DataTable'
 import Pagewrapper from '@Components/Common/Pagewrapper'
 import Title from '@Components/Common/Title'
-import FreeVisitCommonListFilter from '@Components/FreeVisit/FreeVisitCommonListFilter'
-import FreeVisitCompleteModal from '@Components/FreeVisit/FreeVisitCompleteModal'
-import FreeVisitWorkModal from '@Components/FreeVisit/FreeVisitWorkModal'
+import PastVisitCompleteModal from '@Components/PastVisit/PastVisitCompleteModal'
+import PastVisitListFilter from '@Components/PastVisit/PastVisitListFilter'
 import VisitDeleteModal from '@Components/Visit/VisitDeleteModal'
-import { VISIT_STATU_CLOSED, VISIT_STATU_COMPLETED, VISIT_STATU_ON_APPROVE, VISIT_STATU_PLANNED, VISIT_STATU_WORKING, VISIT_TYPE_FREEVISIT } from '@Constant/index'
+import { VISIT_STATU_COMPLETED, VISIT_STATU_PLANNED, VISIT_TYPE_PASTVISIT, } from '@Constant/index'
 import Paths from '@Constant/path'
 import privileges from '@Constant/privileges'
 import RouteKeys from '@Constant/routeKeys'
@@ -25,19 +24,20 @@ import FormatTableMeta from '@Utils/FormatTableMeta'
 import React, { useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { useSearchParams } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { Button, Icon, Label, Popup, SemanticCOLORS } from 'semantic-ui-react'
 
-const FreeVisit: React.FC = () => {
+const PastVisit: React.FC = () => {
 
     const { t } = useTranslation()
 
+    const navigate = useNavigate()
     const { isHasPrivilege, isMetaLoading, UserID } = useHasPrivileges(privileges.visitmanageall)
     const { isHasPrivilege: canDelete } = useHasPrivileges(privileges.visitdelete)
     const { isHasPrivilege: canUpdate } = useHasPrivileges(privileges.visitupdate)
     const [openedPopupId, setOpenedPopupId] = useState<string | null>(null)
     const [completeOpen, setCompleteOpen] = useState(false)
-    const [workOpen, setWorkOpen] = useState(false)
+
     const [deleteOpen, setDeleteOpen] = useState(false)
     const [record, setRecord] = useState<VisitListItem | null>(null)
     const [searchParams, setSearchParams] = useSearchParams()
@@ -55,7 +55,7 @@ const FreeVisit: React.FC = () => {
             Status: undefined,
             Visitenddate: SuppressDate(end),
             Visitstartdate: SuppressDate(start),
-            Visittype: VISIT_TYPE_FREEVISIT,
+            Visittype: VISIT_TYPE_PASTVISIT,
             WorkerUserID: UserID,
         }
     }
@@ -87,7 +87,7 @@ const FreeVisit: React.FC = () => {
     const { data: doctordefines, isFetching: isDoctordefinesFetching } = useGetDoctordefinesQuery({ isActive: 1 })
     const { data: locations, isFetching: isLocationsFetching } = useGetLocationsQuery({ isActive: 1 })
 
-    const TableQuery = useGetTableMetaQuery({ Key: 'freevizit' })
+    const TableQuery = useGetTableMetaQuery({ Key: 'pastvizit' })
 
     const initialConfig = FormatTableMeta(TableQuery.data)
 
@@ -114,10 +114,7 @@ const FreeVisit: React.FC = () => {
     const statusCellhandler = (value: any) => {
         const status = [
             { name: t('Option.VisitStatu.Planned'), value: VISIT_STATU_PLANNED },
-            { name: t('Option.VisitStatu.Working'), value: VISIT_STATU_WORKING },
-            { name: t('Option.VisitStatu.Onapprove'), value: VISIT_STATU_ON_APPROVE },
             { name: t('Option.VisitStatu.Completed'), value: VISIT_STATU_COMPLETED },
-            { name: t('Option.VisitStatu.Closed'), value: VISIT_STATU_CLOSED },
         ]
         return (status || []).find(u => u.value === value)?.name ?? value
     }
@@ -127,10 +124,7 @@ const FreeVisit: React.FC = () => {
 
         const status = [
             { color: 'red', name: t('Option.VisitStatu.Planned'), value: VISIT_STATU_PLANNED },
-            { color: 'blue', name: t('Option.VisitStatu.Working'), value: VISIT_STATU_WORKING },
-            { color: 'orange', name: t('Option.VisitStatu.Onapprove'), value: VISIT_STATU_ON_APPROVE },
             { color: 'green', name: t('Option.VisitStatu.Completed'), value: VISIT_STATU_COMPLETED },
-            { color: 'grey', name: t('Option.VisitStatu.Closed'), value: VISIT_STATU_CLOSED },
         ]
 
         const foundedData = (status || []).find(u => u.value === data.Status)
@@ -143,8 +137,19 @@ const FreeVisit: React.FC = () => {
     const detailCellhandler = (wrapper: CellContext<any, unknown>) => {
         const data = wrapper.row.original as VisitListItem
 
-        return <DetailCellHandler url={`/${RouteKeys.FreeVisits}/${data.Uuid}/Detail`} />
+        return <DetailCellHandler url={`/${RouteKeys.PastVisits}/${data.Uuid}/Detail`} />
     }
+
+    const scheduledpaymentCellhanlder = (value: number) => {
+        if (value) {
+            return new Intl.NumberFormat('tr-TR', {
+                style: 'currency',
+                currency: 'TRY',
+            }).format(value || 0)
+        }
+        return t('Common.NoDataFound')
+    }
+
 
     const processCellhandler = (wrapper: CellContext<any, unknown>) => {
         const data = wrapper.row.original as VisitListItem
@@ -169,23 +174,6 @@ const FreeVisit: React.FC = () => {
 
         if (data.Status === VISIT_STATU_PLANNED && !canUpdate) {
             buttons.push(
-                <Button size='small' color='blue' onClick={() => {
-                    setOpenedPopupId(null)
-                    setWorkOpen(true)
-                    setRecord(data)
-                }}>
-                    <div className='flex justify-start items-start w-full gap-2'>
-                        <Icon name='share' />
-                        <div>
-                            {t('Common.Columns.work')}
-                        </div>
-                    </div>
-                </Button>
-            )
-        }
-
-        if (data.Status === VISIT_STATU_WORKING && !canUpdate) {
-            buttons.push(
                 <Button size='small' color='green' onClick={() => {
                     setOpenedPopupId(null)
                     setCompleteOpen(true)
@@ -199,6 +187,20 @@ const FreeVisit: React.FC = () => {
                     </div>
                 </Button>
             )
+
+            buttons.push(
+                <Button size='small' className='!bg-primary !text-white' onClick={() => {
+                    setOpenedPopupId(null)
+                    navigate(`/${RouteKeys.PastVisits}/${data.Uuid}/edit-defines`)
+                }}>
+                    <div className='flex justify-start items-start w-full gap-2'>
+                        <Icon name='edit' />
+                        <div>
+                            {t('Pages.Visits.Columns.EditDefines')}
+                        </div>
+                    </div>
+                </Button>
+            )
         }
 
         return buttons.length > 0 ? <Popup
@@ -208,7 +210,7 @@ const FreeVisit: React.FC = () => {
             position='bottom left'
             trigger={
                 <div className='cursor-pointer' onClick={() => setOpenedPopupId(data.Visitcode)}>
-                    <Icon name='pencil' size='large' className={`${!(data.Status === VISIT_STATU_CLOSED || data.Status === VISIT_STATU_COMPLETED) ? 'animate-pulse' : ''}`} />
+                    <Icon name='pencil' size='large' className={`${!(data.Status === VISIT_STATU_COMPLETED) ? 'animate-pulse' : ''}`} />
                 </div>
             }
         >
@@ -229,6 +231,7 @@ const FreeVisit: React.FC = () => {
         { header: t('Pages.Visits.Columns.LocationID'), accessorKey: 'LocationID', accessorFn: row => locationCellhandler(row.LocationID), cell: wrapper => loaderCellhandler(wrapper, isLocationsFetching), },
         { header: t("Pages.Visits.Columns.Visitdate"), accessorKey: 'Visitdate', accessorFn: row => dateCellhandler(row.Visitdate) },
         { header: t('Pages.Visits.Columns.Description'), accessorKey: 'Description', },
+        { header: t('Pages.Visits.Columns.TotalAmount'), accessorKey: 'Scheduledpayment', accessorFn: row => scheduledpaymentCellhanlder(row.Scheduledpayment) },
         { header: t("Common.Columns.Createduser"), accessorKey: 'Createduser' },
         { header: t("Common.Columns.Createtime"), accessorKey: 'Createtime', accessorFn: row => dateCellhandler(row?.Createtime) },
         { header: t("Common.Columns.Updateduser"), accessorKey: 'Updateduser' },
@@ -274,21 +277,20 @@ const FreeVisit: React.FC = () => {
         <FormProvider<VisitListRequest> {...methods}>
             <ExcelProvider>
                 <Title
-                    PageName={t('Pages.FreeVisits.Page.Header')}
-                    PageUrl={Paths.FreeVisits}
-                    excelExportName={t('Pages.FreeVisits.Page.Header')}
+                    PageName={t('Pages.PastVisits.Page.Header')}
+                    PageUrl={Paths.PastVisits}
+                    excelExportName={t('Pages.PastVisits.Page.Header')}
                     create={{
-                        Pagecreateheader: t('Pages.FreeVisits.Page.CreateHeader'),
-                        Pagecreatelink: Paths.FreeVisitsCreate,
+                        Pagecreateheader: t('Pages.PastVisits.Page.CreateHeader'),
+                        Pagecreatelink: Paths.PastVisitsCreate,
                         role: privileges.visitadd
                     }}
                 />
                 <ExcelProvider>
-                    <FreeVisitCommonListFilter
+                    <PastVisitListFilter
                         reqBody={reqBody}
                         setReqBody={setReqBody}
-                        pageTitle={t('Pages.FreeVisits.Page.Header')}
-                        filterOptions
+                        pageTitle={t('Pages.PastVisits.Page.Header')}
                     />
                     <DataTable
                         key={tableKey}
@@ -297,19 +299,13 @@ const FreeVisit: React.FC = () => {
                         config={initialConfig}
                     />
                 </ExcelProvider>
-                <FreeVisitWorkModal
-                    open={workOpen}
-                    setOpen={setWorkOpen}
-                    data={record}
-                    setData={setRecord}
-                />
                 <VisitDeleteModal
                     open={deleteOpen}
                     setOpen={setDeleteOpen}
                     data={record}
                     setData={setRecord}
                 />
-                <FreeVisitCompleteModal
+                <PastVisitCompleteModal
                     open={completeOpen}
                     setOpen={setCompleteOpen}
                     data={record}
@@ -319,4 +315,4 @@ const FreeVisit: React.FC = () => {
         </FormProvider>
     </Pagewrapper>
 }
-export default FreeVisit
+export default PastVisit

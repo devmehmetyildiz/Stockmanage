@@ -138,6 +138,8 @@ export const VISIT = 'Business/Visits'
 
 export const VISIT_CREATE_FREEVISIT = 'Business/Visits/CreateFreeVisit'
 
+export const VISIT_CREATE_PASTVISIT = 'Business/Visits/CreatePastVisit'
+
 export const VISIT_GETCOUNT = 'Business/Visits/Counts'
 
 export const VISIT_GETCOUNT_BYSTATUS = 'Business/Visits/GetVisitByStatusCount'
@@ -159,6 +161,8 @@ export const VISIT_UPDATE_PAYMENTDEFINE = 'Business/Visits/UpdateVisitPaymentDef
 export const VISIT_COMPLETE = 'Business/Visits/Complete'
 
 export const VISIT_COMPLETE_FREEVISIT = 'Business/Visits/CompleteFreeVisit'
+
+export const VISIT_COMPLETE_PASTVISIT = 'Business/Visits/CompletePastVisit'
 
 export const VISIT_SEND_APPROVE = 'Business/Visits/SendApprove'
 

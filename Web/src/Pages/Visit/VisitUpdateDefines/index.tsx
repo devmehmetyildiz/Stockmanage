@@ -9,6 +9,7 @@ import FormButton from '@Components/Common/FormButton'
 import FormFooter from '@Components/Common/FormFooter'
 import Pagewrapper from '@Components/Common/Pagewrapper'
 import Title from '@Components/Common/Title'
+import VisitUpdateDefinesNoteForm from '@Components/Visit/VisitUpdateDefines/VisitUpdateDefinesNoteForm'
 import Paths from '@Constant/path'
 import CheckForm from '@Utils/CheckForm'
 import { createAppForm } from '@Utils/CreateAppForm'
@@ -92,7 +93,8 @@ const VisitUpdateDefines: React.FC = () => {
                 visitDate.setHours(0, 0, 0, 0)
                 EditVisitDefines({
                     ...data,
-                    Visitdate: visitDate
+                    Visitdate: visitDate,
+                    Notes: data.Notes.map(u => u.Note)
                 })
                     .unwrap()
                     .then(() => {
@@ -118,14 +120,14 @@ const VisitUpdateDefines: React.FC = () => {
                     reset({
                         DoctorID: data.DoctorID,
                         LocationID: data.LocationID,
-                        Notes: data.Notes,
                         ResponsibleUserID: data.ResponsibleUserID,
                         WorkerUserID: data.WorkerUserID,
                         Visitcode: data.Visitcode,
                         Visitdate: SuppressDate(data.Visitdate),
                         VisitID: data.Uuid,
                         PaymenttypeID: data.PaymenttypeID,
-                        Scheduledpayment: data.Scheduledpayment
+                        Scheduledpayment: data.Scheduledpayment,
+                        Notes: data.Notes.map(u => ({ Note: u })),
                     })
                 })
         } else {
@@ -148,8 +150,8 @@ const VisitUpdateDefines: React.FC = () => {
             <Contentwrapper>
                 <Form>
                     <Form.Group widths={'equal'}>
-                        <VisitAppForm.Select name='LocationID' label={t('Pages.Visits.Columns.LocationID')} required={t('Pages.Visits.Messages.LocationIDRequired')} options={locationOpiton} />
-                        <VisitAppForm.Select name='DoctorID' label={t('Pages.Visits.Columns.DoctorID')} required={t('Pages.Visits.Messages.DoctorIDRequired')} options={doctorOpiton} />
+                        <VisitAppForm.Select name='LocationID' label={t('Pages.Visits.Columns.LocationID')} required={t('Pages.Visits.Messages.LocationIDRequired')} options={locationOpiton} searchable/>
+                        <VisitAppForm.Select name='DoctorID' label={t('Pages.Visits.Columns.DoctorID')} required={t('Pages.Visits.Messages.DoctorIDRequired')} options={doctorOpiton} searchable/>
                     </Form.Group>
                     <Form.Group widths={'equal'}>
                         <VisitAppForm.Input name='Visitdate' label={t('Pages.Visits.Columns.Visitdate')} type='date' required={t('Pages.Visits.Messages.VisitdateReqired')} />
@@ -164,6 +166,9 @@ const VisitUpdateDefines: React.FC = () => {
                         <VisitAppForm.Select name='ResponsibleUserID' label={t('Pages.Visits.Columns.ResponsibleUserID')} options={userOption} required={t('Pages.Visits.Messages.ResponsibleUserIDRequired')} />
                     </Form.Group>
                 </Form>
+            </Contentwrapper>
+            <Contentwrapper className='z-10'>
+                <VisitUpdateDefinesNoteForm />
             </Contentwrapper>
         </FormProvider>
         <FormFooter>

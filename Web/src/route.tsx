@@ -84,6 +84,11 @@ import FreeVisitDetail from "@Pages/FreeVisit/FreeVisitDetail";
 import Cashflow from "@Pages/Cashflow/Cashflow";
 import CashflowCreate from "@Pages/Cashflow/CashflowCreate";
 import CashflowReport from "@Pages/Cashflow/CashflowReport";
+import PastVisit from "@Pages/PastVisit/PastVisit";
+import PastVisitCreate from "@Pages/PastVisit/PastVisitCreate";
+import PastVisitDetail from "@Pages/PastVisit/PastVisitDetail";
+import DoctorReport from "@Pages/DoctorReport/DoctorReport";
+import PastVisitUpdateDefines from "@Pages/PastVisit/PastVisitUpdateDefines";
 
 interface RouteItemType {
     path: string
@@ -134,6 +139,10 @@ const AppRouter = () => {
         { path: Paths.Stocks, element: <Stock />, requiredRole: [privileges.stockview] },
         { path: Paths.StocksCreate, element: <StockCreate />, requiredRole: [privileges.stockview, privileges.stockadd] },
         { path: Paths.StocksMovement, element: <StockMovement />, requiredRole: [privileges.stockview, privileges.stockview] },
+        { path: Paths.PastVisits, element: <PastVisit />, requiredRole: [privileges.visitview] },
+        { path: Paths.PastVisitsCreate, element: <PastVisitCreate />, requiredRole: [privileges.visitview, privileges.visitadd] },
+        { path: Paths.PastVisitDetail, element: <PastVisitDetail />, requiredRole: [privileges.visitview] },
+        { path: Paths.PastVisitsUpdateDefines, element: <PastVisitUpdateDefines />, requiredRole: [privileges.visitview, privileges.visitupdate] },
         { path: Paths.FreeVisits, element: <FreeVisit />, requiredRole: [privileges.visitview] },
         { path: Paths.FreeVisitsCreate, element: <FreeVisitCreate />, requiredRole: [privileges.visitview, privileges.visitadd] },
         { path: Paths.FreeVisitsUpdateDefines, element: <FreeVisitUpdateDefines />, requiredRole: [privileges.visitview, privileges.visitupdate] },
@@ -149,6 +158,7 @@ const AppRouter = () => {
         { path: Paths.PaymentplansDetail, element: <PaymentplanDetail />, requiredRole: [privileges.paymentplanview] },
         { path: Paths.Paymentplantransactions, element: <Paymentplantransaction />, requiredRole: [privileges.paymentplanview] },
         { path: Paths.Organisation, element: <Organization />, requiredRole: [privileges.paymentplanview] },
+        { path: Paths.DoctorReport, element: <DoctorReport />, requiredRole: [privileges.paymentplanview] },
         { path: Paths.Cashflows, element: <Cashflow />, requiredRole: [privileges.cashflowview] },
         { path: Paths.CashflowsCreate, element: <CashflowCreate />, requiredRole: [privileges.cashflowview, privileges.cashflowadd] },
         { path: Paths.CashflowsReport, element: <CashflowReport />, requiredRole: [privileges.cashflowview] },
